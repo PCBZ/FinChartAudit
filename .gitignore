@@ -208,4 +208,6 @@ __marimo__/
 
 # Local data and filings directories
 data/misviz/images/
-data/sec/filings/
+data/sec/
+data/letters/
+data/ground_truth.json
