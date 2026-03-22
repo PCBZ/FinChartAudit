@@ -1,0 +1,64 @@
+{
+  "model": "anthropic/claude-sonnet-4-5",
+  "condition": "vision_only",
+  "n_samples": 3,
+  "binary_accuracy": 1.0,
+  "results": [
+    {
+      "id": 0,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The color coding does not accurately represent the stadium capacities shown. For example, Camp Nou (99.3K) and Wembley Stadium (90K) are colored red (>70K category), while Stade de France (81.3K) and Westfalenstadion (81.4K) are colored orange (50-70K category), despite having similar or lower capacities. Multiple other stadiums show similar inconsistencies between their labeled capacity values and their color category representation.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 1,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis does not start at zero, which visually exaggerates the differences between the foreclosure values across years. This makes the increase from 0.4 million to 6.4 million appear more dramatic than it would with a zero baseline, though the actual increase is already substantial.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 2,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inconsistent axis range",
+        "inappropriate use of bar chart"
+      ],
+      "explanation": "The chart displays metrics with vastly different scales and units (percentages, counts, scores, and grade levels) on the same horizontal axis, making meaningful visual comparison impossible. The bars represent fundamentally different types of measurements that should not be directly compared using the same visual scale.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    }
+  ]
+}
