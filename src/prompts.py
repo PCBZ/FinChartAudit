@@ -53,6 +53,18 @@ OUTPUT_FORMAT = """{
   "explanation": "<one to three sentences>"
 }"""
 
+def build_bbox_text(bboxes: list[dict]) -> str:
+    """Convert bbox list from Misviz into a human-readable region description."""
+    if not bboxes:
+        return "No specific regions flagged."
+    lines = ["The following regions have been flagged as potentially problematic:"]
+    for i, b in enumerate(bboxes, 1):
+        lines.append(
+            f"  Region {i}: x={b['x']}, y={b['y']}, width={b['width']}, height={b['height']}"
+        )
+    lines.append("Pay special attention to these areas when analyzing the chart.")
+    return "\n".join(lines)
+
 
 def build_vision_only_prompt() -> str:
     return f"""You are an expert in data visualization. Detect misleading elements in the chart image.

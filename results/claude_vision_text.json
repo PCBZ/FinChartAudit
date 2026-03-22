@@ -1,0 +1,63 @@
+{
+  "model": "anthropic/claude-sonnet-4-5",
+  "condition": "vision_text",
+  "n_samples": 3,
+  "binary_accuracy": 1.0,
+  "results": [
+    {
+      "id": 0,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "This is a choropleth map where country colors represent stadium capacity ranges, but the visual size of each country on the map is determined by geographic area, not stadium capacity. This creates a misrepresentation where larger countries appear more prominent regardless of their actual stadium capacity, and smaller countries with large stadiums (like Monaco with Camp Nou at 99.3K) are barely visible despite having some of the highest capacities shown.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 1,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis does not start at zero, which visually exaggerates the differences between the foreclosure values across years. The bars for 1999-2006 (ranging from 0.4 to 0.9 million) appear much more prominent relative to later years than they actually are when compared proportionally to the larger values in 2008 and Sept. 2008-12.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 2,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The chart uses inconsistent scaling where the top axis shows percentages (0%-100%) while the bottom axis shows absolute values (0-160), creating visual misrepresentation. The '% of Complex Words' bar showing 15.96% appears much larger than it should relative to the percentage scale, while simultaneously being mapped to an absolute value scale that doesn't correspond to the labeled percentage.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    }
+  ]
+}

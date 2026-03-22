@@ -1,0 +1,95 @@
+{
+  "model": "qwen/qwen-2.5-vl-7b-instruct",
+  "condition": "vision_only",
+  "n_samples": 3,
+  "binary_accuracy": 0.6666666666666666,
+  "results": [
+    {
+      "id": 0,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 5,
+          "y": 259,
+          "width": 106,
+          "height": 307
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map effectively illustrates the largest stadium capacities in European countries with a clear color-coded legend and labeled values for each stadium. There are no identified misleading elements in the chart.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 1,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 12,
+          "y": 291,
+          "width": 373,
+          "height": 19
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis in the bar chart starts above zero, exaggerating the difference between the largest bar and the others.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 2,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 175,
+          "y": 382,
+          "width": 510,
+          "height": 26
+        },
+        {
+          "name": "rect",
+          "x": 168,
+          "y": 68,
+          "width": 519,
+          "height": 42
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The items on the y-axis are not ordered in a logical or chronological manner, which can create false impressions and make the chart difficult to understand.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    }
+  ]
+}

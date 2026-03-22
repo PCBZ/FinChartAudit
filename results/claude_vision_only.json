@@ -17,7 +17,7 @@
       "pred_misleader_types": [
         "misrepresentation"
       ],
-      "explanation": "The color coding does not accurately represent the stadium capacities shown. For example, Camp Nou (99.3K) and Wembley Stadium (90K) are colored red (>70K category), while Stade de France (81.3K) and Westfalenstadion (81.4K) are colored orange (50-70K category), despite having similar or lower capacities. Multiple other stadiums show similar inconsistencies between their labeled capacity values and their color category representation.",
+      "explanation": "The color-coded legend suggests that stadium capacities are represented by colors (red for >70K, orange for 50-70K, yellow for 30-50K, etc.), but the colors on the map do not consistently match the labeled capacity values. For example, Camp Nou (99.3K) and Stade de France (81.3K) are both shown in different colors despite being in the same >70K category, and some stadiums with similar capacities are shown in different color categories.",
       "binary_correct": true,
       "type_match": false,
       "parse_error": false,
@@ -35,7 +35,7 @@
       "pred_misleader_types": [
         "truncated axis"
       ],
-      "explanation": "The y-axis does not start at zero, which visually exaggerates the differences between the foreclosure values across years. This makes the increase from 0.4 million to 6.4 million appear more dramatic than it would with a zero baseline, though the actual increase is already substantial.",
+      "explanation": "The y-axis does not start at zero, which visually exaggerates the differences between the foreclosure values across years. This makes the growth from 0.4 million in 1999 to 0.9 million in 2006 appear more dramatic than it actually is, and similarly distorts the visualization of the projected 6.4 million foreclosures.",
       "binary_correct": true,
       "type_match": false,
       "parse_error": false,
@@ -51,10 +51,10 @@
       ],
       "pred_misleading": true,
       "pred_misleader_types": [
-        "inconsistent axis range",
+        "inconsistent scales",
         "inappropriate use of bar chart"
       ],
-      "explanation": "The chart displays metrics with vastly different scales and units (percentages, counts, scores, and grade levels) on the same horizontal axis, making meaningful visual comparison impossible. The bars represent fundamentally different types of measurements that should not be directly compared using the same visual scale.",
+      "explanation": "This chart displays metrics with vastly different scales and units (percentages, counts, grade levels, and readability scores) on a single horizontal bar chart, making meaningful visual comparison impossible. The top shows 0-100% while the bottom uses 0-160, mixing incompatible measurements that cannot be fairly compared visually on the same axis.",
       "binary_correct": true,
       "type_match": false,
       "parse_error": false,

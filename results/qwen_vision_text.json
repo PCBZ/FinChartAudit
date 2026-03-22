@@ -1,0 +1,95 @@
+{
+  "model": "qwen/qwen-2.5-vl-7b-instruct",
+  "condition": "vision_text",
+  "n_samples": 3,
+  "binary_accuracy": 0.6666666666666666,
+  "results": [
+    {
+      "id": 0,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 5,
+          "y": 259,
+          "width": 106,
+          "height": 307
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart is a heat map where the color intensity represents the stadium capacity size rather than actual data values. Each country is colored according to a predefined scale, which is appropriate for the summarization of large capacity trend data. There are no misleading elements detected as the visualization works within its intended purpose.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 1,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 12,
+          "y": 291,
+          "width": 373,
+          "height": 19
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The chart's bar sizes do not reflect the correct scale of the labeled values, leading to an exaggerated comparison of various data points.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 2,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 175,
+          "y": 382,
+          "width": 510,
+          "height": 26
+        },
+        {
+          "name": "rect",
+          "x": 168,
+          "y": 68,
+          "width": 519,
+          "height": 42
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The average syllables per word is shown as a very small bar with a label indicating 1.72, which visually misrepresents the relative contribution to the whole.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    }
+  ]
+}
