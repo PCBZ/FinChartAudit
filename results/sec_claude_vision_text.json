@@ -1,0 +1,64 @@
+{
+  "model": "anthropic/claude-sonnet-4-5",
+  "condition": "vision_text",
+  "total": 4,
+  "flagged": 2,
+  "flag_rate": 0.5,
+  "results": {
+    "ABNB": [],
+    "BCO": [],
+    "CHPT": [],
+    "IRBT": [],
+    "KMI": [],
+    "LITE": [],
+    "LYFT": [],
+    "OGN": [
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - performance chart may emphasize non-GAAP metrics without equal GAAP presentation",
+        "explanation": "The chart employs a truncated y-axis starting at $0 rather than showing the full scale from zero, which visually exaggerates the differences in total return performance between Organon and the benchmark indices. Given the SEC's repeated concerns about OGN's Non-GAAP measure prominence (specifically Adjusted EBITDA being discussed without comparable GAAP net income), this performance chart requires scrutiny to ensure any non-GAAP financial metrics are not given undue prominence over GAAP measures. The truncated axis amplifies visual perception of underperformance, which combined with potential non-GAAP presentation issues identified in the SEC comment letters, creates compliance concerns under Question 102.10(a) of the C&DIs.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation - presenting performance metrics without comparable GAAP measures",
+        "explanation": "The chart uses a truncated y-axis starting at $25.00 rather than zero, which visually exaggerates the relative performance differences between Organon and the benchmark indices. Given the SEC's comment letters to OGN dated April and May 2024 regarding Non-GAAP measure prominence violations (specifically Question 102.10(a) of the C&DIs), this total return performance chart may violate similar guidance by prominently displaying performance metrics without adequate context of comparable GAAP measures or proper disclosures. The truncated axis amplifies the visual impression of Organon's underperformance relative to benchmarks, potentially misleading investors about the magnitude of differences.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "RIVN": [],
+    "STZ": [
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays consolidated net sales as a part-to-whole relationship across three product categories (Beer, Wine, and Spirits) that sum to 100%. The chart uses a standard 2D donut chart format without visual distortions, and the percentages are clearly labeled. The SEC comment letters for STZ relate to Non-GAAP presentation issues regarding EBIT calculations and Canopy equity earnings, which do not apply to this straightforward GAAP-based net sales breakdown by product category.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays Fiscal 2024 Consolidated Net Sales as a part-to-whole comparison showing three beverage categories (Beer 81.9%, Wine 15.6%, Spirits 2.5%) that sum to 100%. The chart uses appropriate visual proportions matching the labeled percentages without distortion. The SEC comment letters for STZ relate to Non-GAAP financial measure presentation and reconciliation requirements in tabular formats, not to basic sales composition charts showing revenue breakdown by product category, which is standard GAAP reporting.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "TSLA": [],
+    "UPS": [],
+    "VERI": []
+  }
+}

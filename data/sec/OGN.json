@@ -5,17 +5,20 @@
     {
       "form": "10-K",
       "filingDate": "2026-02-24",
-      "accessionNumber": "0001628280-26-011125"
+      "accessionNumber": "0001628280-26-011125",
+      "primaryDocument": "ogn-20251231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2025-02-28",
-      "accessionNumber": "0001821825-25-000006"
+      "accessionNumber": "0001821825-25-000006",
+      "primaryDocument": "ogn-20241231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2024-02-26",
-      "accessionNumber": "0001628280-24-006733"
+      "accessionNumber": "0001628280-24-006733",
+      "primaryDocument": "ogn-20231231.htm"
     }
   ],
   "comment_letters": [

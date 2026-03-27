@@ -5,17 +5,20 @@
     {
       "form": "10-K",
       "filingDate": "2025-04-01",
-      "accessionNumber": "0000950170-25-048602"
+      "accessionNumber": "0000950170-25-048602",
+      "primaryDocument": "veri-20241231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2024-04-01",
-      "accessionNumber": "0000950170-24-038819"
+      "accessionNumber": "0000950170-24-038819",
+      "primaryDocument": "veri-20231231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2023-03-16",
-      "accessionNumber": "0000950170-23-008493"
+      "accessionNumber": "0000950170-23-008493",
+      "primaryDocument": "veri-20221231.htm"
     }
   ],
   "comment_letters": [

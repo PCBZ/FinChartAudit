@@ -1,0 +1,64 @@
+{
+  "model": "qwen/qwen3-vl-8b-instruct",
+  "condition": "vision_only",
+  "total": 4,
+  "flagged": 2,
+  "flag_rate": 0.5,
+  "results": {
+    "ABNB": [],
+    "BCO": [],
+    "CHPT": [],
+    "IRBT": [],
+    "KMI": [],
+    "LITE": [],
+    "LYFT": [],
+    "OGN": [
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The line chart accurately depicts total return performance over time with consistent axis scaling and appropriate use of line charts for sequential data. No misleading visual elements or Non-GAAP prominence violations are present, as the chart aligns with SEC requirements for transparent financial reporting. The y-axis starts at $0, and all lines are properly labeled and ordered, avoiding any deceptive visual comparisons.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The line chart accurately depicts total return performance over time with consistent axis scaling and appropriate use of line charts for sequential data. No misleading visual elements or Non-GAAP prominence violations are present, as the chart clearly shows relative performance without distorting comparisons or violating SEC disclosure standards.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "RIVN": [],
+    "STZ": [
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The donut chart misleads by using a pie chart format for data that is not part-to-whole in a meaningful visual comparison; the central hole and 3D effect distort the perception of proportions. While the percentages sum to 100%, the visual emphasis on the large beer slice may mislead viewers into thinking the difference between beer and wine is more pronounced than it is. This violates the 'inappropriate use of pie chart' misleader taxonomy, as the chart format is not ideal for conveying relative proportions in this context.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The donut chart misleads by using a pie chart format for data that is not part-to-whole in nature \u2014 the 81.9% beer segment visually dominates, but the chart lacks context on total sales or revenue breakdowns required by SEC disclosure standards. Pie charts are inappropriate here because the segments represent categories of net sales, not proportions of a single total, and the visual distortion exaggerates the dominance of beer over wine and spirits.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "TSLA": [],
+    "UPS": [],
+    "VERI": []
+  }
+}

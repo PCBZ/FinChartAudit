@@ -211,3 +211,5 @@ data/misviz/images/
 data/sec/
 data/letters/
 data/ground_truth.json
+data/pdfs/
+data/charts/

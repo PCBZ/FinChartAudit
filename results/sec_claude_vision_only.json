@@ -1,0 +1,64 @@
+{
+  "model": "anthropic/claude-sonnet-4-5",
+  "condition": "vision_only",
+  "total": 4,
+  "flagged": 2,
+  "flag_rate": 0.5,
+  "results": {
+    "ABNB": [],
+    "BCO": [],
+    "CHPT": [],
+    "IRBT": [],
+    "KMI": [],
+    "LITE": [],
+    "LYFT": [],
+    "OGN": [
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The chart employs a truncated y-axis that does not start at zero, beginning instead at approximately $0 and emphasizing the range between $0 and $200. This exaggerates the visual perception of performance differences between the entities, particularly making Organon's decline appear more dramatic and the outperformance of the benchmark indices (S&P 500, DRG Index, S&P 600) appear more pronounced than they would with a zero-baseline axis. While total return performance charts are common in SEC filings, the truncated axis manipulates visual comparison and could mislead investors about the relative magnitude of returns. No specific SEC Non-GAAP violation is present as this appears to be a standard performance comparison chart.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The chart uses a truncated y-axis that starts at $25.00 instead of zero, which visually exaggerates the differences in total return performance between the company (Organon) and the benchmark indices. This makes Organon's underperformance appear more dramatic than it would with a zero-baseline, potentially misleading investors about the relative magnitude of returns. While total return performance charts are common in SEC filings, the truncated axis amplifies visual perception of variance in a way that could be considered misleading to reasonable investors.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "RIVN": [],
+    "STZ": [
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays part-to-whole relationships for consolidated net sales across three beverage categories (Beer, Wine, and Spirits) that sum to 100%. The visual proportions accurately represent the labeled percentages, with Beer\u5360\u636e83.7%, Wine\u5360\u636e14.2%, and Spirits\u5360\u636e2.1%. No truncated axes, distortions, or Non-GAAP prominence violations are present. The chart uses standard 2D presentation without misleading visual effects.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This chart appropriately uses a pie chart (donut chart variant) to show part-to-whole relationships for fiscal 2024 consolidated net sales across three product categories (Beer, Wine, and Spirits). The percentages sum to 100% (81.9% + 15.6% + 2.5% = 100%), and the visual proportions appear to match the labeled values reasonably well. No SEC Non-GAAP prominence violations are evident as this appears to be a straightforward GAAP revenue breakdown by product category, and no misleading chart techniques from the taxonomy are present.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "TSLA": [],
+    "UPS": [],
+    "VERI": []
+  }
+}

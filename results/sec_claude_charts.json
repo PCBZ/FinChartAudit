@@ -1,0 +1,277 @@
+{
+  "model": "anthropic/claude-sonnet-4-5",
+  "visual_type": "charts",
+  "total": 25,
+  "flagged": 20,
+  "flag_rate": 0.8,
+  "results": {
+    "ABNB": [
+      {
+        "file": "abnb-20251231_g2.jpg",
+        "date": "2026-02-12",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The chart uses a truncated y-axis that starts at $0 but emphasizes the range from approximately $50 to $300, which visually exaggerates the performance differences between Airbnb and the benchmark indices. This truncation makes Airbnb's underperformance appear more dramatic than it would on a full-scale chart, potentially misleading investors about the relative magnitude of return differences. While no SEC comment letter violations were found for this company, the truncated axis remains a misleading design choice that distorts visual comparison of the cumulative returns. The chart is otherwise a standard stock performance comparison appropriate for SEC filings, but the axis manipulation affects objective interpretation.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "abnb-20241231_g2.jpg",
+        "date": "2025-02-13",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The chart uses a truncated y-axis that starts at $50 rather than zero, which visually exaggerates the performance differences between Airbnb and the benchmark indices (S&P 500, S&P 500 IT, and NASDAQ). This truncation makes Airbnb's volatility and underperformance appear more dramatic than it would with a zero-baseline, potentially misleading investors about the relative magnitude of returns. While no SEC comment letter violations were found for this company, truncated axes in performance comparison charts can create misleading visual impressions that may not align with SEC guidance on fair presentation. The chart would provide a more accurate visual comparison if the y-axis started at zero or clearly disclosed the truncation's effect on visual interpretation.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "abnb-20231231_g2.jpg",
+        "date": "2024-02-16",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The chart uses a truncated y-axis that starts at $50 rather than zero, which visually exaggerates the relative performance differences between Airbnb and the benchmark indices. This makes Airbnb's decline from approximately $130 to $60 appear more dramatic than it actually is in percentage terms, and similarly exaggerates the comparative outperformance of the S&P 500 IT index. While no SEC comment letter violations were found for this company, the truncated axis is a misleading design choice that distorts visual comparison of relative performance. The chart would provide a more accurate visual representation if the y-axis started at zero or if percentage changes were shown instead of absolute dollar values.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "BCO": [],
+    "CHPT": [],
+    "IRBT": [],
+    "KMI": [],
+    "LITE": [],
+    "LYFT": [],
+    "OGN": [
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart emphasizes performance metrics without clear GAAP measure disclosure",
+        "explanation": "The chart uses a truncated y-axis starting at $0 rather than showing the full scale from zero, which visually exaggerates the relative performance differences between Organon and the benchmark indices. Given the SEC's specific comment letters to OGN (dates 2024-04-30 and 2024-05-23) regarding Non-GAAP measure prominence violations where Adjusted EBITDA was discussed without comparable GAAP measures, this performance chart may similarly violate guidance if it presents non-GAAP financial metrics prominently without equal or greater prominence of GAAP measures. The SEC explicitly referenced Questions 102.10(a) and (c) of the C&DIs, requiring comparable GAAP measures to accompany non-GAAP metrics with equal or greater prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation if this chart appears in materials that emphasize non-GAAP metrics without equal GAAP measure prominence",
+        "explanation": "The chart uses a truncated y-axis starting at $25.00 rather than zero, which exaggerates the visual differences between Organon's underperformance and the benchmark indices' returns. Given the SEC's comment letters to OGN dated April and May 2024 regarding Non-GAAP measure prominence violations (specifically about presenting Adjusted EBITDA without net income), this performance chart warrants scrutiny if it appears alongside or in materials emphasizing non-GAAP financial metrics. The truncated axis makes Organon's ~50% decline appear more dramatic relative to competitors, potentially misleading investors about the magnitude of relative underperformance. While stock performance charts themselves are not Non-GAAP measures, the SEC has specifically flagged OGN for improper presentation practices that could extend to how performance data is visualized.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "RIVN": [
+      {
+        "file": "rivn-20251231_g2.jpg",
+        "date": "2026-02-12",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The x-axis displays inconsistent time intervals between data points, with quarters appearing unevenly spaced (e.g., from '11/10/21' to 'Q4 2021' to 'Q2 2022'). This irregular spacing can mislead viewers about the rate of change and performance trends, particularly making Rivian's decline and the NASDAQ's recovery appear differently than they would with properly proportional time intervals. No SEC comment letter violations were found for this company, and the chart does not appear to violate Non-GAAP prominence rules as it shows stock performance comparisons.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "rivn-20241231_g2.jpg",
+        "date": "2025-02-24",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The y-axis does not start at zero, beginning instead at $0 and using a compressed scale that exaggerates the visual differences between the stock performances. This truncated axis makes Rivian's decline appear more dramatic and the NASDAQ Composite's growth appear more impressive than would be shown with a zero-baseline chart. While no SEC comment letter violations are present for this company, the truncated axis is a common chart design issue that can mislead investors about relative performance magnitudes. Stock performance graphs in SEC filings should ideally use appropriate axis ranges to provide fair visual comparisons.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "rivn-20231231_g2.jpg",
+        "date": "2024-02-26",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The y-axis does not start at zero, beginning instead at $0 and then jumping to $25, which exaggerates the visual differences between stock performance trajectories. This truncation makes Rivian's decline appear more dramatic and the relative performance gaps between the three securities appear larger than they actually are. While no SEC comment letter violations were found for this company, the truncated axis is a common misleading visualization technique. Starting the axis at zero would provide a more accurate proportional representation of the actual performance differences.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "STZ": [
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays part-to-whole relationships for net sales broken down by product category (Beer, Wine, and Spirits), which is a suitable use case for pie charts. The percentages sum to 100% (83.7% + 14.2% + 2.1% = 100%), and the visual proportions appear consistent with the labeled values. The SEC comment letters for STZ relate to Non-GAAP measure presentations and reconciliations in tabular formats, not to basic GAAP sales breakdowns. This chart presents straightforward revenue composition without non-GAAP adjustments or visual distortions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The chart presents a straightforward pie chart showing the breakdown of Fiscal 2024 Consolidated Net Sales by product category (Beer: 81.9%, Wine: 15.6%, Spirits: 2.5%). The percentages sum to 100% and appear proportional to their visual representation, making this an appropriate use of a pie chart for part-to-whole comparison. While the SEC comment letters for STZ reference issues with Non-GAAP measure presentations and reconciliations in tabular formats, this particular chart displays simple revenue category breakdowns without any apparent Non-GAAP measures or misleading visual elements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g20.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart appears to present adjusted figures without clear GAAP reconciliation or identification of Non-GAAP nature",
+        "explanation": "The chart uses a truncated y-axis starting at $10,500 million rather than zero, which dramatically exaggerates the visual impact of relatively small changes (the actual decrease is only ~3.2% from $11,879.3M to $11,497.7M, but appears much larger visually). The waterfall-style presentation showing adjustments between periods may represent non-GAAP adjustments without clearly labeling them as such or providing proper GAAP reconciliation. Given STZ's SEC comment letter history requiring clarification of non-GAAP versus GAAP amounts and proper presentation of reported figures, this chart risks similar violations by potentially presenting adjusted amounts with greater prominence than GAAP figures. The SEC specifically instructed STZ to present reported amounts calculated from GAAP statements and ensure non-GAAP measures don't receive undue prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g21.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP presentation violation - chart does not clearly indicate whether amounts represent GAAP or non-GAAP measures, and lacks proper reconciliation context",
+        "explanation": "The chart shows debt maturities with a suspicious gap in years (2034-2046 missing), creating an inappropriate temporal ordering that could mislead investors about the debt maturity profile. The SEC comment letters for STZ specifically cite violations regarding the prominence of non-GAAP measures without proper GAAP reconciliation and unclear labeling of whether presented amounts are GAAP or non-GAAP. This chart lacks any indication of whether these maturity amounts represent reported GAAP obligations or adjusted non-GAAP figures, which is consistent with STZ's historical SEC violations requiring clearer distinction between GAAP and non-GAAP presentations. The skipped years also create a visual distortion that minimizes the appearance of long-term debt concentration.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g4.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart presents 'Consolidated Net Sales' without clear indication whether these represent GAAP-compliant reported figures or non-GAAP adjusted amounts",
+        "explanation": "The pie chart exhibits visual misrepresentation as the slice sizes do not accurately correspond to the labeled percentages (Beer at 81.9% appears proportionally smaller than it should relative to Wine at 15.6% and Spirits at 2.5%). Based on SEC comment letters for STZ, the company has been cited for presenting non-GAAP measures without proper reconciliation to GAAP amounts and for failing to present reported GAAP amounts prominently. This chart's title 'Consolidated Net Sales' lacks clarity on whether it represents GAAP or non-GAAP figures, which is critical given STZ's history of non-GAAP presentation violations. The SEC specifically required STZ to revise tabular presentations to clearly present 'Reported' amounts calculated based on GAAP statements, a standard that should apply to all financial disclosures including charts.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g5.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart title references 'Consolidated Net Sales' without clarifying whether this represents GAAP or non-GAAP measures",
+        "explanation": "The pie chart shows a visual misrepresentation where the segment sizes do not accurately match the labeled percentages. The Beer segment appears to occupy significantly more than 79% of the chart area, while Wine and Spirits segments appear disproportionately small relative to their stated values (18.2% and 2.8%). Given STZ's SEC comment letter history showing violations for presenting non-GAAP measures without proper GAAP reconciliation and clarification (particularly the February 2023 comment about comparable non-GAAP amounts versus reported GAAP amounts), this chart may violate prominence requirements if it presents adjusted revenue figures without clearly indicating whether these are GAAP-compliant consolidated net sales or non-GAAP measures requiring reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g9.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart may represent non-GAAP metrics without proper GAAP reconciliation or labeling",
+        "explanation": "The donut chart shows geographic revenue distribution, but the visual proportions do not accurately match the labeled percentages. The Mexico segment (57%) appears disproportionately large compared to the combined U.S. (38%) and Other Non-U.S. (5%) segments, which should total 43%. Given STZ's SEC comment letter history regarding prominence of non-GAAP measures without proper GAAP reconciliation (particularly the February 2023 and May 2023 comments about presenting non-GAAP amounts more prominently than GAAP amounts), this chart may violate SEC guidance if these figures represent adjusted non-GAAP metrics without clearly identifying them as such or providing GAAP reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g22.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation - waterfall chart appears to display adjusted figures without clear GAAP reconciliation or identification of which figures represent reported GAAP amounts versus non-GAAP adjustments",
+        "explanation": "This waterfall chart shows a debt reconciliation with a truncated y-axis starting at $11,500 million rather than zero, which exaggerates the visual impact of the changes between periods. The SEC comment letters for STZ specifically cite violations regarding failure to clearly distinguish between reported GAAP amounts and non-GAAP comparable amounts, and requiring tabular presentations to show reported amounts calculated from GAAP statements. This chart does not clarify whether the starting and ending balances ($12,461.3M and $11,879.3M) represent GAAP reported debt or adjusted non-GAAP figures, nor does it provide adequate reconciliation to GAAP as required by the SEC's previous comments. The presentation format makes it unclear which components represent GAAP versus non-GAAP measures, consistent with the SEC's concern about STZ presenting non-GAAP amounts without proper GAAP context.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g23.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart lacks clarity on whether amounts represent GAAP or non-GAAP figures, and fails to present reconciliation to GAAP amounts if non-GAAP",
+        "explanation": "The chart displays maturity amounts across non-sequential years (jumps from 2033 to 2047), creating an inappropriate item order that obscures the actual debt maturity timeline and could mislead investors about the company's debt obligations. Given STZ's history of SEC violations regarding the prominence of non-GAAP measures and failure to present reported GAAP amounts alongside non-GAAP figures, this chart fails to clarify whether these maturity amounts are based on GAAP book values or some adjusted non-GAAP measure. The SEC has specifically required STZ to present reported amounts calculated based on GAAP statements in tabular presentations, which this chart does not address. The inappropriate axis range (starting near zero but with large gaps in years) combined with the ordering issues creates a misleading visual representation of the company's debt maturity profile.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20230228_g3.jpg",
+        "date": "2023-04-20",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays the part-to-whole relationship of consolidated net sales across three product categories (Beer, Wine, and Spirits), with percentages that sum to 100%. The chart uses a simple 2D design without distorting visual elements, and the segment sizes appear proportional to their labeled values. While the SEC comment letters for STZ addressed Non-GAAP measure presentation issues related to EBIT reconciliations and Canopy equity earnings, this chart presents basic GAAP net sales data without any Non-GAAP measures or prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20230228_g4.jpg",
+        "date": "2023-04-20",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart shows a straightforward part-to-whole breakdown of consolidated net sales by product category (Beer, Wine, Spirits), which is an appropriate use of a pie chart. The percentages sum to 100% (76.6% + 20.6% + 2.8% = 100%), and the visual proportions appear consistent with the labeled values. The SEC comment letters for STZ relate to non-GAAP measure presentation and reconciliation issues in tabular formats, not to this type of simple sales breakdown chart, and this chart presents what appears to be a GAAP-reported revenue figure without non-GAAP adjustments.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20230228_g9.jpg",
+        "date": "2023-04-20",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This pie chart appropriately displays geographic revenue distribution as a part-to-whole comparison, with three segments totaling 100% (U.S. 40%, Mexico 54%, Other Non-U.S. 6%). The visual proportions accurately match the labeled percentages, and the chart uses a simple 2D format without distortion. While the SEC comment letters for STZ reference Non-GAAP presentation issues regarding EBIT calculations and Canopy equity earnings, this geographic breakdown chart does not appear to involve Non-GAAP metrics or violate prominence requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20230228_g24.jpg",
+        "date": "2023-04-20",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - the waterfall chart emphasizes adjusted financial metrics without clear indication of whether reported GAAP amounts are being presented, which relates to STZ's past SEC violations requiring proper presentation of Reported EBIT calculated from GAAP statements.",
+        "explanation": "The chart uses a truncated y-axis starting at $8,000 million rather than zero, which exaggerates the visual impact of the debt changes between February 2022 and February 2023. Additionally, the waterfall format connecting non-sequential financial transactions (debt issuances, redemptions, and agreements occurring at different times) is inappropriate for this categorical data. Given STZ's SEC comment letter history requiring clarification between GAAP and non-GAAP amounts and proper tabular presentation of Reported EBIT from GAAP statements, this chart may violate prominence rules if the debt figures represent adjusted non-GAAP amounts without clearly indicating the corresponding GAAP-based reported amounts. The visual presentation could mislead investors about the magnitude of debt changes while potentially obscuring whether these are GAAP or non-GAAP metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20230228_g25.jpg",
+        "date": "2023-04-20",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence issue if debt presentation excludes GAAP-required disclosures or emphasizes non-standard metrics without proper GAAP reconciliation",
+        "explanation": "The chart displays inconsistent tick intervals on the x-axis, with years 2024-2032 shown consecutively but then jumping to 2047, 2048, and 2050, creating a misleading visual impression of debt maturity distribution by compressing the 15-year gap. Given STZ's SEC comment letter history regarding Non-GAAP presentation issues, particularly the requirement to present reported GAAP amounts prominently in tabular formats, this debt maturity chart should be reviewed to ensure it properly discloses all material information and doesn't emphasize adjusted metrics over GAAP measures. The discontinuous time axis could potentially minimize the appearance of long-term debt obligations. While this is primarily a debt maturity schedule rather than an earnings presentation, the visualization technique raises concerns about transparency consistent with STZ's prior SEC feedback on financial reporting clarity.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "TSLA": [],
+    "UPS": [
+      {
+        "file": "ups-20251231_g2.jpg",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - insufficient context for performance comparison methodology",
+        "explanation": "The chart uses a truncated y-axis starting at $50 rather than zero, which visually exaggerates the differences between UPS's declining performance and the S&P 500's strong growth. This presentation technique makes UPS's underperformance appear more dramatic than a proportional representation would show. Given the SEC's repeated concerns about UPS's use of non-GAAP measures and adjusted metrics (as noted in the 2024-07-26 and 2024-10-11 comment letters), this total return chart may be designed to visually minimize the company's actual performance gap without adequate disclosure of methodology or reconciliation to GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ups-20241231_g2.jpg",
+        "date": "2025-02-18",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation - chart may present adjusted performance metrics without adequate GAAP reconciliation or differentiation",
+        "explanation": "The chart uses a truncated y-axis starting at $80 rather than zero, which exaggerates the visual differences between UPS performance and the benchmark indices, making volatility appear more dramatic than it actually is. Given the SEC's repeated concerns about UPS's use of non-GAAP measures with limited differentiation from GAAP measures (particularly adjusted operating profit and earnings), this total return chart may be presenting performance metrics that incorporate or relate to adjusted figures without clear labeling or reconciliation. The SEC has specifically flagged UPS for insufficient explanation of excluded transformation costs and inadequate differentiation in non-GAAP measure labeling. Without a legend clarifying whether these returns reflect GAAP or adjusted performance, the chart risks violating Non-GAAP prominence requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ups-20231231_g2.jpg",
+        "date": "2024-02-20",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation if adjusted measures are used without clear GAAP reconciliation",
+        "explanation": "The chart uses a truncated y-axis starting at $75 rather than zero, which visually exaggerates the differences in total return performance between UPS and the comparison indices. This makes UPS's underperformance relative to the S&P 500 and Dow Jones Transports appear more dramatic than it actually is. Given the SEC's repeated concerns about UPS's non-GAAP measures lacking sufficient differentiation from GAAP measures and inadequate explanation of adjustments (particularly transformation strategy costs), this chart may be presenting performance data that incorporates adjusted figures without proper disclosure or reconciliation to GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "VERI": []
+  }
+}

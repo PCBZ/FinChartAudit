@@ -5,17 +5,20 @@
     {
       "form": "10-K",
       "filingDate": "2026-02-13",
-      "accessionNumber": "0001506307-26-000011"
+      "accessionNumber": "0001506307-26-000011",
+      "primaryDocument": "kmi-20251231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2025-02-13",
-      "accessionNumber": "0001506307-25-000008"
+      "accessionNumber": "0001506307-25-000008",
+      "primaryDocument": "kmi-20241231.htm"
     },
     {
       "form": "10-K",
       "filingDate": "2024-02-20",
-      "accessionNumber": "0001506307-24-000011"
+      "accessionNumber": "0001506307-24-000011",
+      "primaryDocument": "kmi-20231231.htm"
     }
   ],
   "comment_letters": [

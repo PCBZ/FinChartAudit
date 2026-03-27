@@ -1,0 +1,64 @@
+{
+  "model": "qwen/qwen3-vl-8b-instruct",
+  "condition": "vision_text",
+  "total": 4,
+  "flagged": 3,
+  "flag_rate": 0.75,
+  "results": {
+    "ABNB": [],
+    "BCO": [],
+    "CHPT": [],
+    "IRBT": [],
+    "KMI": [],
+    "LITE": [],
+    "LYFT": [],
+    "OGN": [
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP prominence violation: Adjusted EBITDA not disclosed with comparable GAAP measure (net income)",
+        "explanation": "The chart displays total return performance, which is a GAAP metric, and does not involve any non-GAAP measures. However, the SEC comment letter specifically addresses a prior filing's failure to disclose Adjusted EBITDA alongside its comparable GAAP measure, net income. This omission violates SEC guidance on Non-GAAP financial measures, even if the current chart itself is not misleading.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The chart visually presents total return performance without misleading elements such as truncated axes or inappropriate chart types. However, the SEC comment letter context indicates a separate violation regarding non-GAAP measures (Adjusted EBITDA) not being adequately reconciled to GAAP measures, which is unrelated to this performance chart. The chart itself does not violate SEC charting guidelines or Non-GAAP prominence rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "RIVN": [],
+    "STZ": [
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation: presenting non-GAAP amounts without reconciliation or clarification as if they are GAAP amounts, and failing to present GAAP metrics as required by SEC Comment Letter",
+        "explanation": "The donut chart misleads by using a pie chart format for net sales breakdown, which is inappropriate when the categories are not part-to-whole in a meaningful way for financial analysis. The SEC requires reconciliation of GAAP to Non-GAAP measures and proper presentation of GAAP metrics, which this chart fails to do, especially since the data appears to be non-GAAP without clear labeling or reconciliation as requested in prior comment letters.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The pie chart misleads by using a donut format with a central hole, which visually exaggerates the dominance of the 'Beer' segment (81.9%) and distorts the proportional comparison. While not directly violating SEC Non-GAAP rules, this inappropriate use of a pie chart for a part-to-whole breakdown of sales categories is misleading and inconsistent with best practices for financial visualization. The SEC\u2019s focus on Non-GAAP disclosures does not apply here since this chart presents GAAP net sales data.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "TSLA": [],
+    "UPS": [],
+    "VERI": []
+  }
+}
