@@ -1,24 +1,109 @@
 {
   "model": "anthropic/claude-sonnet-4-5",
   "condition": "vision_text",
-  "total": 4,
-  "flagged": 2,
-  "flag_rate": 0.5,
+  "total": 17,
+  "flagged": 7,
+  "flag_rate": 0.4117647058823529,
   "results": {
-    "ABNB": [],
-    "BCO": [],
+    "ABNB": [
+      {
+        "file": "table_008.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting share repurchase activity with GAAP-compliant disclosures. The table shows the total number of shares purchased, average price paid, shares purchased under publicly announced programs, and remaining dollar value under such programs. All measures appear to be standard GAAP disclosures related to share repurchase programs with no non-GAAP metrics present. The presentation is clear, properly labeled, and contains no prominence violations or misleading elements.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "BCO": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Ambiguous labeling of measures that could be interpreted as both GAAP and non-GAAP without clear identification, violating SEC guidance requiring distinct labeling of GAAP versus non-GAAP measures",
+        "explanation": "This table presents facility and vehicle counts across segments without clearly identifying whether these are GAAP or non-GAAP measures. The SEC comment letter specifically cited BCO for failing to clearly label measures as either GAAP or non-GAAP when measures could be interpreted as both, and instructed the company to revise labels to eliminate this ambiguity. The table's presentation of 'Leased,' 'Owned,' and 'Total' categories for both facilities and vehicles lacks explicit identification of the measurement basis (GAAP vs. non-GAAP), creating the same type of confusion the SEC flagged in their September 2024 comment letter.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "CHPT": [],
-    "IRBT": [],
+    "IRBT": [
+      {
+        "file": "table_008.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measures (Non-GAAP Gross Profit, Non-GAAP Gross Margin, Non-GAAP Operating Loss, Non-GAAP Operating Margin) are presented without corresponding GAAP measures in the table, violating prominence and reconciliation requirements under SEC Regulation G and Item 10(e) of Regulation S-K.",
+        "explanation": "This table presents Non-GAAP financial measures (Gross Profit, Gross Margin, Operating Loss, Operating Margin) prominently without showing the comparable GAAP measures or providing a reconciliation. The SEC comment letters for IRBT specifically flagged Non-GAAP presentation issues on page 32 of the 10-K, including concerns about IP litigation expense exclusions and methodology changes. The table violates Non-GAAP prominence rules by displaying only Non-GAAP metrics without GAAP context, making it impossible for investors to understand the adjustments or compare to GAAP results. Given the company's history of SEC scrutiny on Non-GAAP measures, this presentation is particularly problematic.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measures presented with equal or greater prominence than GAAP measures without clear differentiation; questionable exclusions from Non-GAAP metrics",
+        "explanation": "This reconciliation table presents Non-GAAP measures (Gross Profit, Operating Loss, Net Loss, margins, and per-share amounts) with equal visual prominence to GAAP measures, both appearing in the same font and styling throughout. The SEC comment letters specifically questioned IRBT's exclusion of IP litigation expenses and the treatment of tax provisions in Non-GAAP calculations, as well as methodology changes in recasting prior periods. The table shows substantial adjustments including 'Net merger, acquisition and divestiture (income) expense' that swing from negative $74.8M to positive $14.6M across periods, and 'Restructuring and other' expenses, which may reflect the questionable exclusions cited by the SEC. While technically a reconciliation is provided, the Non-GAAP figures are not sufficiently de-emphasized or labeled as non-GAAP in a manner that makes them clearly subordinate to GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "KMI": [],
-    "LITE": [],
-    "LYFT": [],
+    "LITE": [
+      {
+        "file": "table_010.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents customer concentration data showing percentages of total net revenue across multiple periods. It contains only GAAP-compliant revenue concentration disclosures with no Non-GAAP measures present. The table uses appropriate formatting with clear labeling and the asterisk notation properly indicates when customers represent less than 10% of revenue. While the SEC comment letters reference LITE's Non-GAAP adjustment practices related to inventory costs and broker-acquired components, this particular table does not present any Non-GAAP measures and therefore does not violate prominence or labeling requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents share repurchase activity under publicly announced programs, showing periods, shares purchased, average prices paid, and maximum dollar values remaining. The table contains only GAAP-compliant information related to share buyback programs with no non-GAAP measures present. While the SEC comment letters indicate LITE has had issues with non-GAAP adjustments for inventory costs and excess/obsolete inventory charges, this particular table does not relate to those concerns and displays standard equity transaction disclosures without misleading presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LYFT": [
+      {
+        "file": "table_014.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting share repurchase data with GAAP-compliant disclosures. All columns contain clearly labeled factual information about share purchases including quantities, prices, and dollar values. No non-GAAP measures are present, and the presentation follows standard SEC disclosure requirements for share repurchase programs. The table contains no visual distortions or prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-11",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (Adjusted EBITDA, Free cash flow) are presented in the same table without clear labeling distinguishing them from GAAP measures, and no reconciliation to GAAP measures is visible in this excerpt.",
+        "explanation": "This financial table presents both GAAP and Non-GAAP measures, but violates SEC guidance by failing to clearly distinguish Non-GAAP metrics from GAAP metrics with adequate labeling. While there is a section header separating 'GAAP Financial Measures' from 'Key Metrics and Non-GAAP Financial Measures,' items like Adjusted EBITDA and Free cash flow require more explicit 'Non-GAAP' labeling and visible reconciliation to comparable GAAP measures per Regulation G and Item 10(e) of Regulation S-K. The table includes derived metrics (percentages and margins) alongside the Non-GAAP figures without showing the reconciliation calculations, which could mislead investors about the company's actual GAAP performance. No previous SEC comment letter violations were found for this company, but this presentation style creates risk of future SEC scrutiny.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "OGN": [
       {
         "file": "ogn-20251231_g21.jpg",
         "date": "2026-02-24",
         "pred_misleading": true,
-        "pred_violation": "Potential Non-GAAP prominence violation - performance chart may emphasize non-GAAP metrics without equal GAAP presentation",
-        "explanation": "The chart employs a truncated y-axis starting at $0 rather than showing the full scale from zero, which visually exaggerates the differences in total return performance between Organon and the benchmark indices. Given the SEC's repeated concerns about OGN's Non-GAAP measure prominence (specifically Adjusted EBITDA being discussed without comparable GAAP net income), this performance chart requires scrutiny to ensure any non-GAAP financial metrics are not given undue prominence over GAAP measures. The truncated axis amplifies visual perception of underperformance, which combined with potential non-GAAP presentation issues identified in the SEC comment letters, creates compliance concerns under Question 102.10(a) of the C&DIs.",
+        "pred_violation": "While this chart does not directly present non-GAAP measures, the SEC context reveals a pattern of non-GAAP prominence violations by OGN, specifically presenting Adjusted EBITDA without the comparable GAAP measure (net income) in earnings release headers.",
+        "explanation": "The chart uses a truncated y-axis starting at $0 rather than showing the full scale from zero, which visually exaggerates the relative performance differences between Organon and the benchmark indices. The dramatic visual decline of Organon's performance (from ~$100 to ~$25) appears more severe due to the compressed scale, while the competitors' gains appear more modest than they would on a full scale. Given the SEC's comment letters to OGN regarding repeated non-GAAP prominence violations in earnings materials, this visual presentation style\u2014emphasizing negative performance through axis manipulation\u2014raises concerns about whether the company is consistently presenting financial information in ways that may mislead investors. The chart itself does not contain non-GAAP measures, but the truncated axis represents a misleading visualization technique that aligns with the company's documented history of problematic financial presentation practices.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -27,21 +112,42 @@
         "file": "ogn-20241231_g20.jpg",
         "date": "2025-02-28",
         "pred_misleading": true,
-        "pred_violation": "Non-GAAP prominence violation - presenting performance metrics without comparable GAAP measures",
-        "explanation": "The chart uses a truncated y-axis starting at $25.00 rather than zero, which visually exaggerates the relative performance differences between Organon and the benchmark indices. Given the SEC's comment letters to OGN dated April and May 2024 regarding Non-GAAP measure prominence violations (specifically Question 102.10(a) of the C&DIs), this total return performance chart may violate similar guidance by prominently displaying performance metrics without adequate context of comparable GAAP measures or proper disclosures. The truncated axis amplifies the visual impression of Organon's underperformance relative to benchmarks, potentially misleading investors about the magnitude of differences.",
+        "pred_violation": "While this chart does not directly present non-GAAP measures, the SEC context indicates OGN has a pattern of prominently featuring non-GAAP measures (Adjusted EBITDA) without comparable GAAP measures in headers and presentations.",
+        "explanation": "The chart shows a truncated y-axis starting at $25.00 rather than zero, which exaggerates the visual differences in total return performance between Organon and the comparison indices. This makes Organon's underperformance appear more dramatic than it would with a zero-baseline. Given the SEC comment letters from April and May 2024 specifically citing OGN for non-GAAP prominence violations in headers and presentations, any financial presentation from this company warrants heightened scrutiny for compliance with SEC guidance. While this particular chart appears to show stock performance rather than non-GAAP metrics, the truncated axis represents a misleading visual presentation technique.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "RIVN": [],
+    "RIVN": [
+      {
+        "file": "table_011.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting indexed performance data across fiscal quarters for three different indices (Rivian, NASDAQ Composite, and MSCI ACWI Automobiles and Components), all starting from a base period of 100 in November 2010. The table does not present any Non-GAAP measures requiring reconciliation, as these are simply indexed performance comparisons commonly used in SEC filings for total shareholder return analysis. The presentation is straightforward with clear labeling, consistent formatting, and an appropriate footnote explaining the index methodology change, making it compliant with SEC presentation standards.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP financial statement table presenting a consolidated income statement for three fiscal years (2023-2025). All figures appear to be GAAP measures including revenues, cost of revenues, gross profit, operating expenses, and net loss attributable to common stockholders. No Non-GAAP measures are present, and the table follows conventional financial statement formatting with appropriate labeling and structure. While there are no SEC comment letter violations on record for this company, this particular table complies with standard financial reporting requirements.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "STZ": [
       {
         "file": "stz-20250228_g5.jpg",
         "date": "2025-04-23",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "This pie chart appropriately displays consolidated net sales as a part-to-whole relationship across three product categories (Beer, Wine, and Spirits) that sum to 100%. The chart uses a standard 2D donut chart format without visual distortions, and the percentages are clearly labeled. The SEC comment letters for STZ relate to Non-GAAP presentation issues regarding EBIT calculations and Canopy equity earnings, which do not apply to this straightforward GAAP-based net sales breakdown by product category.",
+        "explanation": "This pie chart shows Fiscal 2025 Consolidated Net Sales broken down by product category (Beer: 83.7%, Wine: 14.2%, Spirits: 2.1%), which is an appropriate use of a pie chart for part-to-whole comparison. The percentages sum to 100% and the visual proportions appear to match the labeled values. The SEC comment letters for STZ relate to Non-GAAP measure presentation and reconciliation issues in tabular formats, particularly around EBIT and Canopy equity earnings, but this chart presents a straightforward revenue composition using what appear to be GAAP-based net sales figures without any Non-GAAP prominence violations.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -51,14 +157,46 @@
         "date": "2025-04-23",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "This pie chart appropriately displays Fiscal 2024 Consolidated Net Sales as a part-to-whole comparison showing three beverage categories (Beer 81.9%, Wine 15.6%, Spirits 2.5%) that sum to 100%. The chart uses appropriate visual proportions matching the labeled percentages without distortion. The SEC comment letters for STZ relate to Non-GAAP financial measure presentation and reconciliation requirements in tabular formats, not to basic sales composition charts showing revenue breakdown by product category, which is standard GAAP reporting.",
+        "explanation": "This donut chart presents Fiscal 2024 Consolidated Net Sales by segment (Beer: 81.9%, Wine: 15.6%, Spirits: 2.5%), which appears to be a straightforward GAAP revenue breakdown by product category. The chart uses appropriate proportional representation for part-to-whole comparison with clearly labeled percentages. The SEC comment letters reference concerns about non-GAAP measures like Canopy equity earnings/losses and EBIT calculations, but this visualization shows consolidated net sales, a standard GAAP measure with no indication of non-GAAP adjustments or prominence violations. No misleading visual techniques are evident.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "TSLA": [],
-    "UPS": [],
+    "TSLA": [
+      {
+        "file": "table_011.png",
+        "date": "2026-01-29",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting revenue figures across multiple years with comparative analysis. All figures appear to be properly labeled with clear GAAP accounting categories (Automotive sales, regulatory credits, leasing, etc.) and no Non-GAAP measures are present. The table follows standard SEC disclosure format with appropriate row and column headers, consistent units (dollars in millions), and clear year-over-year change calculations. No prominence violations or misleading presentation techniques are evident.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "UPS": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a straightforward financial table showing UPS aircraft fleet composition across different operational categories. The table contains only GAAP-compliant operational data (aircraft counts) with no non-GAAP financial measures, adjusted metrics, or prominence issues. Given the SEC's recent focus on UPS's non-GAAP labeling and transformation cost adjustments, this operational table does not present any of the compliance concerns identified in the comment letters.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": "Potential Non-GAAP labeling and reconciliation concern - measures lack 'adjusted' prefix and reconciliation context",
+        "explanation": "This financial table presents standard GAAP measures (Revenue, Operating Expenses, Operating Profit, Net Income, EPS) without apparent non-GAAP adjustments or prominence violations. However, given UPS's SEC comment letter history regarding insufficient differentiation of non-GAAP measures (particularly the July 2024 comment about limited differentiation using only 'adjusted' labels) and concerns about transformation strategy cost exclusions, any adjusted versions of these metrics would require clear labeling and reconciliation. The current table appears compliant as presented, showing only GAAP measures, but the company must ensure that if non-GAAP versions exist elsewhere in the filing, they are properly labeled and reconciled per the SEC's ongoing guidance to UPS.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "VERI": []
   }
 }

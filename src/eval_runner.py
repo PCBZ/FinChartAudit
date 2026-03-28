@@ -11,6 +11,7 @@ from openai import OpenAI
 from huggingface_hub import login
 from datasets import load_dataset
 
+from tqdm import tqdm
 from prompts import (
     build_vision_only_prompt,
     build_vision_text_prompt,
@@ -23,7 +24,7 @@ from prompts import (
 
 MODELS = {
     "claude": "anthropic/claude-sonnet-4-5",
-    "qwen":   "qwen/qwen3-vl-8b-instruct",
+    "qwen":   "qwen/qwen3-vl-235b-a22b-instruct",
 }
 
 CONDITIONS = ("vision_only", "vision_text")
@@ -108,7 +109,7 @@ def evaluate(api_key: str, model_key: str, condition: str, n_samples: int = None
 
     print(f"Model: {model} | Condition: {condition} | Samples: {len(dataset)}")
 
-    for i, item in enumerate(dataset):
+    for i, item in enumerate(tqdm(dataset, desc=f"{model_key}/{condition}", unit="sample")):
         bboxes    = item.get("bbox", [])
         bbox_text = build_bbox_text(bboxes)
 
@@ -307,6 +308,25 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
     results = {}
     total, flagged = 0, 0
 
+    # count total filtered items upfront for progress bar
+    all_items = [
+        (ticker, item)
+        for ticker, items in manifest.items()
+        if items
+        for item in items
+        if _is_financial_visual(item)
+    ]
+    if max_per_ticker:
+        from itertools import groupby
+        all_items = [
+            item for ticker, items in
+            {t: [x for _, x in grp][:max_per_ticker]
+             for t, grp in groupby(all_items, key=lambda x: x[0])}.items()
+            for item in [(ticker, i) for i in items]
+        ]
+
+    pbar = tqdm(total=len(all_items), desc=f"{model_key}/{condition}", unit="img")
+
     for ticker, items in manifest.items():
         if not items:
             continue
@@ -331,7 +351,7 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         print(f"\n{'='*50}")
         print(f"{ticker} | charts={n_charts} tables={n_tables} | condition: {condition} | GT: {has_gt}")
 
-        for item in items_filtered:
+        for item in tqdm(items_filtered, desc=f"{ticker}", unit="img", leave=False):
             img_path = Path(item["path"])
             if not img_path.exists():
                 print(f"  ✗ Image not found: {img_path}")
@@ -339,6 +359,7 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
 
             if not _is_financial_chart_by_vlm(client, model, img_path):
                 print(f"  ⏭ Skipped (not financial): {img_path.name}")
+                pbar.update(1)
                 continue
 
             pred = _run_single_sec(client, model, img_path, sec_context)
@@ -359,9 +380,13 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
                 "api_error":        pred.get("api_error", False),
             })
 
+            pbar.set_postfix({"flagged": flagged, "total": total})
+            pbar.update(1)
             print(f"  {'🚩' if is_flagged else '✓'} {item.get('filename', '')} "
                   f"→ {pred.get('sec_violation', 'None')}")
             time.sleep(1.0)
+
+    pbar.close()
 
     out_dir = Path("results")
     out_dir.mkdir(exist_ok=True)

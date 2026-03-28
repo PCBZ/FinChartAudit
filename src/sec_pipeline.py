@@ -16,5 +16,5 @@ for model_key in ("claude", "qwen"):
             api_key=api_key,
             model_key=model_key,
             condition=condition,
-            max_per_ticker=2,  # set to None for full run
+            max_per_ticker=3,
         )

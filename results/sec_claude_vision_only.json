@@ -1,24 +1,109 @@
 {
   "model": "anthropic/claude-sonnet-4-5",
   "condition": "vision_only",
-  "total": 4,
-  "flagged": 2,
-  "flag_rate": 0.5,
+  "total": 17,
+  "flagged": 5,
+  "flag_rate": 0.29411764705882354,
   "results": {
-    "ABNB": [],
-    "BCO": [],
+    "ABNB": [
+      {
+        "file": "table_008.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting share repurchase activity with clear GAAP-compliant disclosures. The table shows the total number of shares purchased, average price paid per share, shares purchased as part of publicly announced programs, and approximate dollar value remaining under the programs. All figures are properly labeled with consistent formatting, and there are no Non-GAAP measures present that would require prominence analysis or reconciliation. The presentation follows standard SEC disclosure requirements for share repurchase programs.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "BCO": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a straightforward financial table presenting a breakdown of facilities and vehicles by geographic segment, showing leased and owned assets. The table uses standard GAAP presentation with clear row and column headers, consistent formatting, and proper totals. There are no Non-GAAP measures present, no misleading visual elements, and the data is presented in a clear, unbiased manner that complies with SEC disclosure requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "CHPT": [],
-    "IRBT": [],
+    "IRBT": [
+      {
+        "file": "table_008.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measures presented more prominently than GAAP measures without reconciliation or GAAP comparables",
+        "explanation": "This table presents Non-GAAP Gross Profit, Non-GAAP Gross Margin, Non-GAAP Operating Loss, and Non-GAAP Operating Margin without providing the corresponding GAAP measures (GAAP Gross Profit, GAAP Gross Margin, GAAP Operating Loss, GAAP Operating Margin) for direct comparison. According to SEC Regulation G and Item 10(e) of Regulation S-K, Non-GAAP measures must not be presented more prominently than the most directly comparable GAAP measures, and a reconciliation must be provided. The table violates these requirements by showing only Non-GAAP metrics without their GAAP counterparts or reconciliation, giving undue prominence to Non-GAAP figures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (Non-GAAP Gross Profit, Non-GAAP Operating Loss, Non-GAAP Net Loss, and Non-GAAP Net Loss Per Diluted Share) are presented immediately after their GAAP counterparts without clear visual subordination, and Non-GAAP margin percentages appear with equal or greater prominence than GAAP margins.",
+        "explanation": "This financial table presents a GAAP to Non-GAAP reconciliation but violates SEC prominence rules by displaying Non-GAAP measures with equal visual weight to GAAP measures. The Non-GAAP Gross Margin (21.9%) and Non-GAAP Operating Margin (-17.3%) appear in the same formatting and size as their GAAP counterparts, without clear labeling that distinguishes them as non-GAAP or secondary metrics. While reconciliation items are provided, the presentation fails to subordinate Non-GAAP measures as required by Regulation G and Item 10(e) of Regulation S-K, which mandate that GAAP measures must be presented with equal or greater prominence. The table should either clearly label Non-GAAP measures as supplemental or present GAAP measures more prominently through formatting, positioning, or visual hierarchy.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "KMI": [],
-    "LITE": [],
-    "LYFT": [],
+    "LITE": [
+      {
+        "file": "table_010.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a straightforward financial table showing customer concentration as a percentage of total net revenue across three fiscal periods. The table contains only GAAP-compliant revenue concentration disclosures, which are standard financial metrics required under ASC 280 for segment reporting. No non-GAAP measures are presented, and there are no visual chart elements that could contain distortions or misleading presentation techniques. The asterisk notation appropriately indicates customers representing less than 10% of total net revenue, which is a standard disclosure threshold.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a share repurchase disclosure table showing the total number of shares purchased, average price paid, shares purchased under public programs, and maximum dollar value remaining under authorized programs for three periods in 2025. The table contains no data entries (all fields are blank except for headers and the maximum dollar value of $569.6 for all periods), which indicates either no repurchase activity occurred or the data is pending. There are no Non-GAAP measures present in this table, and no visual chart elements that could be misleading. This appears to be a standard Item 703 disclosure table with proper formatting and labeling.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LYFT": [
+      {
+        "file": "table_014.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting share repurchase data with clear GAAP-compliant columns showing total shares purchased, average price paid, shares purchased under the publicly announced program, and approximate dollar value remaining. All measures appear to be GAAP-based or standard operational metrics without any Non-GAAP financial measures present. The table follows standard SEC disclosure format for share repurchase activity with appropriate labeling and footnote references, presenting information clearly without prominence violations or visual distortions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-11",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (Adjusted EBITDA, Free cash flow) are presented with equal or greater prominence than GAAP measures without clear labeling distinction, and Non-GAAP metrics appear to lack sufficient reconciliation detail in this excerpt.",
+        "explanation": "This financial table presents both GAAP and Non-GAAP measures, but violates SEC prominence rules in several ways. The 'Key Metrics and Non-GAAP Financial Measures' section lists Non-GAAP items like 'Adjusted EBITDA' and 'Free cash flow' with the same visual prominence (formatting, font size, positioning) as GAAP measures above, without clear differentiation or 'Non-GAAP' labeling in the line items themselves. While the section header indicates these are non-GAAP measures, individual line items should be clearly labeled, and the table does not show the required reconciliation from GAAP to Non-GAAP measures (e.g., how Adjusted EBITDA reconciles to net income or operating cash flow to free cash flow). The presentation format treats Non-GAAP metrics as equivalent to GAAP measures rather than supplemental information, which violates Item 10(e) of Regulation S-K requiring GAAP measures to be presented with equal or greater prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "OGN": [
       {
         "file": "ogn-20251231_g21.jpg",
         "date": "2026-02-24",
         "pred_misleading": true,
-        "pred_violation": null,
-        "explanation": "The chart employs a truncated y-axis that does not start at zero, beginning instead at approximately $0 and emphasizing the range between $0 and $200. This exaggerates the visual perception of performance differences between the entities, particularly making Organon's decline appear more dramatic and the outperformance of the benchmark indices (S&P 500, DRG Index, S&P 600) appear more pronounced than they would with a zero-baseline axis. While total return performance charts are common in SEC filings, the truncated axis manipulates visual comparison and could mislead investors about the relative magnitude of returns. No specific SEC Non-GAAP violation is present as this appears to be a standard performance comparison chart.",
+        "pred_violation": "Truncated y-axis creates misleading visual impression of performance differences",
+        "explanation": "The y-axis starts at $0 but emphasizes the range from approximately $50 to $200, which visually exaggerates the performance differences between Organon (the company) and the benchmark indices. By not showing the full scale from zero in proper proportion, the chart makes Organon's declining performance appear more dramatic relative to the rising benchmarks, particularly the S&P 500 and DRG Index. This truncated axis presentation can mislead investors about the relative magnitude of underperformance. While this is a stock performance chart rather than a Non-GAAP metric issue, the visual distortion violates principles of fair presentation expected in SEC filings.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -27,21 +112,42 @@
         "file": "ogn-20241231_g20.jpg",
         "date": "2025-02-28",
         "pred_misleading": true,
-        "pred_violation": null,
-        "explanation": "The chart uses a truncated y-axis that starts at $25.00 instead of zero, which visually exaggerates the differences in total return performance between the company (Organon) and the benchmark indices. This makes Organon's underperformance appear more dramatic than it would with a zero-baseline, potentially misleading investors about the relative magnitude of returns. While total return performance charts are common in SEC filings, the truncated axis amplifies visual perception of variance in a way that could be considered misleading to reasonable investors.",
+        "pred_violation": "Truncated y-axis exaggerates performance differences and may misleadingly portray company performance relative to benchmarks",
+        "explanation": "The chart displays a truncated y-axis starting at $25 rather than zero, which visually exaggerates the differences in total return performance between Organon and the benchmark indices (S&P 500, DRG Index, and S&P 600). This presentation makes Organon's underperformance appear more dramatic than it would with a zero-baseline axis, potentially misleading investors about the relative magnitude of returns. While not a Non-GAAP violation per se, the truncated axis violates principles of fair presentation in SEC filings by distorting visual perception of comparative performance data. SEC guidance on performance graphs emphasizes that visual presentations should not be misleading, and truncated axes in performance comparisons can create false impressions of volatility and relative performance.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "RIVN": [],
+    "RIVN": [
+      {
+        "file": "table_011.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table showing indexed performance values for three metrics (Rivian, NASDAQ Composite, and MSCI ACWI Automobiles and Components) over fiscal quarters from a base period of November 2010. All values are clearly presented with consistent formatting, proper labeling, and a footnote explaining the benchmark change. No non-GAAP measures are present, and there are no visual distortions or prominence violations.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant consolidated income statement presented in tabular format for three years (2023-2025). All line items follow standard GAAP nomenclature including revenues, cost of revenues, gross profit, operating expenses, and net loss attributable to common stockholders. There are no Non-GAAP measures presented, no visual chart distortions to evaluate, and the presentation follows standard SEC financial statement formatting requirements with proper GAAP hierarchy and labeling.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "STZ": [
       {
         "file": "stz-20250228_g5.jpg",
         "date": "2025-04-23",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "This pie chart appropriately displays part-to-whole relationships for consolidated net sales across three beverage categories (Beer, Wine, and Spirits) that sum to 100%. The visual proportions accurately represent the labeled percentages, with Beer\u5360\u636e83.7%, Wine\u5360\u636e14.2%, and Spirits\u5360\u636e2.1%. No truncated axes, distortions, or Non-GAAP prominence violations are present. The chart uses standard 2D presentation without misleading visual effects.",
+        "explanation": "This donut chart appropriately displays the composition of Fiscal 2025 Consolidated Net Sales across three beverage categories (Beer, Wine, and Spirits). The chart uses a pie/donut format correctly for part-to-whole comparison, with percentages that sum to 100% and segments that visually correspond to the labeled values. No Non-GAAP measures are presented, and there are no visual distortions or misleading design elements present.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -51,14 +157,46 @@
         "date": "2025-04-23",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "This chart appropriately uses a pie chart (donut chart variant) to show part-to-whole relationships for fiscal 2024 consolidated net sales across three product categories (Beer, Wine, and Spirits). The percentages sum to 100% (81.9% + 15.6% + 2.5% = 100%), and the visual proportions appear to match the labeled values reasonably well. No SEC Non-GAAP prominence violations are evident as this appears to be a straightforward GAAP revenue breakdown by product category, and no misleading chart techniques from the taxonomy are present.",
+        "explanation": "This donut chart appropriately displays the breakdown of Fiscal 2024 Consolidated Net Sales by product category (Beer, Wine, and Spirits) as percentages that sum to 100%. The chart uses an appropriate visualization type for part-to-whole comparison, with proportional segments that accurately represent the labeled values. No Non-GAAP prominence violations are present as this appears to be a straightforward presentation of GAAP revenue segmentation, and no Non-GAAP measures are identified or presented more prominently than GAAP measures.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "TSLA": [],
-    "UPS": [],
+    "TSLA": [
+      {
+        "file": "table_011.png",
+        "date": "2026-01-29",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting revenue data across multiple years with year-over-year change analysis. All figures appear to be properly labeled with clear GAAP revenue categories (Automotive sales, regulatory credits, leasing, Services and other, Energy generation and storage). No Non-GAAP measures are presented, and there are no visual distortions or prominence violations present in this tabular format.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "UPS": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a straightforward financial table presenting aircraft fleet data across different operational categories (UPS Owned/Operated, Charters & Leases, On Order, Under Option). The table uses standard formatting with clear column headers and row labels, showing numerical counts for various aircraft types. There are no Non-GAAP measures present, no visual chart elements that could be distorted, and the presentation follows standard tabular reporting conventions without any prominence or labeling violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting GAAP metrics including Revenue, Operating Expenses, Operating Profit, Net Income, and Earnings Per Share for comparative periods 2025 and 2024. All metrics appear to be GAAP measures with no Non-GAAP metrics identified or presented more prominently. The table follows conventional financial reporting presentation with clear labeling, appropriate comparative period structure, and percentage/dollar change columns, making it compliant with SEC regulations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "VERI": []
   }
 }

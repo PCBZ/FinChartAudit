@@ -98,10 +98,24 @@ def build_vision_text_prompt(ground_truth_text: str) -> str:
 
 
 def build_rq3_prompt(sec_context: str) -> str:
-    return f"""You are a financial compliance expert. Detect misleading chart elements and Non-GAAP prominence violations in this SEC filing chart.
+    return f"""You are a financial compliance expert. Analyze this SEC filing visual — which may be a chart OR a financial table — for misleading presentation and Non-GAAP prominence violations.
 
-    ## Misleader Taxonomy
+    ## Scope
+    Both charts and tables can contain violations:
+    - Charts: truncated axes, 3D distortion, inappropriate chart type, etc.
+    - Tables: Non-GAAP measures presented more prominently than GAAP measures,
+      missing GAAP reconciliation, or non-GAAP figures shown without labeling.
+
+    ## Misleader Taxonomy (for charts)
     {TAXONOMY_BLOCK}
+
+    ## Non-GAAP Prominence Rules (for tables and charts)
+    - Non-GAAP measures must NOT appear more prominently than the most directly
+      comparable GAAP measure (SEC Regulation G, Item 10(e) of Regulation S-K).
+    - Non-GAAP measures must be clearly labeled as such.
+    - A reconciliation to the comparable GAAP measure must be provided.
+    - Presenting Non-GAAP metrics first, in larger font, or without GAAP context
+      constitutes a prominence violation.
 
     ## SEC Comment Letter Context
     {sec_context}
@@ -110,7 +124,7 @@ def build_rq3_prompt(sec_context: str) -> str:
     Respond with valid JSON only:
     {{
     "misleading": <true|false>,
-    "misleader_types": [<zero or more types from the taxonomy>],
+    "misleader_types": [<zero or more types from the taxonomy, empty list for tables>],
     "sec_violation": "<specific Non-GAAP or chart violation if any, else null>",
-    "explanation": "<two to four sentences referencing both the chart and SEC context>"
+    "explanation": "<two to four sentences referencing both the visual and SEC context>"
     }}"""

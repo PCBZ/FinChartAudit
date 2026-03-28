@@ -1,24 +1,109 @@
 {
-  "model": "qwen/qwen3-vl-8b-instruct",
+  "model": "qwen/qwen3-vl-235b-a22b-instruct",
   "condition": "vision_only",
-  "total": 4,
-  "flagged": 2,
-  "flag_rate": 0.5,
+  "total": 16,
+  "flagged": 3,
+  "flag_rate": 0.1875,
   "results": {
-    "ABNB": [],
-    "BCO": [],
+    "ABNB": [
+      {
+        "file": "table_008.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents factual share purchase data without any Non-GAAP measures, so no prominence violations apply. All figures are labeled clearly, and there is no visual distortion or inappropriate presentation. The data is structured chronologically and numerically consistent, with no misleading chart elements since it is a tabular format.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "BCO": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents segmented financial data without any Non-GAAP measures, so no prominence violations apply. There are no visual distortions or chart-specific misleaders since this is a straightforward tabular presentation. All figures are clearly labeled by segment and category, and no reconciliation is required as no Non-GAAP metrics are disclosed.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "CHPT": [],
-    "IRBT": [],
+    "IRBT": [
+      {
+        "file": "table_008.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (Gross Profit, Operating Loss) are presented immediately after GAAP Total Revenue without clear labeling or reconciliation, and appear more prominently than the directly comparable GAAP measures (e.g., Gross Profit, Operating Income).",
+        "explanation": "The table presents Non-GAAP metrics like 'Non-GAAP Gross Profit' and 'Non-GAAP Operating Loss' without first showing their GAAP counterparts or providing a reconciliation, violating SEC Regulation G. Although labeled as Non-GAAP, their placement directly after Total Revenue and before operational metrics creates undue prominence. No reconciliation to GAAP is visible, which is required under Item 10(e) of Regulation S-K to ensure investors can assess the relationship between Non-GAAP and GAAP results.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (e.g., Non-GAAP Gross Profit, Non-GAAP Operating Loss) are presented immediately after their GAAP counterparts without clear visual hierarchy or reconciliation, potentially implying equal or greater importance, violating SEC Regulation G and Item 10(e) of Regulation S-K.",
+        "explanation": "The table presents Non-GAAP metrics directly adjacent to GAAP measures without sufficient labeling or reconciliation, which may mislead readers into treating them as equally authoritative. While Non-GAAP figures are labeled, their placement and formatting do not clearly subordinate them to GAAP measures, violating SEC rules requiring GAAP to be more prominent. No reconciliation is provided within the visual, further compounding the violation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "KMI": [],
-    "LITE": [],
-    "LYFT": [],
+    "LITE": [
+      {
+        "file": "table_010.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents customer revenue percentages without any Non-GAAP measures, so no prominence violation under SEC Regulation G applies. There is no visual distortion or misleading chart technique since this is a straightforward tabular presentation. The footnote appropriately clarifies the meaning of the asterisk, ensuring transparency. No GAAP reconciliation is required as no Non-GAAP metrics are shown.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents factual share purchase data without any Non-GAAP measures, so no prominence violations under SEC Regulation G apply. There are no visual distortions or misleading chart elements since this is a straightforward tabular disclosure. All figures are clearly labeled and contextually appropriate for a share repurchase report.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LYFT": [
+      {
+        "file": "table_014.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents factual share purchase data without any Non-GAAP measures, so no prominence violation exists. All figures are labeled clearly, and there is no visual distortion or inappropriate charting since this is a straightforward tabular presentation. No SEC Regulation G or Item 10(e) requirements are triggered as no alternative performance measures are disclosed.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP prominence violation: Non-GAAP measures (e.g., Gross Bookings, Adjusted EBITDA, Free cash flow) are presented in a separate section after GAAP measures but are not clearly labeled as Non-GAAP in the column headers or row labels, and no reconciliation to GAAP is provided in the visible portion. This violates SEC Regulation G and Item 10(e) of Regulation S-K.",
+        "explanation": "The table presents Non-GAAP metrics such as Gross Bookings and Adjusted EBITDA without explicit labeling as Non-GAAP, and no reconciliation to GAAP measures is visible. Although GAAP measures appear first, the Non-GAAP section is given equal visual prominence with bold headers and comparable formatting, which risks misleading investors. SEC rules require clear labeling and reconciliation, which are absent here, constituting a prominence violation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "OGN": [
       {
         "file": "ogn-20251231_g21.jpg",
         "date": "2026-02-24",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "The line chart accurately depicts total return performance over time with consistent axis scaling and appropriate use of line charts for sequential data. No misleading visual elements or Non-GAAP prominence violations are present, as the chart aligns with SEC requirements for transparent financial reporting. The y-axis starts at $0, and all lines are properly labeled and ordered, avoiding any deceptive visual comparisons.",
+        "explanation": "The line chart visually compares total return performance across four indices without distortion, using a consistent y-axis starting at zero and appropriate line chart usage for time-series data. No Non-GAAP measures are presented, so there is no violation of SEC Regulation G or prominence rules. The chart is clear, accurately scaled, and does not mislead viewers about relative performance trends.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -28,20 +113,41 @@
         "date": "2025-02-28",
         "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "The line chart accurately depicts total return performance over time with consistent axis scaling and appropriate use of line charts for sequential data. No misleading visual elements or Non-GAAP prominence violations are present, as the chart clearly shows relative performance without distorting comparisons or violating SEC disclosure standards.",
+        "explanation": "The line chart presents total return performance over time for multiple indices without truncating axes, using 3D effects, or distorting comparisons. All data points are clearly labeled and plotted on a consistent linear scale from $25 to $175, avoiding exaggeration. Since no Non-GAAP financial measures are displayed, there is no violation of SEC Regulation G or prominence rules. The chart is appropriate for sequential time-series data and does not mislead under SEC comment letter standards.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "RIVN": [],
+    "RIVN": [
+      {
+        "file": "table_011.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents historical index values without any Non-GAAP measures, so no prominence violations under SEC Regulation G apply. All figures are labeled with their respective indices and time periods, and no visual distortions are present since this is a straightforward tabular presentation. The footnote appropriately discloses the change in benchmark index, enhancing transparency.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents GAAP financial data in a standard, sequential income statement format without any Non-GAAP measures, so there is no prominence violation. All figures are clearly labeled, and no visual distortions apply since this is a tabular presentation. The SEC\u2019s Non-GAAP rules are not triggered because no alternative metrics are shown.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "STZ": [
       {
         "file": "stz-20250228_g5.jpg",
         "date": "2025-04-23",
-        "pred_misleading": true,
+        "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "The donut chart misleads by using a pie chart format for data that is not part-to-whole in a meaningful visual comparison; the central hole and 3D effect distort the perception of proportions. While the percentages sum to 100%, the visual emphasis on the large beer slice may mislead viewers into thinking the difference between beer and wine is more pronounced than it is. This violates the 'inappropriate use of pie chart' misleader taxonomy, as the chart format is not ideal for conveying relative proportions in this context.",
+        "explanation": "The donut chart appropriately displays part-to-whole composition of Fiscal 2025 Consolidated Net Sales by product category, with no axis truncation, 3D distortion, or misrepresentation. Since this is a GAAP-compliant revenue breakdown and no Non-GAAP measures are presented, there is no violation of SEC Regulation G or prominence rules. The chart is clear, labeled accurately, and does not exaggerate or mislead.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
@@ -49,16 +155,38 @@
       {
         "file": "stz-20250228_g6.jpg",
         "date": "2025-04-23",
-        "pred_misleading": true,
+        "pred_misleading": false,
         "pred_violation": null,
-        "explanation": "The donut chart misleads by using a pie chart format for data that is not part-to-whole in nature \u2014 the 81.9% beer segment visually dominates, but the chart lacks context on total sales or revenue breakdowns required by SEC disclosure standards. Pie charts are inappropriate here because the segments represent categories of net sales, not proportions of a single total, and the visual distortion exaggerates the dominance of beer over wine and spirits.",
+        "explanation": "The donut chart appropriately displays part-to-whole composition of consolidated net sales by product category, with no axis truncation, 3D distortion, or misrepresentation. Since it presents only GAAP-compliant revenue breakdowns without any Non-GAAP metrics, there is no violation of SEC Regulation G or prominence rules. The chart is factually accurate and contextually appropriate for illustrating sales mix.",
         "has_gt_violation": true,
         "parse_error": false,
         "api_error": false
       }
     ],
-    "TSLA": [],
-    "UPS": [],
+    "TSLA": [
+      {
+        "file": "table_011.png",
+        "date": "2026-01-29",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents financial data in a clear, structured format with consistent formatting and no visual distortions. All figures are labeled with dollar amounts and percentages, and no Non-GAAP measures are present or emphasized over GAAP metrics. The presentation complies with SEC Regulation G and Item 10(e) of Regulation S-K, as there is no prominence given to non-GAAP measures and no reconciliation is required.",
+        "has_gt_violation": false,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "UPS": [
+      {
+        "file": "table_008.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents GAAP financial measures (Revenue, Operating Expenses, Net Income, etc.) without any Non-GAAP metrics, so no prominence violation occurs. All figures are clearly labeled with units and change metrics, and no visual distortions are present as it is a straightforward tabular format. The SEC\u2019s Non-GAAP rules do not apply here since no alternative measures are disclosed.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
     "VERI": []
   }
 }
