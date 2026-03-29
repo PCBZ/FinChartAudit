@@ -51,14 +51,17 @@ class SECDownloader:
             forms      = recent.get('form', [])
             dates      = recent.get('filingDate', [])
             accessions = recent.get('accessionNumber', [])
+            primary_docs = recent.get('primaryDocument', [])
+
 
             results = []
-            for form, date, acc in zip(forms, dates, accessions):
+            for form, date, acc, doc in zip(forms, dates, accessions, primary_docs):
                 if form == filing_type:
                     results.append({
                         'form': form,
                         'filingDate': date,
                         'accessionNumber': acc,
+                        'primaryDocument': doc,
                     })
                 if len(results) >= count:
                     break
@@ -140,12 +143,48 @@ class SECDownloader:
 
         print(f"\n{'='*60}\n")
         return True
+    
+    def download_pdf(self, ticker: str, accession: str, primary_doc: str) -> bytes:
+        """Download the PDF content of a specific filing or comment letter."""
+        cik = self.COMPANIES[ticker].lstrip('0')
+        acc_no_dashes = accession.replace('-', '')
+        url = f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc_no_dashes}/{primary_doc}"
+        try:
+            time.sleep(0.5)
+            resp = requests.get(url, headers=self.headers, timeout=15)
+            resp.raise_for_status()
+            return resp.content
+        except Exception as e:
+            print(f"✗ Error downloading PDF: {e}")
+            return b""
 
 
 def main():
     downloader = SECDownloader()
     for ticker in SECDownloader.COMPANIES:
         downloader.download_company_data(ticker, max_10k=3, max_comments=10)
+    
+    for ticker in SECDownloader.COMPANIES:
+        meta_path = Path('data/sec') / f"{ticker}.json"
+        meta = json.loads(meta_path.read_text())
+        
+        out_dir = Path('data/pdfs') / ticker
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        for filing in meta.get('filings_10k', []):
+            acc = filing['accessionNumber']
+            doc = filing['primaryDocument']
+            date = filing['filingDate']
+            
+            out_path = out_dir / f"{date}_{doc}"
+            if out_path.exists():
+                print(f"  ✓ Already exists: {out_path.name}")
+                continue
+
+            content = downloader.download_pdf(ticker, acc, doc)
+            if content:
+                out_path.write_bytes(content)
+                print(f"  ✓ {ticker} {date} → {out_path.name} ({len(content)//1024} KB)")
 
 
 if __name__ == "__main__":

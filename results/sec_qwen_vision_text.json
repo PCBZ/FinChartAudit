@@ -1,0 +1,989 @@
+{
+  "model": "qwen/qwen3-vl-8b-instruct",
+  "condition": "vision_text",
+  "total": 96,
+  "flagged": 7,
+  "flag_rate": 0.07291666666666667,
+  "results": {
+    "BCO": [
+      {
+        "file": "table_006.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting segment data for leased and owned facilities and vehicles, with no non-GAAP measures or misleading chart elements. Since it contains no non-GAAP metrics, there is no Non-GAAP prominence violation. The SEC comment letter references non-GAAP measures but does not apply to this table, which exclusively shows GAAP data without reconciliation or prominence issues.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue and operating profit metrics with detailed breakdowns, including organic change, acquisition impact, and currency effects. No non-GAAP measures are prominently featured or labeled as such, and no reconciliation is required or missing. The SEC comment letter references non-GAAP measures but does not indicate that this specific table violates prominence rules, as all figures appear to be GAAP-based with clear labeling and no visual distortion.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents both GAAP and Non-GAAP measures with clear labeling and consistent structure, and does not exhibit any visual misrepresentation or prominence violations. Non-GAAP figures are explicitly labeled and appear below their GAAP counterparts in each section, satisfying SEC Regulation G requirements. The SEC Comment Letter context indicates a need for clearer GAAP/non-GAAP labeling, but the table already complies with this by using distinct headings and footnotes, thus no violation is present.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided image is a table of contents page, not a financial chart or table displaying actual metrics. As such, it cannot contain misleading visual presentation or Non-GAAP prominence violations. The SEC comment letter referenced concerns Non-GAAP labeling and reconciliation, but since no financial data or metrics are presented here, no violation applies.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_018.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents GAAP measures consistently with clear labeling and no Non-GAAP metrics are shown prominently or without reconciliation, satisfying SEC Regulation G requirements. The SEC Comment Letter context indicates a prior need to clarify GAAP vs. non-GAAP labels, but this table does not contain any non-GAAP measures or misleading visual elements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting share purchase data, not a chart, so no chart-specific misleading presentation applies. The table contains GAAP measures such as total shares purchased and average price paid per share, with no Non-GAAP measures presented more prominently than GAAP measures. The SEC Comment Letter context indicates a prior issue with non-GAAP labeling, but this table does not contain any non-GAAP measures or violate prominence rules as presented.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays Non-GAAP measures (e.g., $487.6M pre-tax income, $134.1M income tax) in the final row, directly below GAAP measures, without sufficient visual distinction to indicate they are non-GAAP. This violates SEC Regulation G by presenting Non-GAAP figures as more prominent than their GAAP counterparts. The SEC Comment Letter explicitly requires clear labeling of GAAP vs. non-GAAP measures, which is not adequately achieved here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents only non-GAAP items (e.g., reorganization, acquisitions, investigations) without any comparable GAAP measures or reconciliation, which violates SEC Regulation G\u2019s requirement for non-GAAP prominence rules. However, since this is a table listing discrete non-GAAP items without visual distortion or prominence violations, it does not constitute a misleading chart violation. The SEC Comment Letter specifically requires labeling items as GAAP or non-GAAP, which this table fails to do.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting detailed breakdowns of foreign currency items, including both GAAP and non-GAAP measures, with clear labeling and reconciliation implied by structure. The SEC context highlights a prior violation for mislabeling measures as both GAAP and non-GAAP, but this table does not appear to violate Non-GAAP prominence rules as it presents items with consistent labeling and does not present non-GAAP figures more prominently than comparable GAAP figures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays Non-GAAP measures (e.g., Non-GAAP operating profit, Adjusted EBITDA) directly below GAAP measures without sufficient visual distinction or labeling clarity, violating SEC Regulation G by presenting Non-GAAP metrics more prominently than comparable GAAP measures. The SEC Comment Letter explicitly requires clear labeling of GAAP vs. Non-GAAP items and a reconciliation, which is absent here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "CHPT": [
+      {
+        "file": "table_071.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting net loss per share, which is a GAAP measure, with no non-GAAP metrics shown. Therefore, there are no Non-GAAP prominence violations. The table is structured clearly with consistent formatting and no visual distortions, meeting SEC disclosure standards. The SEC Comment Letter referenced pertains to prior non-GAAP reconciliation issues, not this specific table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard financial table presenting GAAP measures consistently across years with no misleading visual elements. All figures are clearly labeled, and no non-GAAP measures are prominently displayed or presented without GAAP context. The SEC comment letter referenced relates to prior filings lacking proper reconciliation of non-GAAP measures, but this table does not contain any non-GAAP metrics, thus no violation applies here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2024-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table that presents GAAP measures consistently and does not contain any misleading chart elements. All figures are clearly labeled and presented in a standard format without prominence violations of Non-GAAP measures. The SEC Comment Letter referenced pertains to a prior filing issue with non-GAAP reconciliation, but this table does not appear to contain any non-GAAP measures or violate the prominence rules as described.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_029.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table detailing changes in shareholders' equity, with no Non-GAAP measures presented. Therefore, no Non-GAAP prominence violation exists. The table presents GAAP measures consistently and does not violate SEC disclosure rules regarding Non-GAAP metrics. The SEC Comment Letter referenced relates to non-GAAP disclosures not present in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_030.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP cash flow statement table with no Non-GAAP measures presented, thus no Non-GAAP prominence violation exists. The table clearly labels all items as GAAP and presents data in a consistent, non-distorted format. No chart or table misrepresentation techniques are applied, and the SEC Comment Letter context regarding Non-GAAP measures does not apply here since no such measures are shown.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP balance sheet table with no non-GAAP measures presented, thus avoiding Non-GAAP prominence violations. There are no charts or misleading visual elements present, so no misleader types apply. The SEC comment letter referenced relates to prior non-GAAP reconciliation issues, but this filing contains only GAAP data, satisfying compliance requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting comprehensive loss and other comprehensive income items, with no Non-GAAP measures highlighted or presented more prominently than GAAP measures. There are no chart-related misleading elements since it is not a chart. The SEC Comment Letter referenced a prior Non-GAAP reconciliation issue, but this table does not contain any Non-GAAP figures or prominence violations, thus no violation applies here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_058.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting cost of revenue components and total stock-based compensation expense, with no Non-GAAP measures shown, thus avoiding Non-GAAP prominence violations. No chart-related misleading elements are present as this is a table. The SEC Comment Letter referenced a prior reconciliation issue for non-GAAP gross profit/margin but this table does not contain such measures, so no violation applies here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_067.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting deferred tax assets and liabilities, with no non-GAAP measures or misleading chart elements present. It complies with SEC requirements by displaying GAAP figures without prominence violations or reconciliation issues. The SEC Comment Letter context refers to non-GAAP gross profit and margin reconciliation, which is not relevant to this deferred tax disclosure table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2024-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard financial table presenting GAAP asset and liability data without any non-GAAP measures, thus avoiding Non-GAAP prominence violations. No chart-related misrepresentation or distortion is present. The SEC Comment Letter referenced relates to prior filings lacking proper reconciliation of non-GAAP measures, which is not applicable here since no non-GAAP figures are shown.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "IRBT": [
+      {
+        "file": "table_023.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided image is a table of table of contents for financial statements, not a chart or financial table presenting metrics. It lists document titles and page numbers without any visual representation or numerical data that could be misleading or violate Non-GAAP prominence rules. Therefore, no misrepresentation or SEC violation applies.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting comprehensive loss components, with no Non-GAAP measures highlighted or presented more prominently than GAAP measures. No reconciliation or labeling of Non-GAAP figures is needed here since all items are GAAP-based. The SEC comment letters reference Non-GAAP exclusions and tax provisions, but this table does not involve those specific metrics or violate prominence rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_020.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting interest income, expense, and other items with GAAP figures for fiscal years ending December 2024, 2023, and 2022. There are no Non-GAAP measures presented, so no prominence violation applies. The table clearly labels all items as GAAP measures and provides consistent, comparable data without misleading visual elements. No SEC comment letter context from IRBT is relevant to this specific table, as it does not involve Non-GAAP measures or chart distortions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided table is a standard GAAP income statement with no Non-GAAP measures presented, thus avoiding any prominence violation. The SEC comment letters referenced pertain to prior periods and specific non-GAAP adjustments (e.g., IP litigation expense exclusion, tax provision methodology), which are not relevant to this GAAP-only table. No chart is presented, so no chart-specific misrepresentation applies.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided table presents GAAP financial measures consistently across all periods, with no Non-GAAP metrics visible or highlighted. There are no visual distortions or prominence violations as no Non-GAAP measures are presented. The SEC comment letters referenced pertain to prior filings and specific non-GAAP exclusions (e.g., IP litigation expense, tax valuation allowance), but this table does not contain any Non-GAAP measures, thus avoiding any prominence or reconciliation violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP balance sheet table with no Non-GAAP measures presented, thus avoiding any prominence violation. The table clearly shows GAAP figures for assets, liabilities, and equity without any misleading visual elements or non-GAAP metrics. No SEC Comment Letter context applies as there are no Non-GAAP measures in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents Non-GAAP metrics alongside GAAP-comparable metrics (e.g., Total Revenue, robot units shipped) without violating prominence rules, as GAAP measures are clearly labeled and presented in the same visual hierarchy. The SEC comment letters reference IRBT\u2019s prior-year Non-GAAP adjustments (IP litigation, tax provisions), but this table is for fiscal year ended December 30, 2023, and does not appear to replicate or misrepresent prior-year Non-GAAP measures without reconciliation. No chart or visual distortion is present, and all Non-GAAP labels are clearly marked.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents both GAAP and Non-GAAP measures side-by-side with consistent labeling and clear reconciliation through line items, satisfying SEC Non-GAAP prominence rules. The Non-GAAP metrics are not presented more prominently than their GAAP counterparts, and all figures are clearly labeled. The SEC Comment Letters for IRBT referenced specific Non-GAAP exclusions and methodologies, but this table does not appear to violate those requirements as it includes both GAAP and Non-GAAP figures in a comparable format without misleading prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table detailing changes in stockholders' equity components over time, with no charts or misleading visual elements. It presents GAAP measures exclusively, without any Non-GAAP metrics, thus avoiding prominence violations. The table\u2019s structure is consistent with standard equity reconciliation formats and does not conflict with SEC Comment Letter context regarding Non-GAAP measures or IP litigation expense exclusions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents GAAP financial metrics in a consistent, labeled format with no Non-GAAP measures prominently displayed or unlabeled, thus complying with SEC Non-GAAP prominence rules. The SEC comment letters referenced pertain to prior-year disclosures regarding IP litigation expense and tax provisions, which are not relevant to this current-year GAAP table. No visual distortion or misleading presentation exists since this is a standard GAAP income statement in percentage format.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "KMI": [
+      {
+        "file": "table_009.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table detailing asset/projects, descriptions, activities, and capital scope, with no financial metrics or non-GAAP measures presented. Therefore, it does not violate Non-GAAP prominence rules or contain misleading chart elements. The SEC comment letter concerns non-GAAP disclosures and missing GAAP analysis, but this table is purely descriptive and unrelated to financial performance metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents GAAP-based expense items and their change from prior period, with no Non-GAAP measures shown, thus avoiding prominence violations. The SEC comment letter referenced KMI\u2019s prior failure to disclose GAAP revenue/cost metrics, but this table does not involve Non-GAAP measures or violate GAAP presentation rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2026-02-13",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays Non-GAAP measures \u2014 Adjusted Net Income and Adjusted EBITDA \u2014 without sufficient context or reconciliation to GAAP measures, violating SEC Regulation G. The SEC Comment Letter for KMI specifically criticized the lack of GAAP reconciliation and discussion of consolidated measures, indicating this presentation misleads investors by prioritizing Non-GAAP metrics over their GAAP counterparts.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table listing construction projects with descriptions, activities, and capital scope, which does not contain any financial metrics or non-GAAP measures. Therefore, no misleading presentation or Non-GAAP prominence violations exist. The SEC comment letter references non-GAAP disclosures and reconciliation issues, but this table is purely project-oriented and unrelated to financial performance metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents 'Certain Items' with no indication of Non-GAAP measures, and all figures are clearly labeled with GAAP context. No Non-GAAP measures are prominently displayed or labeled as such, and there is no reconciliation provided, which aligns with SEC requirements. The visual does not contain any misleading chart elements, as it is a straightforward financial table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table presenting hypothetical changes in pension benefit costs and funded status under various assumptions, not a Non-GAAP financial measure comparison. It lacks any Non-GAAP/GAAP reconciliation or prominence violation since it does not present financial performance metrics. The SEC\u2019s prior comment regarding KMI\u2019s lack of GAAP revenue/cost discussion does not apply here as this table is not a performance metric disclosure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_023.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided visual is a standard financial table presenting GAAP measures such as revenues, operating costs, net income, and earnings per share with consistent labeling and no non-GAAP metrics prominently displayed. There is no evidence of Non-GAAP prominence violations, as all figures are labeled and presented alongside their GAAP counterparts without prioritizing non-GAAP measures. The SEC comment letter references KMI\u2019s lack of GAAP discussion for key metrics, but this table does not exhibit the described violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_007.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table detailing asset projects and their capital scope, with no charts or misleading visual elements. It does not present Non-GAAP measures, so no Non-GAAP prominence violation exists. The SEC comment letter referenced concerns about Non-GAAP disclosures and lack of GAAP reconciliation, but this table is purely descriptive of projects and does not contain financial metrics subject to those rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table presenting non-GAAP reconciliations, but it includes clear GAAP starting points (e.g., 'Net income attributable to Kinder Morgan, Inc.') and explicitly labels all non-GAAP measures (e.g., 'Adjusted Net Income,' 'Adjusted EBITDA'). Each reconciliation provides a direct path from GAAP to non-GAAP, satisfying the SEC\u2019s requirement for prominence and reconciliation. While the SEC Comment Letter criticizes KMI for lacking GAAP discussion in other sections, this table itself does not violate Non-GAAP prominence rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LITE": [
+      {
+        "file": "table_013.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures consistently across years, with no Non-GAAP metrics prominently featured or unlabeled. All figures are clearly reconciled within the GAAP framework, and no charting issues apply. The SEC context references prior comment letters regarding non-GAAP adjustments, but none of those adjustments appear in this table, which strictly presents GAAP segment net revenue and operating results without prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures consistently across all line items and years, with no non-GAAP metrics shown or labeled, thus avoiding prominence violations. The SEC comment letters reference specific non-GAAP adjustments related to inventory and cost of sales, but the table does not include any such non-GAAP figures, so there is no violation of Non-GAAP prominence rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting cash flow information and non-cash transactions, with no misleading visual elements or Non-GAAP prominence violations. All figures are clearly labeled, and GAAP measures are presented without being overshadowed by non-GAAP metrics. The SEC comment letters referenced pertain to prior non-GAAP adjustments related to inventory and acquisitions, which are not present in this table, thus no violation applies here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_023.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting comprehensive income components, all of which are GAAP measures. There are no non-GAAP metrics shown, thus no prominence or reconciliation violations apply. The table is structured clearly and consistently, with no visual distortions or misleading formatting. The SEC comment letters referenced pertain to non-GAAP adjustments in other filings, which are not present in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting net revenue by region and year, with no Non-GAAP measures shown. Therefore, there is no Non-GAAP prominence violation. The table is clearly labeled and presents GAAP net revenue figures without misleading visual distortions or inappropriate formatting. The SEC comment letters referenced pertain to non-GAAP adjustments for cost of sales and inventory, which are not present in this revenue breakdown table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard financial table presenting net income per share calculations using GAAP measures, with no non-GAAP metrics shown or prominently featured. It includes both basic and diluted EPS, with clear labels and consistent formatting, satisfying SEC requirements for GAAP presentation. There are no chart elements or visual distortions, so no misleader types apply. The table does not violate Non-GAAP prominence rules as no non-GAAP measures are presented.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures such as net revenue, gross profit, and operating expenses, with no non-GAAP measures prominently featured or labeled as such. The table includes GAAP figures for multiple years and clearly shows percentage changes, satisfying the SEC's requirement for comparable GAAP presentation. There are no indications of Non-GAAP prominence violations, truncated axes, or chart-type misrepresentations since it is a table. The SEC\u2019s prior comments relate to specific non-GAAP adjustments for inventory and cost of sales, which are not presented in this table, thus no violation is indicated.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP balance sheet table with no non-GAAP measures presented, thus no Non-GAAP prominence violation exists. All figures are labeled as GAAP, and there are no chart distortions or misleading visual elements since this is a table. The SEC comment letters pertain to prior non-GAAP adjustments for inventory and cost of sales, which are not reflected in this asset/liability table, confirming no violation here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP-based cash flow statement table with no Non-GAAP measures presented, thus avoiding any prominence violation. The table clearly lists all adjustments and reconciliations in a consistent format, and no misleading charting techniques are present since it is a table. The SEC comment letters pertain to prior non-GAAP adjustments for inventory and cost of sales, which are not reflected in this current cash flow statement, making this table compliant with SEC requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table detailing stockholders' equity components over time, with all figures presented in GAAP terms (e.g., 'Net loss', 'Retained Earnings (Accumulated Deficit)', 'Total Stockholders' Equity'). No non-GAAP measures are presented, thus no prominence violation occurs. The table is structured for clarity and comparability, with consistent formatting and labeling, aligning with SEC requirements for GAAP presentation. The SEC comment letters referenced pertain to non-GAAP adjustments in other contexts, which are not present here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LYFT": [
+      {
+        "file": "table_032.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table of financial statement section headings with page numbers, not a chart or financial data presentation. As such, it contains no misleading visual elements or Non-GAAP prominence violations. The SEC comment letter context confirms no violations were found, and this structure is purely navigational and compliant with disclosure requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_017.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard financial table presenting GAAP measures only, with no Non-GAAP metrics shown, thus avoiding any prominence violation. All figures are clearly labeled and presented in a consistent, non-distorted format. No chart elements or visual distortions are present, and the SEC has not flagged any violations for this company.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents a detailed reconciliation of GAAP net income to Non-GAAP Adjusted EBITDA, with clear labeling and inclusion of the GAAP measure at the top. All Non-GAAP items are explicitly labeled and reconciled, and the GAAP measure is presented first and most prominently. No chart is present, so no chart-specific misrepresentation applies. The SEC comment letter context confirms no violations were found, aligning with the compliant presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_030.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard financial table presenting cash flow data in GAAP format, with no misleading visual elements or Non-GAAP prominence violations. All figures are clearly labeled, and no Non-GAAP measures are presented. Since no SEC comment letter violations were found, the presentation complies with SEC Regulation G and Item 10(e) of Regulation S-K.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table clearly separates GAAP and Non-GAAP measures into distinct sections, with GAAP metrics presented first and labeled as such. Non-GAAP measures are clearly labeled and include footnotes, and while they are presented in a separate section, they are not visually or structurally more prominent than GAAP measures. No chart-related misrepresentation is present, as this is a table. The SEC comment letter context confirms no violations were found for this company.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_034.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures consistently across years, with no Non-GAAP metrics shown or labeled. All figures are clearly reconciled within the GAAP framework, and no visual elements suggest misleading presentation. Since no Non-GAAP measures are present, there are no prominence violations under SEC Regulation G, and the table complies with disclosure standards.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_035.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents comprehensive income and its components using GAAP measures only, with no Non-GAAP metrics shown. All figures are clearly labeled and reconciled within the GAAP framework, satisfying SEC Non-GAAP prominence rules. No visual distortions or misleading presentation exist, as this is a standard financial table without charts or graphical elements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_036.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table detailing stockholders' equity components over time, with all figures presented in GAAP terms and properly labeled. No Non-GAAP measures are present, so there is no prominence violation. The table is structured consistently and does not contain any chart-type misrepresentations. The SEC comment letter context confirms no violations were found for this company.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_033.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard GAAP balance sheet table with no Non-GAAP measures presented, thus no prominence violation exists. All figures are clearly labeled and presented in a consistent, comparable format without visual distortion or misleading presentation. The SEC comment letter context confirms no violations were found for this company, aligning with the table\u2019s compliance.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_018.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents financial data in a standard percentage format with no visual distortion or misleading presentation. All figures are clearly labeled as GAAP measures, and no Non-GAAP metrics are shown, thus avoiding prominence violations. The SEC comment letter context confirms no violations were found for this company.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "OGN": [
+      {
+        "file": "table_013.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue data for multiple business units without any Non-GAAP measures, thus avoiding Non-GAAP prominence violations. The SEC comment letters referenced relate to prior presentations of Adjusted EBITDA without GAAP context, which is not applicable here as no Non-GAAP metrics are shown. The table is structured clearly with consistent labeling and no visual distortions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_018.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting balance sheet items with no apparent misleading presentation or Non-GAAP prominence violations. All figures are labeled clearly, and no Non-GAAP measures are presented. The SEC comment letters referenced pertain to Adjusted EBITDA and GAAP comparability, which are not present in this table, so no violation applies here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting revenue data by region and year, with percentage change metrics. It contains no Non-GAAP measures, and thus no Non-GAAP prominence violations. The table is structured clearly with consistent labeling and no visual distortions, making it compliant with SEC guidelines. The SEC comment letters referenced pertain to the presentation of Adjusted EBITDA, which is not present in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue figures for Arcoxia and Vtama, with percentage change metrics. No Non-GAAP measures are displayed, so there is no prominence violation under SEC Regulation G. The table does not contain any chart elements or visual distortions, and all figures are clearly labeled with GAAP context. The SEC comment letter referenced concerns a prior presentation of Adjusted EBITDA without GAAP context, which is not present in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue figures for multiple products, with percentage change metrics. It does not contain any non-GAAP measures, thus avoiding Non-GAAP prominence violations. The SEC comment letters referenced pertain to prior presentations of Adjusted EBITDA without GAAP context, which is not applicable here as this table exclusively shows GAAP revenue data.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_017.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures such as Cost of Sales, Gross Profit, and various expenses with percentage changes, with no Non-GAAP measures shown. Therefore, it does not violate Non-GAAP prominence rules. The SEC comment letters referenced pertain to prior presentations of Adjusted EBITDA without GAAP context, which is not depicted in this table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The chart visually presents total return performance without misleading elements such as truncated axes or inappropriate chart types. It compares multiple indices fairly using a line chart. No Non-GAAP measures are presented, so there is no violation of Non-GAAP prominence rules. The SEC comment letter concerns Non-GAAP measures like Adjusted EBITDA, which are not depicted in this chart.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The chart visually presents total return performance without misleading elements such as truncated axes or 3D distortion. It uses an appropriate line chart for sequential data and clearly labels all series. As it is a performance chart and not a financial table presenting Non-GAAP metrics, it does not violate SEC Non-GAAP prominence rules. The SEC comment letter context pertains to earnings releases discussing Adjusted EBITDA without GAAP net income, which is unrelated to this performance chart.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue figures and percentage changes, with no non-GAAP measures prominently displayed or lacking GAAP reconciliation. It complies with SEC Non-GAAP prominence rules as GAAP measures are presented first and clearly labeled. The SEC Comment Letter context regarding OGN\u2019s Adjusted EBITDA presentation does not apply here, as this table does not feature non-GAAP metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP revenue data for multiple products with percentage change metrics, including both GAAP and non-GAAP adjustments. No Non-GAAP measures are prominently displayed or labeled as such, and no reconciliation is shown. Therefore, it does not violate Non-GAAP prominence rules. The SEC\u2019s prior comments regarding OGN\u2019s Adjusted EBITDA presentation are not relevant here as this table does not feature such metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "STZ": [
+      {
+        "file": "stz-20240229_g4.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents consolidated net sales by product category with percentages that sum to 100% (81.9% + 15.6% + 2.5%), and the visual proportions align with the labeled values. There are no chart distortions or misleading elements. As this is a breakdown of revenue categories, the pie chart is appropriate for part-to-whole comparison. No Non-GAAP measures are presented, so there is no prominence violation or reconciliation requirement under SEC rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g5.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents the proportional breakdown of net sales by product category, with clear labels and no axis truncation or distortion. The percentages sum to 100%, indicating a valid part-to-whole comparison. As this is a breakdown of GAAP-reported net sales, no Non-GAAP prominence violation exists. The SEC comment letters referenced pertain to reconciliation and presentation of Non-GAAP measures, which are not applicable here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g9.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents the distribution of packaging materials without any indication of misleading presentation, such as truncated axes or 3D distortion. Since this is a categorical part-to-whole visualization and not a financial table, it does not violate Non-GAAP prominence rules. The SEC comment letters referenced pertain to financial measure disclosures, not packaging composition charts.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g9.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents regional revenue splits (Mexico 57%, U.S. 38%, Other Non-U.S. 5%) with no indication of non-GAAP measures, thus no Non-GAAP prominence violation applies. The chart type is appropriate for part-to-whole comparison, and no axis distortions or misleading visual elements are present. The SEC comment letters referenced pertain to non-GAAP disclosures and reconciliations, which are not relevant to this purely GAAP revenue breakdown visualization.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g21.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The bar chart visually presents senior notes maturities without any Non-GAAP measures, thus avoiding Non-GAAP prominence violations. The chart uses a standard bar chart type with a y-axis starting at zero, and no visual distortions or misleading elements are present. As the visual contains no non-GAAP metrics, it does not trigger the SEC Comment Letter requirements regarding Non-GAAP prominence or reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g20.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The bar chart presents debt maturities with no indication of Non-GAAP measures, thus no Non-GAAP prominence violation exists. The y-axis is appropriately scaled from 10,500 to 12,000, and bar heights accurately reflect labeled values, with no visual distortion or truncation. The SEC comment letters referenced pertain to Non-GAAP disclosures and reconciliations, which are not applicable here as the chart contains only GAAP financial data.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents the proportional breakdown of consolidated net sales by product category, with clear labeling and no visual distortion. The data is presented as part-to-whole, which is appropriate for a pie chart. There is no indication of Non-GAAP prominence violation as this is a GAAP financial metric (net sales) and no Non-GAAP measures are presented. The SEC comment letters referenced pertain to reconciliation and prominence of Non-GAAP measures, which are not applicable here.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents the proportional breakdown of net sales by product category, with clear labeling and no axis truncation or distortion. The percentages sum to 100.4% (81.9% + 15.6% + 2.5%), which is likely a rounding error and does not constitute a misleading presentation. No Non-GAAP measures are presented, so there is no prominence violation under SEC Regulation G. The visual is appropriate for showing part-to-whole relationships.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g8.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The donut chart visually represents the distribution of packaging materials (glass bottles, aluminum cans, steel kegs) with accurate proportional slices and clear labels, showing no distortion or misleading presentation. As it is a categorical distribution chart, its use is appropriate and does not violate SEC rules on Non-GAAP prominence or chart misrepresentation. The SEC comment letters referenced pertain to financial measure reconciliations and GAAP vs. non-GAAP prominence, which are not applicable to this packaging composition chart.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g22.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The chart is a bar chart showing financial amounts in millions, with consistent axis scaling and no visual distortions. It does not present Non-GAAP measures, so no Non-GAAP prominence violation applies. The SEC comment letters referenced relate to Non-GAAP disclosures and reconciliations, which are not relevant to this chart\u2019s presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "UPS": [
+      {
+        "file": "table_010.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table presenting Non-GAAP adjustments with clear GAAP context and reconciliation. It does not violate Non-GAAP prominence rules as it is not presented more prominently than comparable GAAP measures and includes explicit labels for non-GAAP items. The SEC\u2019s prior comments on UPS focused on insufficient labeling and lack of reconciliation in other filings, but this table meets disclosure standards by clearly identifying adjustments and providing a structured reconciliation format.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a financial table presenting GAAP measures such as Revenue, Operating Expenses, Operating Profit, and Earnings Per Share, with no non-GAAP measures visible. This complies with SEC Non-GAAP prominence rules since no non-GAAP metrics are presented more prominently or without GAAP context. The table also includes change metrics, which are standard comparative disclosures. No chart-related misrepresentation is present as this is a table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents Non-GAAP adjustments but does not appear to violate SEC Non-GAAP prominence rules, as it is clearly labeled as 'Non-GAAP Adjustments' and includes a reconciliation of items to operating expenses. It does not present Non-GAAP measures more prominently than GAAP measures, nor does it omit reconciliation. The SEC has previously criticized UPS for insufficient differentiation of Non-GAAP measures, but this table uses clear headings and does not present Non-GAAP figures first or without context.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays 'Non-GAAP Adjusted Operating Expenses' and 'Non-GAAP Adjusted Operating Profit' without sufficient labeling or reconciliation to GAAP measures, violating SEC Regulation G. The non-GAAP figures are presented in the same row as GAAP counterparts but lack clear distinction, and the table does not provide a reconciliation as required. This is inconsistent with the SEC\u2019s guidance on non-GAAP prominence, which requires GAAP measures to be presented more prominently and clearly labeled as such.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_019.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table presents 'Non-GAAP Adjusted Operating Profit' and 'Non-GAAP Adjusted Operating Margin' prominently, immediately following 'Operating Profit' and 'Operating Margin', without sufficient visual or structural differentiation to indicate they are non-GAAP. This violates SEC Regulation S-K Item 10(e) and the guidance from the 2024-07-26 comment letter, which requires clear labeling and comparable GAAP context. The non-GAAP figures are presented in the same row structure and font size as GAAP measures, creating a prominence violation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays 'Non-GAAP Adjusted Total Operating Expenses' ($80,000) directly below 'Total Operating Expenses' ($80,794), with the non-GAAP figure presented in bold and without sufficient labeling or reconciliation context to distinguish it from the GAAP measure. This violates SEC Regulation S-K Item 10(e) and the guidance in the UPS Comment Letter, which emphasized the need for clear labeling and appropriate prominence of GAAP measures over non-GAAP measures. The non-GAAP measure is presented as if it were the primary or most relevant figure, undermining transparency and comparability.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table detailing Non-GAAP adjustments to Income Tax (Benefit) Expense, which aligns with UPS\u2019s SEC filings where non-GAAP measures are disclosed under Regulation S-K Item 402(v). The table clearly labels all figures as Non-GAAP adjustments and includes a reconciliation to GAAP by showing the total adjustments and their components. While the table presents non-GAAP measures, it does not violate prominence rules as it is presented alongside GAAP context and is not the primary focus without comparable GAAP metrics. The SEC has previously noted that UPS\u2019s non-GAAP measures are labeled with 'adjusted' and that reconciliation is limited, but this table provides sufficient detail to meet disclosure standards.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP prominence violation",
+        "explanation": "The table prominently displays 'Non-GAAP Adjusted Operating Profit' and 'Non-GAAP Adjusted Operating Margin' directly below 'Operating Profit' and 'Operating Margin', without sufficient visual distinction to indicate they are non-GAAP measures. This violates SEC Regulation S-K Item 10(e) and the SEC's guidance on Non-GAAP prominence, as the GAAP measures are not presented as the most directly comparable benchmark. The SEC previously criticized UPS for similar labeling practices, noting that differentiation was limited to using 'adjusted' without clear context or reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_020.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents Non-GAAP adjustments to operating expenses with clear labeling and does not appear to violate Non-GAAP prominence rules, as it is presented as a reconciliation detail rather than a primary performance metric. The SEC has previously commented on UPS\u2019s use of non-GAAP measures like 'Adjusted Operating Profit' and 'adjusted diluted earnings per share,' but this table does not present such measures as primary or more prominently than GAAP equivalents. The structure is consistent with a detailed reconciliation, not a misleading presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents Non-GAAP adjustments to operating expenses with clear labeling and includes a total reconciliation figure, but does not violate prominence rules as it is presented alongside GAAP context and labeled appropriately. The SEC has previously criticized UPS for insufficient differentiation between GAAP and non-GAAP measures, but this table does not exhibit such violations as it explicitly labels items as 'Non-GAAP Adjustments' and provides a total reconciliation without presenting non-GAAP metrics more prominently than GAAP.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "VERI": [
+      {
+        "file": "table_006.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents both GAAP and Non-GAAP gross profit and margin metrics side-by-side with clear labeling and consistent formatting, including a reconciliation via subtraction of stock-based compensation expense. Non-GAAP measures are not presented more prominently than GAAP measures, and the table includes the required GAAP reconciliation. The SEC comment letter context regarding VERI\u2019s non-GAAP margin mix does not indicate a violation in this specific table presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_005.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents a breakdown of items leading to Non-GAAP net income from discontinued operations, with the Non-GAAP figure shown at the bottom. However, it does not violate Non-GAAP prominence rules because GAAP net income from discontinued operations is not explicitly shown for comparison, and no reconciliation is provided. The SEC comment letter context does not directly apply to this table as it concerns non-GAAP gross margin, not net income from discontinued operations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a standard balance sheet table presenting GAAP financial data without any non-GAAP measures, thus avoiding Non-GAAP prominence violations. The table clearly labels all items and presents them in a consistent, comparable format. Since no non-GAAP metrics are shown, there is no violation of SEC Regulation G or Item 10(e) of Regulation S-K regarding prominence or reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided visual is a GAAP financial table showing revenue and operating expenses for 2024 and 2023, with no non-GAAP measures presented. Therefore, there are no Non-GAAP prominence violations. The table is structured consistently and does not contain any chart-related misleading elements. The SEC comment letter references non-GAAP gross margin, but since no non-GAAP metrics appear in this table, the context does not apply to this specific visual.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The table presents operating expenses with clear GAAP labeling and consistent formatting, including all line items and reconciliation to total operating expenses. Non-GAAP measures are not prominently featured, and no non-GAAP metrics are presented, thus avoiding any prominence violation. The SEC context regarding non-GAAP gross margin does not apply here as the table focuses on operating expenses under GAAP.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_004.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The visual is a table presenting non-GAAP net loss metrics alongside GAAP net loss, but no non-GAAP measure is presented more prominently than the GAAP net loss figure. The table includes clear labeling of non-GAAP items and provides sufficient context without violating prominence rules. The SEC context regarding VERI\u2019s non-GAAP gross margin mix does not apply to this table\u2019s structure, which appears compliant with Regulation G.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "The provided visual is a financial table presenting GAAP measures only, with no non-GAAP metrics shown, thus avoiding any prominence violation. The table clearly lists all GAAP items with consistent formatting and no visual distortions, fulfilling SEC disclosure requirements. There is no indication of misleading presentation or non-GAAP prominence issues, as the table does not contain non-GAAP figures at all.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ]
+  }
+}

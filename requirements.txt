@@ -1,2 +1,12 @@
 requests
 tqdm
+datasets
+huggingface_hub
+beautifulsoup4
+openai
+dotenv
+Pillow
+playwright
+scikit-learn
+tenacity
+matplotlib
