@@ -9,3 +9,4 @@ Pillow
 playwright
 scikit-learn
 tenacity
+matplotlib
