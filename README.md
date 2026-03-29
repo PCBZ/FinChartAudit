@@ -12,9 +12,10 @@ pip install -e .
 playwright install
 ```
 
-Create `.env`:
-```
-OPENROUTER_API_KEY=your_key_here
+Copy `.env.example` to `.env` and fill in your values:
+```bash
+cp .env.example .env
+# Then edit .env and replace placeholder values with your actual keys
 ```
 
 ## Usage
