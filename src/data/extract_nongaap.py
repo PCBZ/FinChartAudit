@@ -113,5 +113,10 @@ def process_letters(letters_dir: str = 'data/letters',
     return results
 
 
+def extract_all():
+    """Extract Non-GAAP mentions from all comment letters."""
+    return process_letters()
+
+
 if __name__ == "__main__":
-    process_letters()
+    extract_all()

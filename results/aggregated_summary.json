@@ -1,0 +1,422 @@
+{
+  "rq1_rq2_misviz": [
+    {
+      "label": "Claude | vision_only",
+      "total": 271,
+      "accuracy": 0.771,
+      "precision": 0.782,
+      "recall": 0.883,
+      "f1": 0.83,
+      "tp": 151,
+      "tn": 58,
+      "fp": 42,
+      "fn": 20,
+      "per_misleader_type_f1": {
+        "dual axis": 0.769,
+        "3d": 0.696,
+        "inappropriate use of pie chart": 0.571,
+        "inappropriate use of line chart": 0.424,
+        "truncated axis": 0.388,
+        "inverted axis": 0.348,
+        "misrepresentation": 0.329,
+        "inappropriate item order": 0.222,
+        "inappropriate axis range": 0.154,
+        "inconsistent binning size": 0.095,
+        "inconsistent tick intervals": 0.0,
+        "discretized continuous variable": 0.0,
+        "inappropriate use of area chart": 0.0
+      }
+    },
+    {
+      "label": "Claude | vision_text",
+      "total": 271,
+      "accuracy": 0.779,
+      "precision": 0.832,
+      "recall": 0.813,
+      "f1": 0.822,
+      "tp": 139,
+      "tn": 72,
+      "fp": 28,
+      "fn": 32,
+      "per_misleader_type_f1": {
+        "dual axis": 0.732,
+        "3d": 0.698,
+        "inappropriate use of line chart": 0.529,
+        "inappropriate use of pie chart": 0.526,
+        "truncated axis": 0.5,
+        "misrepresentation": 0.308,
+        "inverted axis": 0.3,
+        "inconsistent binning size": 0.118,
+        "inconsistent tick intervals": 0.111,
+        "inappropriate axis range": 0.111,
+        "discretized continuous variable": 0.0,
+        "inappropriate item order": 0.0
+      }
+    },
+    {
+      "label": "Qwen   | vision_only",
+      "total": 271,
+      "accuracy": 0.672,
+      "precision": 0.773,
+      "recall": 0.678,
+      "f1": 0.723,
+      "tp": 116,
+      "tn": 66,
+      "fp": 34,
+      "fn": 55,
+      "per_misleader_type_f1": {
+        "dual axis": 0.71,
+        "inappropriate use of pie chart": 0.519,
+        "discretized continuous variable": 0.417,
+        "inverted axis": 0.37,
+        "inappropriate axis range": 0.37,
+        "3d": 0.345,
+        "inappropriate use of line chart": 0.196,
+        "truncated axis": 0.19,
+        "inappropriate item order": 0.176,
+        "misrepresentation": 0.1,
+        "inconsistent binning size": 0.071,
+        "inconsistent tick intervals": 0.0,
+        "inappropriate use of bar chart": 0.0,
+        "inappropriate use of choropleth map": 0.0,
+        "inappropriate use of area chart": 0.0,
+        "inappropriate use of dual axis": 0.0
+      }
+    },
+    {
+      "label": "Qwen   | vision_text",
+      "total": 271,
+      "accuracy": 0.664,
+      "precision": 0.845,
+      "recall": 0.573,
+      "f1": 0.683,
+      "tp": 98,
+      "tn": 82,
+      "fp": 18,
+      "fn": 73,
+      "per_misleader_type_f1": {
+        "dual axis": 0.6,
+        "inappropriate use of pie chart": 0.51,
+        "truncated axis": 0.444,
+        "inappropriate axis range": 0.385,
+        "discretized continuous variable": 0.364,
+        "inverted axis": 0.308,
+        "3d": 0.231,
+        "inappropriate item order": 0.222,
+        "inappropriate use of line chart": 0.211,
+        "misrepresentation": 0.1,
+        "inconsistent tick intervals": 0.0,
+        "inconsistent binning size": 0.0,
+        "inappropriate use of bar chart": 0.0,
+        "inconsistent item order": 0.0,
+        "inappropriate use of visual comparison": 0.0
+      }
+    }
+  ],
+  "rq3_sec": [
+    {
+      "label": "Claude | vision_only",
+      "model": "anthropic/claude-haiku-4.5",
+      "condition": "vision_only",
+      "total": 96,
+      "accuracy": 0.375,
+      "precision": 1.0,
+      "recall": 0.375,
+      "f1": 0.545,
+      "tp": 36,
+      "tn": 0,
+      "fp": 0,
+      "fn": 60,
+      "per_ticker": {
+        "BCO": {
+          "total": 10,
+          "flagged": 5,
+          "flag_rate": 0.5,
+          "has_gt_violation": true
+        },
+        "CHPT": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "IRBT": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "KMI": {
+          "total": 9,
+          "flagged": 2,
+          "flag_rate": 0.222,
+          "has_gt_violation": true
+        },
+        "LITE": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "LYFT": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "OGN": {
+          "total": 10,
+          "flagged": 1,
+          "flag_rate": 0.1,
+          "has_gt_violation": true
+        },
+        "STZ": {
+          "total": 10,
+          "flagged": 10,
+          "flag_rate": 1.0,
+          "has_gt_violation": true
+        },
+        "UPS": {
+          "total": 10,
+          "flagged": 8,
+          "flag_rate": 0.8,
+          "has_gt_violation": true
+        },
+        "VERI": {
+          "total": 7,
+          "flagged": 4,
+          "flag_rate": 0.571,
+          "has_gt_violation": true
+        }
+      }
+    },
+    {
+      "label": "Claude | vision_text",
+      "model": "anthropic/claude-haiku-4.5",
+      "condition": "vision_text",
+      "total": 96,
+      "accuracy": 0.396,
+      "precision": 1.0,
+      "recall": 0.396,
+      "f1": 0.567,
+      "tp": 38,
+      "tn": 0,
+      "fp": 0,
+      "fn": 58,
+      "per_ticker": {
+        "BCO": {
+          "total": 10,
+          "flagged": 7,
+          "flag_rate": 0.7,
+          "has_gt_violation": true
+        },
+        "CHPT": {
+          "total": 10,
+          "flagged": 1,
+          "flag_rate": 0.1,
+          "has_gt_violation": true
+        },
+        "IRBT": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "KMI": {
+          "total": 9,
+          "flagged": 2,
+          "flag_rate": 0.222,
+          "has_gt_violation": true
+        },
+        "LITE": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "LYFT": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "OGN": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "STZ": {
+          "total": 10,
+          "flagged": 10,
+          "flag_rate": 1.0,
+          "has_gt_violation": true
+        },
+        "UPS": {
+          "total": 10,
+          "flagged": 9,
+          "flag_rate": 0.9,
+          "has_gt_violation": true
+        },
+        "VERI": {
+          "total": 7,
+          "flagged": 3,
+          "flag_rate": 0.429,
+          "has_gt_violation": true
+        }
+      }
+    },
+    {
+      "label": "Qwen   | vision_only",
+      "model": "qwen/qwen3-vl-8b-instruct",
+      "condition": "vision_only",
+      "total": 96,
+      "accuracy": 0.167,
+      "precision": 1.0,
+      "recall": 0.167,
+      "f1": 0.286,
+      "tp": 16,
+      "tn": 0,
+      "fp": 0,
+      "fn": 80,
+      "per_ticker": {
+        "BCO": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "CHPT": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "IRBT": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "KMI": {
+          "total": 9,
+          "flagged": 1,
+          "flag_rate": 0.111,
+          "has_gt_violation": true
+        },
+        "LITE": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "LYFT": {
+          "total": 10,
+          "flagged": 1,
+          "flag_rate": 0.1,
+          "has_gt_violation": true
+        },
+        "OGN": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "STZ": {
+          "total": 10,
+          "flagged": 9,
+          "flag_rate": 0.9,
+          "has_gt_violation": true
+        },
+        "UPS": {
+          "total": 10,
+          "flagged": 3,
+          "flag_rate": 0.3,
+          "has_gt_violation": true
+        },
+        "VERI": {
+          "total": 7,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        }
+      }
+    },
+    {
+      "label": "Qwen   | vision_text",
+      "model": "qwen/qwen3-vl-8b-instruct",
+      "condition": "vision_text",
+      "total": 96,
+      "accuracy": 0.073,
+      "precision": 1.0,
+      "recall": 0.073,
+      "f1": 0.136,
+      "tp": 7,
+      "tn": 0,
+      "fp": 0,
+      "fn": 89,
+      "per_ticker": {
+        "BCO": {
+          "total": 10,
+          "flagged": 2,
+          "flag_rate": 0.2,
+          "has_gt_violation": true
+        },
+        "CHPT": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "IRBT": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "KMI": {
+          "total": 9,
+          "flagged": 1,
+          "flag_rate": 0.111,
+          "has_gt_violation": true
+        },
+        "LITE": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "LYFT": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "OGN": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "STZ": {
+          "total": 10,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        },
+        "UPS": {
+          "total": 10,
+          "flagged": 4,
+          "flag_rate": 0.4,
+          "has_gt_violation": true
+        },
+        "VERI": {
+          "total": 7,
+          "flagged": 0,
+          "flag_rate": 0.0,
+          "has_gt_violation": true
+        }
+      }
+    }
+  ]
+}

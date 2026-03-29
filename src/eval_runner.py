@@ -2,16 +2,20 @@
 
 import json
 import os
-import time
 import base64
+import threading
 from pathlib import Path
 from io import BytesIO
+from PIL import Image
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from openai import OpenAI
 from huggingface_hub import login
 from datasets import load_dataset
-
 from tqdm import tqdm
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 from prompts import (
     build_vision_only_prompt,
     build_vision_text_prompt,
@@ -23,8 +27,8 @@ from prompts import (
 # ── Model configurations ──────────────────────────────────────────────────────
 
 MODELS = {
-    "claude": "anthropic/claude-sonnet-4-5",
-    "qwen":   "qwen/qwen3-vl-235b-a22b-instruct",
+    "claude": "anthropic/claude-haiku-4.5",
+    "qwen":   "qwen/qwen3-vl-8b-instruct",
 }
 
 CONDITIONS = ("vision_only", "vision_text")
@@ -35,16 +39,23 @@ def _make_client(api_key: str) -> OpenAI:
     return OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
 
 
-def _img_to_b64(img_path: Path) -> tuple[str, str]:
-    """Returns (mime_type, base64_string)."""
-    ext  = img_path.suffix.lower().lstrip(".")
-    mime = "image/png" if ext == "png" else "image/jpeg"
-    b64  = base64.b64encode(img_path.read_bytes()).decode()
-    return mime, b64
+def _img_to_b64(img_path: Path, max_bytes: int = 4 * 1024 * 1024) -> tuple[str, str]:
+    """Returns (mime_type, base64_string), compressing to JPEG if needed."""
+    img = Image.open(img_path)
+    if img.mode in ("CMYK", "RGBA", "P"):
+        img = img.convert("RGB")
+    quality = 85
+    while True:
+        buf = BytesIO()
+        img.save(buf, format="JPEG", quality=quality)
+        if buf.tell() <= max_bytes or quality <= 30:
+            break
+        quality -= 10
+    buf.seek(0)
+    return "image/jpeg", base64.b64encode(buf.read()).decode()
 
 
 def _parse_response(content: str) -> dict:
-    """Extract JSON from model response, handling markdown fences."""
     content = content.strip()
     if content.startswith("```"):
         content = content.split("```")[1]
@@ -58,41 +69,59 @@ def _parse_response(content: str) -> dict:
 
 # ── RQ1 / RQ2: Misviz ────────────────────────────────────────────────────────
 
-def _run_single_misviz(client: OpenAI, model: str, image_url: str,
-                       condition: str, bbox_text: str = "") -> dict:
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
+def _call_misviz_api(client: OpenAI, model: str, image_url: str,
+                     condition: str, bbox_text: str = "") -> str:
+    """Raw API call — raises on error so tenacity can retry."""
     prompt = (
         build_vision_only_prompt() if condition == "vision_only"
         else build_vision_text_prompt(bbox_text)
     )
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": [
+            {"type": "text",      "text": prompt},
+            {"type": "image_url", "image_url": {"url": image_url}},
+        ]}],
+        max_tokens=512,
+        timeout=30,
+    )
+    if not response.choices or response.choices[0].message.content is None:
+        raise ValueError("Empty response")
+    return response.choices[0].message.content
+
+
+def _run_single_misviz(client: OpenAI, model: str, image_url: str,
+                       condition: str, bbox_text: str = "") -> dict:
     try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": [
-                {"type": "text",      "text": prompt},
-                {"type": "image_url", "image_url": {"url": image_url}},
-            ]}],
-            max_tokens=512,
-        )
-        if not response.choices:
-            return {"misleading": None, "misleader_types": [], "explanation": "Empty response", "api_error": True}
-        raw = response.choices[0].message.content
-        if raw is None:
-            return {"misleading": None, "misleader_types": [], "explanation": "Null content", "api_error": True}
+        raw = _call_misviz_api(client, model, image_url, condition, bbox_text)
         return _parse_response(raw)
     except Exception as e:
         return {"misleading": None, "misleader_types": [], "explanation": str(e), "api_error": True}
 
 
-def evaluate(api_key: str, model_key: str, condition: str, n_samples: int = None) -> list[dict]:
-    """
-    Run RQ1/RQ2 evaluation on Misviz dataset.
+def _stratified_sample(dataset, n_per_type: int = 15, n_clean: int = 100) -> list:
+    """Stratified sample: n_per_type per misleader type + n_clean clean samples."""
+    type_buckets = defaultdict(list)
+    clean_bucket = []
+    for i, item in enumerate(dataset):
+        misleaders = item.get("misleader", [])
+        if not misleaders:
+            clean_bucket.append(i)
+        else:
+            for t in misleaders:
+                type_buckets[t].append(i)
+    selected = set()
+    for t, indices in type_buckets.items():
+        selected.update(indices[:n_per_type])
+    selected.update(clean_bucket[:n_clean])
+    return sorted(selected)
 
-    Args:
-        api_key:    OpenRouter API key
-        model_key:  'claude' or 'qwen'
-        condition:  'vision_only' or 'vision_text'
-        n_samples:  number of samples (None = full 2604)
-    """
+
+def evaluate(api_key: str, model_key: str, condition: str,
+             n_samples: int = None, n_per_type: int = 15, n_clean: int = 100,
+             workers: int = 8) -> list[dict]:
+    """Run RQ1/RQ2 evaluation on Misviz dataset."""
     assert model_key in MODELS,    f"model_key must be one of {list(MODELS)}"
     assert condition in CONDITIONS, f"condition must be one of {CONDITIONS}"
 
@@ -100,27 +129,45 @@ def evaluate(api_key: str, model_key: str, condition: str, n_samples: int = None
     client = _make_client(api_key)
 
     login(token=os.environ["HUGGING_FACE_HUB_TOKEN"])
-    dataset = load_dataset("UKPLab/misviz", split="train")
+    ds      = load_dataset("UKPLab/misviz")
+    dataset = ds["test"]
+    print(f"Dataset size: {len(dataset)}")
+
     if n_samples:
         dataset = dataset.select(range(min(n_samples, len(dataset))))
+    else:
+        indices = _stratified_sample(dataset, n_per_type=n_per_type, n_clean=n_clean)
+        dataset = dataset.select(indices)
+        print(f"Stratified sample: {len(dataset)} samples")
 
-    results = []
+    results        = []
     correct, total = 0, 0
+    lock           = threading.Lock()
 
     print(f"Model: {model} | Condition: {condition} | Samples: {len(dataset)}")
 
-    for i, item in enumerate(tqdm(dataset, desc=f"{model_key}/{condition}", unit="sample")):
+    def process_item(args):
+        i, item   = args
         bboxes    = item.get("bbox", [])
         bbox_text = build_bbox_text(bboxes)
 
-        buf = BytesIO()
-        item["image"].save(buf, format="PNG")
-        img_b64 = base64.b64encode(buf.getvalue()).decode()
+        img = item["image"]
+        if img.mode in ("CMYK", "RGBA", "P"):
+            img = img.convert("RGB")
+        quality = 85
+        while True:
+            buf = BytesIO()
+            img.save(buf, format="JPEG", quality=quality)
+            if buf.tell() <= 4 * 1024 * 1024 or quality <= 30:
+                break
+            quality -= 10
+        buf.seek(0)
+        img_b64 = base64.b64encode(buf.read()).decode()
 
         pred = _run_single_misviz(
             client=client,
             model=model,
-            image_url=f"data:image/png;base64,{img_b64}",
+            image_url=f"data:image/jpeg;base64,{img_b64}",
             condition=condition,
             bbox_text=bbox_text,
         )
@@ -131,11 +178,7 @@ def evaluate(api_key: str, model_key: str, condition: str, n_samples: int = None
         pred_binary    = pred.get("misleading", False)
         binary_correct = (gt_binary == pred_binary)
 
-        if binary_correct:
-            correct += 1
-        total += 1
-
-        results.append({
+        return {
             "id":                   i,
             "gt_misleaders":        list(gt_labels),
             "chart_type":           item.get("chart_type", []),
@@ -147,12 +190,32 @@ def evaluate(api_key: str, model_key: str, condition: str, n_samples: int = None
             "type_match":           (gt_labels == pred_labels),
             "parse_error":          pred.get("parse_error", False),
             "api_error":            pred.get("api_error", False),
-        })
+        }
 
-        if (i + 1) % 50 == 0:
-            print(f"  [{i+1}/{len(dataset)}] binary acc so far: {correct/total:.3f}")
+    pbar = tqdm(total=len(dataset), desc=f"{model_key}/{condition}", unit="sample")
 
-        time.sleep(1.0)
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {executor.submit(process_item, (i, item)): i
+                   for i, item in enumerate(dataset)}
+        for future in as_completed(futures):
+            try:
+                result = future.result(timeout=60)
+            except Exception as e:
+                print(f"\n[TIMEOUT/ERROR] {e}")
+                result = None
+            with lock:
+                if result is None:
+                    pbar.update(1)
+                    continue
+                results.append(result)
+                if result["binary_correct"]:
+                    correct += 1
+                total += 1
+                pbar.update(1)
+                pbar.set_postfix({"acc": f"{correct/total:.3f}"})
+
+    pbar.close()
+    results.sort(key=lambda x: x["id"])
 
     out = Path("results")
     out.mkdir(parents=True, exist_ok=True)
@@ -183,13 +246,10 @@ SKIP_KEYWORDS = [
     '_g1',
 ]
 
-# SEC 10-K stock performance comparison charts (cumulative return graphs)
-# conventionally named _g2 — no Non-GAAP violation value, skip to save tokens
 STOCK_RETURN_PATTERNS = ['_g2.']
 
 
 def _is_financial_visual(item: dict) -> bool:
-    """Keyword-based pre-filter: remove logos, headshots, product images, stock return charts."""
     alt   = item.get("alt", "").lower()
     fname = item.get("filename", "").lower()
     if any(kw in alt or kw in fname for kw in SKIP_KEYWORDS):
@@ -199,8 +259,26 @@ def _is_financial_visual(item: dict) -> bool:
     return True
 
 
-def _is_financial_chart_by_vlm(client: OpenAI, model: str, img_path: Path) -> bool:
-    """VLM pre-screen: confirm image is a financial chart/table."""
+def _load_prescreen_cache() -> dict:
+    cache_path = Path("data/prescreen_cache.json")
+    if cache_path.exists():
+        return json.loads(cache_path.read_text())
+    return {}
+
+
+def _save_prescreen_cache(cache: dict):
+    cache_path = Path("data/prescreen_cache.json")
+    cache_path.parent.mkdir(exist_ok=True)
+    with open(cache_path, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
+def _is_financial_chart_by_vlm(client: OpenAI, model: str, img_path: Path,
+                                cache: dict) -> bool:
+    cache_key = str(img_path)
+    if cache_key in cache:
+        return cache[cache_key]
+
     mime, b64 = _img_to_b64(img_path)
     prompt = (
         "Is this image a financial chart or table (e.g., bar chart, line chart, "
@@ -216,18 +294,18 @@ def _is_financial_chart_by_vlm(client: OpenAI, model: str, img_path: Path) -> bo
                 {"type": "text",      "text": prompt},
                 {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
             ]}],
-            max_tokens=16,  # slightly more room for Qwen
+            max_tokens=16,
         )
-        raw = response.choices[0].message.content or ""
-        print(f"  [pre-screen] {img_path.name} → '{raw.strip()}'")
-        return "YES" in raw.strip().upper()
+        raw    = response.choices[0].message.content or ""
+        result = "YES" in raw.strip().upper()
+        cache[cache_key] = result
+        return result
     except Exception as e:
         print(f"  [pre-screen] ERROR: {e}")
         return False
 
 
 def _build_sec_context(ticker: str, ground_truth: dict) -> str:
-    """Build SEC comment letter context string for a ticker."""
     entries = ground_truth.get(ticker, [])
     uploads = [e for e in entries if e["form"] == "UPLOAD"]
     if not uploads:
@@ -240,25 +318,28 @@ def _build_sec_context(ticker: str, ground_truth: dict) -> str:
     return "\n".join(lines)
 
 
-def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str) -> dict:
-    """Run VLM on a single SEC chart with optional context."""
-    prompt     = build_rq3_prompt(sec_context)
-    mime, b64  = _img_to_b64(img_path)
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": [
-                {"type": "text",      "text": prompt},
-                {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-            ]}],
-            max_tokens=512,
-        )
-        if not response.choices:
-            return {"misleading": None, "sec_violation": None, "explanation": "Empty response", "api_error": True}
-        raw = response.choices[0].message.content
-        if raw is None:
-            return {"misleading": None, "sec_violation": None, "explanation": "Null content", "api_error": True}
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
+def _call_sec_api(client: OpenAI, model: str, img_path: Path, sec_context: str) -> str:
+    """Raw API call — raises on error so tenacity can retry."""
+    prompt    = build_rq3_prompt(sec_context)
+    mime, b64 = _img_to_b64(img_path)
+    response  = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": [
+            {"type": "text",      "text": prompt},
+            {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
+        ]}],
+        max_tokens=512,
+        timeout=30,
+    )
+    if not response.choices or response.choices[0].message.content is None:
+        raise ValueError("Empty response")
+    return response.choices[0].message.content
 
+
+def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str) -> dict:
+    try:
+        raw = _call_sec_api(client, model, img_path, sec_context)
         content = raw.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
@@ -268,29 +349,20 @@ def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str
             return json.loads(content)
         except json.JSONDecodeError:
             return {"misleading": None, "sec_violation": None, "explanation": content, "parse_error": True}
-
     except Exception as e:
         return {"misleading": None, "sec_violation": None, "explanation": str(e), "api_error": True}
 
 
 def evaluate_sec(api_key: str, model_key: str = "claude",
-                 condition: str = "vision_text", max_per_ticker: int = None):
-    """
-    Run RQ3 evaluation on SEC 10-K visual presentations.
-    Merges charts + tables manifests per ticker.
-
-    Args:
-        api_key:    OpenRouter API key
-        model_key:  'claude' or 'qwen'
-        condition:  'vision_text' or 'vision_only'
-    """
+                 condition: str = "vision_text", max_per_ticker: int = 10,
+                 workers: int = 8):
+    """Run RQ3 evaluation on SEC 10-K visual presentations."""
     assert model_key in MODELS,    f"model_key must be one of {list(MODELS)}"
     assert condition in CONDITIONS, f"condition must be one of {CONDITIONS}"
 
     model  = MODELS[model_key]
     client = _make_client(api_key)
 
-    # merge charts + tables manifests
     manifest = {}
     for visual_type in ("charts", "tables"):
         manifest_path = Path(f"data/{visual_type}/manifest.json")
@@ -300,29 +372,34 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         for ticker, items in json.loads(manifest_path.read_text()).items():
             manifest.setdefault(ticker, [])
             for item in items:
-                item["visual_type"] = visual_type  # tag source
+                item["visual_type"] = visual_type
                 manifest[ticker].append(item)
 
-    ground_truth = json.loads(Path("data/ground_truth.json").read_text())
+    ground_truth    = json.loads(Path("data/ground_truth.json").read_text())
+    prescreen_cache = _load_prescreen_cache()
 
-    results = {}
-    total, flagged = 0, 0
+    results    = {}
+    total      = 0
+    flagged    = 0
+    lock       = threading.Lock()
+    cache_lock = threading.Lock()
 
-    # count total filtered items upfront for progress bar
     all_items = [
         (ticker, item)
         for ticker, items in manifest.items()
-        if items
+        if items and ground_truth.get(ticker)  # only GT tickers
         for item in items
         if _is_financial_visual(item)
     ]
     if max_per_ticker:
         from itertools import groupby
         all_items = [
-            item for ticker, items in
-            {t: [x for _, x in grp][:max_per_ticker]
-             for t, grp in groupby(all_items, key=lambda x: x[0])}.items()
-            for item in [(ticker, i) for i in items]
+            (ticker, item)
+            for ticker, grp in {
+                t: [x for _, x in g][:max_per_ticker]
+                for t, g in groupby(all_items, key=lambda x: x[0])
+            }.items()
+            for item in grp
         ]
 
     pbar = tqdm(total=len(all_items), desc=f"{model_key}/{condition}", unit="img")
@@ -331,12 +408,12 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         if not items:
             continue
 
-        sec_context = (
-            _build_sec_context(ticker, ground_truth)
-            if condition == "vision_text"
-            else ""
-        )
-        has_gt      = bool(ground_truth.get(ticker))
+        has_gt = bool(ground_truth.get(ticker))
+        if not has_gt:
+            print(f"  ⏭ {ticker}: no GT violations, skipping")
+            continue
+
+        sec_context     = _build_sec_context(ticker, ground_truth) if condition == "vision_text" else ""
         results[ticker] = []
 
         items_filtered = [item for item in items if _is_financial_visual(item)]
@@ -351,25 +428,28 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         print(f"\n{'='*50}")
         print(f"{ticker} | charts={n_charts} tables={n_tables} | condition: {condition} | GT: {has_gt}")
 
-        for item in tqdm(items_filtered, desc=f"{ticker}", unit="img", leave=False):
+        def process_item(item):
             img_path = Path(item["path"])
             if not img_path.exists():
-                print(f"  ✗ Image not found: {img_path}")
-                continue
+                return None
 
-            if not _is_financial_chart_by_vlm(client, model, img_path):
-                print(f"  ⏭ Skipped (not financial): {img_path.name}")
+            with cache_lock:
+                cached = prescreen_cache.get(str(img_path))
+            if cached is None:
+                result = _is_financial_chart_by_vlm(client, model, img_path, prescreen_cache)
+                with cache_lock:
+                    prescreen_cache[str(img_path)] = result
+            else:
+                result = cached
+
+            if not result:
                 pbar.update(1)
-                continue
+                return None
 
-            pred = _run_single_sec(client, model, img_path, sec_context)
-
+            pred       = _run_single_sec(client, model, img_path, sec_context)
             is_flagged = bool(pred.get("misleading") or pred.get("sec_violation"))
-            if is_flagged:
-                flagged += 1
-            total += 1
 
-            results[ticker].append({
+            return {
                 "file":             item.get("filename") or item.get("alt", ""),
                 "date":             item.get("date", ""),
                 "pred_misleading":  pred.get("misleading"),
@@ -378,15 +458,32 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
                 "has_gt_violation": has_gt,
                 "parse_error":      pred.get("parse_error", False),
                 "api_error":        pred.get("api_error", False),
-            })
+                "is_flagged":       is_flagged,
+            }
 
-            pbar.set_postfix({"flagged": flagged, "total": total})
-            pbar.update(1)
-            print(f"  {'🚩' if is_flagged else '✓'} {item.get('filename', '')} "
-                  f"→ {pred.get('sec_violation', 'None')}")
-            time.sleep(1.0)
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = [executor.submit(process_item, item) for item in items_filtered]
+            for future in as_completed(futures):
+                try:
+                    res = future.result(timeout=60)
+                except Exception as e:
+                    print(f"\n[TIMEOUT/ERROR] {e}")
+                    pbar.update(1)
+                    continue
+                pbar.update(1)
+                if res is None:
+                    continue
+                with lock:
+                    if res["is_flagged"]:
+                        flagged += 1
+                    total += 1
+                    pbar.set_postfix({"flagged": flagged, "total": total})
+                    results[ticker].append({k: v for k, v in res.items() if k != "is_flagged"})
+                    print(f"  {'🚩' if res['is_flagged'] else '✓'} {res['file']} "
+                          f"→ {res['pred_violation'] or 'None'}")
 
     pbar.close()
+    _save_prescreen_cache(prescreen_cache)
 
     out_dir = Path("results")
     out_dir.mkdir(exist_ok=True)

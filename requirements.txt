@@ -7,3 +7,5 @@ openai
 dotenv
 Pillow
 playwright
+scikit-learn
+tenacity
