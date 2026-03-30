@@ -1,5 +1,4 @@
 requests
-tqdm
 datasets
 huggingface_hub
 beautifulsoup4
@@ -10,3 +9,4 @@ playwright
 scikit-learn
 tenacity
 matplotlib
+tqdm

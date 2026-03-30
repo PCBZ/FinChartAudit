@@ -3,14 +3,10 @@
 import requests
 import json
 from pathlib import Path
-from typing import List, Dict
-import time
 
 
 class SECDownloader:
     """Download SEC filings and comment letters."""
-
-    SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
 
     COMPANIES = {
         'TSLA': '0001318605',
@@ -28,22 +24,29 @@ class SECDownloader:
         'LITE': '0001633978',
     }
 
-    def __init__(self, output_dir: str = 'data/sec'):
+    def __init__(
+        self,
+        output_dir: str = 'data/sec',
+        submissions_url: str = 'https://data.sec.gov/submissions/CIK{cik}.json',
+        archives_url: str = 'https://www.sec.gov/Archives/edgar/data',
+        user_agent: str = 'FinChartAudit your_email@northeastern.edu',
+    ):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.submissions_url = submissions_url
+        self.archives_url = archives_url
         self.headers = {
-            'User-Agent': 'FinChartAudit your_email@northeastern.edu',
+            'User-Agent': user_agent,
             'Accept-Encoding': 'gzip, deflate',
         }
 
-    def get_filings(self, cik: str, filing_type: str = '10-K', count: int = 10) -> List[Dict]:
+    def get_filings(self, cik: str, filing_type: str = '10-K', count: int = 10) -> list[dict]:
         """Get list of SEC filings using the EDGAR submissions REST API."""
         cik_padded = cik.zfill(10)
-        url = self.SUBMISSIONS_URL.format(cik=cik_padded)
+        url = self.submissions_url.format(cik=cik_padded)
 
         try:
-            time.sleep(0.5)
-            resp = requests.get(url, headers=self.headers, timeout=15)
+            resp = requests.get(url, headers=self.headers)
             resp.raise_for_status()
             data = resp.json()
 
@@ -72,14 +75,13 @@ class SECDownloader:
             return []
 
     def get_comments(self, cik: str, count: int = 10,
-                     start: str = '2023-01-01', end: str = '2024-12-31') -> List[Dict]:
+                     start: str = '2023-01-01', end: str = '2024-12-31') -> list[dict]:
         """Get comment letters via submissions API."""
         cik_padded = cik.zfill(10)
-        url = self.SUBMISSIONS_URL.format(cik=cik_padded)
+        url = self.submissions_url.format(cik=cik_padded)
 
         try:
-            time.sleep(0.5)
-            resp = requests.get(url, headers=self.headers, timeout=15)
+            resp = requests.get(url, headers=self.headers)
             resp.raise_for_status()
 
             recent     = resp.json().get('filings', {}).get('recent', {})
@@ -148,10 +150,9 @@ class SECDownloader:
         """Download the PDF content of a specific filing or comment letter."""
         cik = self.COMPANIES[ticker].lstrip('0')
         acc_no_dashes = accession.replace('-', '')
-        url = f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc_no_dashes}/{primary_doc}"
+        url = f"{self.archives_url}/{cik}/{acc_no_dashes}/{primary_doc}"
         try:
-            time.sleep(0.5)
-            resp = requests.get(url, headers=self.headers, timeout=15)
+            resp = requests.get(url, headers=self.headers)
             resp.raise_for_status()
             return resp.content
         except Exception as e:
@@ -159,8 +160,27 @@ class SECDownloader:
             return b""
 
 
-def main():
-    downloader = SECDownloader()
+def download_sec_filings(submissions_url: str = None, archives_url: str = None, user_agent: str = None):
+    """Download SEC filings and PDFs.
+    
+    Args:
+        submissions_url: URL template for SEC submissions API (with {cik} placeholder)
+        archives_url: Base URL for SEC Archives
+        user_agent: User agent string for HTTP requests
+    """
+    # Use module defaults if not provided
+    if submissions_url is None:
+        submissions_url = 'https://data.sec.gov/submissions/CIK{cik}.json'
+    if archives_url is None:
+        archives_url = 'https://www.sec.gov/Archives/edgar/data'
+    if user_agent is None:
+        user_agent = 'FinChartAudit your_email@northeastern.edu'
+    
+    downloader = SECDownloader(
+        submissions_url=submissions_url,
+        archives_url=archives_url,
+        user_agent=user_agent,
+    )
     for ticker in SECDownloader.COMPANIES:
         downloader.download_company_data(ticker, max_10k=3, max_comments=10)
     
@@ -185,6 +205,11 @@ def main():
             if content:
                 out_path.write_bytes(content)
                 print(f"  ✓ {ticker} {date} → {out_path.name} ({len(content)//1024} KB)")
+
+
+def main(submissions_url: str = None, archives_url: str = None, user_agent: str = None):
+    """Backward compatible wrapper for download_sec_filings()."""
+    download_sec_filings(submissions_url, archives_url, user_agent)
 
 
 if __name__ == "__main__":

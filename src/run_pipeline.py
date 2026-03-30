@@ -22,11 +22,16 @@ load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 api_key = os.environ["OPENROUTER_API_KEY"]
 
 from src.eval_runner import evaluate, evaluate_sec
+from src.config import (
+    DEFAULT_MODELS, DEFAULT_CONDITIONS,
+    DEFAULT_USER_AGENT,
+    DEFAULT_SEC_SUBMISSIONS_URL, DEFAULT_SEC_ARCHIVES_URL,
+)
 from src.data.extract_charts import extract_all as extract_charts
 from src.data.extract_tables import extract_all as extract_tables
 from src.data.extract_nongaap import extract_all as extract_nongaap
-from src.data.download_sec_data import main as download_sec_data
-from src.data.download_letter_text import download_all_letters
+from src.data.download_sec_data import download_sec_filings
+from src.data.download_letter_text import LetterDownloader
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -63,14 +68,22 @@ def prepare_data():
     missing = _missing_tickers("data/sec")
     if missing:
         print(f"\n[SEC] Missing {len(missing)} tickers: {missing}")
-        download_sec_data()
+        download_sec_filings(
+            submissions_url=DEFAULT_SEC_SUBMISSIONS_URL,
+            archives_url=DEFAULT_SEC_ARCHIVES_URL,
+            user_agent=DEFAULT_USER_AGENT,
+        )
     else:
         print("\n[SEC] All tickers found, skipping download")
 
     missing = _missing_letter_tickers()
     if missing:
         print(f"\n[Letters] Missing {len(missing)} tickers: {missing}")
-        download_all_letters()
+        downloader = LetterDownloader(
+            sec_base_url=DEFAULT_SEC_ARCHIVES_URL,
+            user_agent=DEFAULT_USER_AGENT,
+        )
+        downloader.download_all_letters(sec_dir='data/sec', letters_dir='data/letters')
     else:
         print("\n[Letters] All tickers found, skipping download")
 
@@ -123,8 +136,8 @@ def _is_valid_result(path: Path, error_threshold: float = 0.1) -> bool:
 
 
 def run_all_experiments(workers: int, sample: int = None):
-    for model_key in ("claude", "qwen"):
-        for condition in ("vision_only", "vision_text"):
+    for model_key in DEFAULT_MODELS.keys():
+        for condition in DEFAULT_CONDITIONS:
 
             print(f"\n{'#'*60}")
             print(f"  [Misviz] {model_key.upper()} | {condition}")

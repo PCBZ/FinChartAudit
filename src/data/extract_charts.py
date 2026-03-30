@@ -6,12 +6,9 @@ import requests
 import json
 from pathlib import Path
 from bs4 import BeautifulSoup
-import time
 from PIL import Image
 
 
-HEADERS = {'User-Agent': 'FinChartAudit your_email@northeastern.edu'}
-BASE_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc_nodash}/{filename}"
 
 # minimum size to be considered a chart (not a logo/icon)
 MIN_WIDTH  = 200
@@ -62,12 +59,15 @@ def extract_charts_from_htm(
     cik: str,
     acc_nodash: str,
     out_dir: Path,
+    base_url: str = 'https://www.sec.gov/Archives/edgar/data/{cik}/{acc_nodash}/{filename}',
+    user_agent: str = 'FinChartAudit your_email@northeastern.edu',
 ) -> list[dict]:
     """
     Parse a 10-K HTM file, find chart images, download and save them.
 
     Returns list of dicts with chart metadata.
     """
+    headers = {'User-Agent': user_agent}
     out_dir.mkdir(parents=True, exist_ok=True)
     content = htm_path.read_text(errors='ignore')
     soup    = BeautifulSoup(content, 'html.parser')
@@ -82,15 +82,14 @@ def extract_charts_from_htm(
         alt      = img.get('alt', '')
         filename = Path(src).name
 
-        url = BASE_URL.format(cik=cik, acc_nodash=acc_nodash, filename=filename)
+        url = base_url.format(cik=cik, acc_nodash=acc_nodash, filename=filename)
         out_path = out_dir / filename
 
         if out_path.exists():
             print(f"  ✓ Already exists: {filename}")
         else:
             try:
-                time.sleep(0.5)
-                resp = requests.get(url, headers=HEADERS, timeout=15)
+                resp = requests.get(url, headers=headers)
                 resp.raise_for_status()
                 out_path.write_bytes(resp.content)
                 print(f"  ✓ Downloaded: {filename} ({len(resp.content)//1024} KB)")
@@ -116,6 +115,8 @@ def extract_all(
     sec_dir:  str = 'data/sec',
     pdfs_dir: str = 'data/pdfs',
     out_dir:  str = 'data/charts',
+    base_url: str = 'https://www.sec.gov/Archives/edgar/data/{cik}/{acc_nodash}/{filename}',
+    user_agent: str = 'FinChartAudit your_email@northeastern.edu',
 ):
     """Extract charts from all downloaded 10-K HTM files."""
     all_charts = {}
@@ -146,6 +147,8 @@ def extract_all(
                 cik=cik,
                 acc_nodash=acc_nodash,
                 out_dir=chart_out,
+                base_url=base_url,
+                user_agent=user_agent,
             )
             print(f"  → {len(charts)} chart(s) found")
 

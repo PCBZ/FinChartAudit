@@ -21,22 +21,13 @@ from prompts import (
     build_vision_text_prompt,
     build_bbox_text,
     build_rq3_prompt,
-    MISLEADER_TYPES,
 )
-
-# ── Model configurations ──────────────────────────────────────────────────────
-
-MODELS = {
-    "claude": "anthropic/claude-haiku-4.5",
-    "qwen":   "qwen/qwen3-vl-8b-instruct",
-}
-
-CONDITIONS = ("vision_only", "vision_text")
+from config import DEFAULT_MODELS, DEFAULT_CONDITIONS, DEFAULT_API_BASE_URL
 
 # ── Shared helpers ────────────────────────────────────────────────────────────
 
-def _make_client(api_key: str) -> OpenAI:
-    return OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
+def _make_client(api_key: str, api_base_url: str = DEFAULT_API_BASE_URL) -> OpenAI:
+    return OpenAI(api_key=api_key, base_url=api_base_url)
 
 
 def _img_to_b64(img_path: Path, max_bytes: int = 4 * 1024 * 1024) -> tuple[str, str]:
@@ -84,7 +75,6 @@ def _call_misviz_api(client: OpenAI, model: str, image_url: str,
             {"type": "image_url", "image_url": {"url": image_url}},
         ]}],
         max_tokens=512,
-        timeout=30,
     )
     if not response.choices or response.choices[0].message.content is None:
         raise ValueError("Empty response")
@@ -120,13 +110,17 @@ def _stratified_sample(dataset, n_per_type: int = 15, n_clean: int = 100) -> lis
 
 def evaluate(api_key: str, model_key: str, condition: str,
              n_samples: int = None, n_per_type: int = 15, n_clean: int = 100,
-             workers: int = 8) -> list[dict]:
+             workers: int = 8, models: dict = None, conditions: tuple = None,
+             api_base_url: str = DEFAULT_API_BASE_URL) -> list[dict]:
     """Run RQ1/RQ2 evaluation on Misviz dataset."""
-    assert model_key in MODELS,    f"model_key must be one of {list(MODELS)}"
-    assert condition in CONDITIONS, f"condition must be one of {CONDITIONS}"
+    models = models or DEFAULT_MODELS
+    conditions = conditions or DEFAULT_CONDITIONS
+    
+    assert model_key in models,    f"model_key must be one of {list(models)}"
+    assert condition in conditions, f"condition must be one of {conditions}"
 
-    model  = MODELS[model_key]
-    client = _make_client(api_key)
+    model  = models[model_key]
+    client = _make_client(api_key, api_base_url)
 
     login(token=os.environ["HUGGING_FACE_HUB_TOKEN"])
     ds      = load_dataset("UKPLab/misviz")
@@ -249,12 +243,15 @@ SKIP_KEYWORDS = [
 STOCK_RETURN_PATTERNS = ['_g2.']
 
 
-def _is_financial_visual(item: dict) -> bool:
+def _is_financial_visual(item: dict, skip_keywords: list = None, stock_patterns: list = None) -> bool:
+    skip_keywords = skip_keywords or SKIP_KEYWORDS
+    stock_patterns = stock_patterns or STOCK_RETURN_PATTERNS
+    
     alt   = item.get("alt", "").lower()
     fname = item.get("filename", "").lower()
-    if any(kw in alt or kw in fname for kw in SKIP_KEYWORDS):
+    if any(kw in alt or kw in fname for kw in skip_keywords):
         return False
-    if any(p in fname for p in STOCK_RETURN_PATTERNS):
+    if any(p in fname for p in stock_patterns):
         return False
     return True
 
@@ -330,7 +327,6 @@ def _call_sec_api(client: OpenAI, model: str, img_path: Path, sec_context: str) 
             {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
         ]}],
         max_tokens=512,
-        timeout=30,
     )
     if not response.choices or response.choices[0].message.content is None:
         raise ValueError("Empty response")
@@ -355,13 +351,20 @@ def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str
 
 def evaluate_sec(api_key: str, model_key: str = "claude",
                  condition: str = "vision_text", max_per_ticker: int = 10,
-                 workers: int = 8):
+                 workers: int = 8, models: dict = None, conditions: tuple = None,
+                 api_base_url: str = DEFAULT_API_BASE_URL,
+                 skip_keywords: list = None, stock_patterns: list = None):
     """Run RQ3 evaluation on SEC 10-K visual presentations."""
-    assert model_key in MODELS,    f"model_key must be one of {list(MODELS)}"
-    assert condition in CONDITIONS, f"condition must be one of {CONDITIONS}"
+    models = models or DEFAULT_MODELS
+    conditions = conditions or DEFAULT_CONDITIONS
+    skip_keywords = skip_keywords or SKIP_KEYWORDS
+    stock_patterns = stock_patterns or STOCK_RETURN_PATTERNS
+    
+    assert model_key in models,    f"model_key must be one of {list(models)}"
+    assert condition in conditions, f"condition must be one of {conditions}"
 
-    model  = MODELS[model_key]
-    client = _make_client(api_key)
+    model  = models[model_key]
+    client = _make_client(api_key, api_base_url)
 
     manifest = {}
     for visual_type in ("charts", "tables"):
@@ -389,7 +392,7 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         for ticker, items in manifest.items()
         if items and ground_truth.get(ticker)  # only GT tickers
         for item in items
-        if _is_financial_visual(item)
+        if _is_financial_visual(item, skip_keywords, stock_patterns)
     ]
     if max_per_ticker:
         from itertools import groupby
@@ -416,7 +419,7 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         sec_context     = _build_sec_context(ticker, ground_truth) if condition == "vision_text" else ""
         results[ticker] = []
 
-        items_filtered = [item for item in items if _is_financial_visual(item)]
+        items_filtered = [item for item in items if _is_financial_visual(item, skip_keywords, stock_patterns)]
         if max_per_ticker:
             items_filtered = items_filtered[:max_per_ticker]
         if not items_filtered:
