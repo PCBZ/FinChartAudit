@@ -103,9 +103,23 @@ class LetterDownloader:
 
 
 def download_all_letters(sec_dir: str = 'data/sec',
-                         letters_dir: str = 'data/letters'):
-    """Convenience function for backward compatibility."""
-    downloader = LetterDownloader()
+                         letters_dir: str = 'data/letters',
+                         sec_base_url: str = None,
+                         user_agent: str = None):
+    """Download comment letters from SEC filings.
+    
+    Args:
+        sec_dir: Directory containing SEC metadata
+        letters_dir: Output directory for downloaded letters
+        sec_base_url: Base URL for SEC Archives
+        user_agent: User agent string for HTTP requests
+    """
+    if sec_base_url is None:
+        sec_base_url = 'https://www.sec.gov/Archives/edgar/data'
+    if user_agent is None:
+        user_agent = 'FinChartAudit your_email@northeastern.edu'
+    
+    downloader = LetterDownloader(sec_base_url=sec_base_url, user_agent=user_agent)
     downloader.download_all_letters(sec_dir, letters_dir)
 
 
