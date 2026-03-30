@@ -22,6 +22,7 @@ load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 api_key = os.environ["OPENROUTER_API_KEY"]
 
 from src.eval_runner import evaluate, evaluate_sec
+from src.config import DEFAULT_MODELS, DEFAULT_CONDITIONS
 from src.data.extract_charts import extract_all as extract_charts
 from src.data.extract_tables import extract_all as extract_tables
 from src.data.extract_nongaap import extract_all as extract_nongaap
@@ -123,8 +124,8 @@ def _is_valid_result(path: Path, error_threshold: float = 0.1) -> bool:
 
 
 def run_all_experiments(workers: int, sample: int = None):
-    for model_key in ("claude", "qwen"):
-        for condition in ("vision_only", "vision_text"):
+    for model_key in DEFAULT_MODELS.keys():
+        for condition in DEFAULT_CONDITIONS:
 
             print(f"\n{'#'*60}")
             print(f"  [Misviz] {model_key.upper()} | {condition}")
