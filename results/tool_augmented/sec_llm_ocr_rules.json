@@ -1,0 +1,353 @@
+[
+  {
+    "ticker": "NVS",
+    "image": "cogo_0025.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.1
+  },
+  {
+    "ticker": "MYE",
+    "image": "img184536972_0.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.1
+  },
+  {
+    "ticker": "FXLV",
+    "image": "fxlv-20211231_g1.jpg",
+    "misleaders": [
+      "truncated axis",
+      "inappropriate axis range"
+    ],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_y_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [
+      "inconsistent_binning: Bin widths are inconsistent (max deviation 800% from average). Widths: [1.0, 1.0, 1.0, -3.0, 1.0, 1.0, 1.0]."
+    ],
+    "chart_type": "bar",
+    "elapsed_s": 15.1
+  },
+  {
+    "ticker": "FXLV",
+    "image": "fxlv-20211231_g2.jpg",
+    "misleaders": [
+      "truncated axis",
+      "inappropriate axis range"
+    ],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_data_source",
+      "missing_base_period"
+    ],
+    "rule_results": [
+      "inverted_axis: Y-axis appears inverted: values increase from top (20.0) to bottom (180.0), suggesting the axis direction is reversed."
+    ],
+    "chart_type": "line",
+    "elapsed_s": 16.9
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0028.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 8.5
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0030.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0032.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.4
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0033.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.8
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0036.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0035.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 8.4
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0038.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 6.4
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0037.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.9
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0043.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 8.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0044.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.5
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0047.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0045.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.8
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0049.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 7.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "sign-full.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "sign-half.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.2
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-g.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.4
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-l.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-m.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 10.2
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-x.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.2
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-y.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_legend",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 11.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-z.jpg",
+    "misleaders": [],
+    "completeness": [
+      "missing_chart_title",
+      "missing_y_axis_label",
+      "missing_x_axis_label",
+      "missing_y_axis_values",
+      "missing_x_axis_values",
+      "missing_data_units",
+      "missing_data_source"
+    ],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 11.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "x_coverback.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 10.6
+  },
+  {
+    "ticker": "OC",
+    "image": "newsrelease2a.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 9.8
+  },
+  {
+    "ticker": "NVS",
+    "image": "x_coverfront.jpg",
+    "misleaders": [],
+    "completeness": [],
+    "rule_results": [],
+    "chart_type": "other",
+    "elapsed_s": 11.0
+  }
+]

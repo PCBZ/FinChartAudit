@@ -1,0 +1,228 @@
+[
+  {
+    "ticker": "NVS",
+    "image": "cogo_0025.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a headshot photograph of a person in business attire, not a financial data visualization or chart from an SEC filing. Without an actual chart containing data visualization elements, no analysis of misleading visual techniques can be performed.",
+    "elapsed_s": 2.6
+  },
+  {
+    "ticker": "MYE",
+    "image": "img184536972_0.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This is a company logo for Myers Industries, not a financial data visualization chart. No data visualization elements, axes, or comparative graphics are present to analyze for misleading visual representations.",
+    "elapsed_s": 2.9
+  },
+  {
+    "ticker": "FXLV",
+    "image": "fxlv-20211231_g1.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This bar chart displays two separate time series (2018-2021) with clearly labeled values above each bar, a zero-based y-axis, and consistent bar widths. The visual heights of the bars accurately correspond to their labeled values, and the data presentation follows standard SEC compliance practices for financial visualization.",
+    "elapsed_s": 3.7
+  },
+  {
+    "ticker": "FXLV",
+    "image": "fxlv-20211231_g2.jpg",
+    "misleading": true,
+    "misleader_types": [
+      "truncated axis"
+    ],
+    "explanation": "The y-axis begins at $20.00 rather than $0.00, which exaggerates the visual differences between the performance of the five indices over the six-month period. This truncation makes relatively modest performance variations appear more dramatic than they actually are, potentially misleading viewers about the magnitude of divergence between these financial instruments.",
+    "elapsed_s": 3.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0028.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a portrait photograph of a person, not a financial data visualization or SEC filing chart. Without an actual chart containing data visualization elements to analyze, no misleading visual techniques can be identified.",
+    "elapsed_s": 2.5
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0030.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a headshot photograph of a person in professional attire, not a financial data visualization or chart from an SEC filing. No data visualization elements, axes, or comparative graphics are present to analyze for misleading visual representations.",
+    "elapsed_s": 1.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0032.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image is a portrait photograph of a person, not a financial data visualization or SEC filing chart. No data visualization elements, axes, or comparative graphics are present to analyze for misleading visual representations.",
+    "elapsed_s": 2.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0033.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a professional headshot or portrait photograph rather than a financial data visualization chart. No data visualization elements, axes, or comparative graphics are present that would be subject to SEC compliance analysis for misleading visual representations.",
+    "elapsed_s": 1.8
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0036.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a professional headshot photograph of an individual, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to data representation can be performed.",
+    "elapsed_s": 2.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0035.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a portrait photograph rather than a financial data visualization or SEC filing chart. Without an actual chart containing data visualization elements to analyze, no misleading visual techniques from the taxonomy can be identified.",
+    "elapsed_s": 1.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0038.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a headshot photograph of a professional individual, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to data representation can be performed.",
+    "elapsed_s": 1.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0037.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a headshot photograph of a person in business attire, not a financial data visualization or chart from an SEC filing. Without an actual chart containing data visualization elements, no analysis of misleading visual techniques can be performed.",
+    "elapsed_s": 1.9
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0043.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a headshot photograph of a person, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to financial data representation can be performed.",
+    "elapsed_s": 2.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0044.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image is a professional headshot photograph of a person, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to data representation is applicable.",
+    "elapsed_s": 2.3
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0047.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a professional headshot photograph of a person, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to data representation can be performed.",
+    "elapsed_s": 2.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0045.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image is a portrait photograph of a person, not a financial data visualization or chart from an SEC filing. Therefore, no analysis of misleading visual elements related to financial data representation can be performed.",
+    "elapsed_s": 1.8
+  },
+  {
+    "ticker": "NVS",
+    "image": "cogo_0049.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image appears to be a portrait photograph of a person, not a financial data visualization or SEC filing chart. Without an actual chart containing data visualization elements to analyze, no misleading visual techniques can be identified.",
+    "elapsed_s": 1.5
+  },
+  {
+    "ticker": "NVS",
+    "image": "sign-full.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "The image provided is too minimal to analyze for misleading visual elements. It appears to show only a single blue dot, which is insufficient to evaluate any chart characteristics such as axis scaling, data representation, comparative sizing, or other visualization techniques that would indicate SEC compliance issues.",
+    "elapsed_s": 1.9
+  },
+  {
+    "ticker": "NVS",
+    "image": "sign-half.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "Unable to analyze the chart as only a small icon/placeholder image was provided rather than an actual SEC filing chart. A complete chart image with axes, labels, data values, and visual elements is required to conduct a thorough misleading visualization analysis.",
+    "elapsed_s": 2.1
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-g.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "No chart image was provided for analysis. The uploaded file appears to be a generic globe icon rather than an actual SEC filing chart. Please provide the specific chart image you would like analyzed for misleading visual elements.",
+    "elapsed_s": 2.2
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-l.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "The image provided is only a small icon (appears to be a package or box icon) and does not contain an actual SEC filing chart with data visualization elements to analyze. No misleading visual elements can be identified from this icon alone.",
+    "elapsed_s": 1.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-m.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "The image provided is too small and unclear to conduct a meaningful analysis of potential misleading visual elements. A higher resolution or larger version of the chart would be needed to evaluate axis scales, data representation accuracy, labeling, and other SEC compliance considerations.",
+    "elapsed_s": 2.3
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-x.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "No chart is visible in the provided image. Only a small icon or watermark appears to be present. Without an actual data visualization to analyze, no misleading elements can be identified.",
+    "elapsed_s": 2.0
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-y.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "The image provided is too small and unclear to conduct a meaningful analysis of potential misleading visual elements. A higher resolution or larger version of the chart would be needed to evaluate axis scales, data representation accuracy, labeling, and other SEC compliance considerations.",
+    "elapsed_s": 2.2
+  },
+  {
+    "ticker": "NVS",
+    "image": "skill-z.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "The image provided is a small diamond-shaped icon rather than a financial chart from an SEC filing. Without an actual data visualization to analyze, no misleading elements can be identified. Please provide the actual chart image for analysis.",
+    "elapsed_s": 2.7
+  },
+  {
+    "ticker": "NVS",
+    "image": "x_coverback.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image is a photograph, not a financial data visualization chart. It shows two people interacting outdoors with a Novartis logo, and therefore does not contain any of the visual elements (axes, bars, pie charts, etc.) that would be subject to the misleading visualization taxonomy provided.",
+    "elapsed_s": 3.2
+  },
+  {
+    "ticker": "OC",
+    "image": "newsrelease2a.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image shows only a company logo (Owens Corning) and a 'NEWS RELEASE' header text. No data visualization, chart, graph, or numerical data is present to analyze for misleading visual elements.",
+    "elapsed_s": 2.4
+  },
+  {
+    "ticker": "NVS",
+    "image": "x_coverfront.jpg",
+    "misleading": false,
+    "misleader_types": [],
+    "explanation": "This image is a cover page from a Novartis SEC Form 20-F filing from 2022, featuring a portrait photograph rather than a data visualization chart. There are no graphical elements, axes, data representations, or visual comparisons present that could be analyzed for misleading visualization techniques.",
+    "elapsed_s": 3.8
+  }
+]
