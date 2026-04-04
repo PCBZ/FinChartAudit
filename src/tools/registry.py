@@ -92,6 +92,8 @@ TOOL_DEFINITIONS: list[dict] = [
                     "enum": [
                         "truncated_axis", "broken_scale", "font_size_comparison",
                         "value_mismatch", "pairing_completeness", "prominence_score",
+                        "inverted_axis", "dual_axis", "inappropriate_axis_range",
+                        "inconsistent_binning",
                     ],
                 },
                 "data": {"type": "object", "description": "Data to validate"},

@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import json
 import logging
+from pathlib import Path
 
-from finchartaudit.agents.base import BaseAgent
-from finchartaudit.memory.models import AuditFinding, PairingEntry, RiskLevel, Tier
-from finchartaudit.prompts.t3_pairing import T3_SYSTEM_PROMPT, build_t3_prompt
-from finchartaudit.tools.html_extract import HtmlFilingExtractor
+from src.agents.base import BaseAgent
+from src.memory.models import AuditFinding, PairingEntry, RiskLevel, Tier
+from src.prompts.t3_pairing import T3_SYSTEM_PROMPT, build_t3_prompt
+from src.tools.html_extract import HtmlFilingExtractor
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +47,11 @@ class T3PairingAgent(BaseAgent):
         page = task.get("page", 0)
 
         # Phase 1: Pre-extract filing data (handles exhibits, sectioning, truncation)
+        file_ext = Path(file_path).suffix.lower()
+        if file_ext == ".pdf":
+            log.warning("PDF filing detected (%s); HTML extractor not supported for PDF. "
+                        "Use extract_pdf_text tool instead.", file_path)
+            return []
         extractor = HtmlFilingExtractor()
         pre_extracted = extractor.extract_filing_complete(file_path)
         filing_type = pre_extracted.get("filing_type", "unknown")

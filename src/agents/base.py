@@ -4,10 +4,10 @@ from __future__ import annotations
 import json
 from abc import ABC, abstractmethod
 
-from finchartaudit.vlm.base import VLMClient, VLMResponse, ToolCall, ToolCallResult
-from finchartaudit.memory.filing_memory import FilingMemory
-from finchartaudit.memory.models import AuditFinding
-from finchartaudit.tools.registry import get_tool_schemas
+from src.vlm.base import VLMClient, VLMResponse, ToolCall, ToolCallResult
+from src.memory.filing_memory import FilingMemory
+from src.memory.models import AuditFinding
+from src.tools.registry import get_tool_schemas
 
 
 class BaseAgent(ABC):
@@ -25,8 +25,8 @@ class BaseAgent(ABC):
 
     def _init_tool_executors(self):
         """Lazy-import and register tool executors."""
-        from finchartaudit.tools.rule_check import RuleEngine
-        from finchartaudit.tools.query_memory import QueryMemoryTool
+        from src.tools.rule_check import RuleEngine
+        from src.tools.query_memory import QueryMemoryTool
 
         self._rule_engine = RuleEngine()
         self._query_memory = QueryMemoryTool(self.memory)
@@ -38,7 +38,7 @@ class BaseAgent(ABC):
                 args["query"], args.get("scope", "current_filing")),
         }
 
-        from finchartaudit.tools.html_extract import HtmlFilingExtractor
+        from src.tools.html_extract import HtmlFilingExtractor
         self._html_extractor = HtmlFilingExtractor()
         self._tool_executors["html_extract"] = lambda args: self._html_extractor.run(args["file_path"])
 

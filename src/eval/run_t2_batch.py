@@ -14,11 +14,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 os.environ.setdefault("PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK", "True")
 
-from finchartaudit.config import get_config
-from finchartaudit.vlm.claude_client import OpenRouterVLMClient
-from finchartaudit.memory.filing_memory import FilingMemory
-from finchartaudit.tools.traditional_ocr import TraditionalOCRTool
-from finchartaudit.agents.t2_visual import T2VisualAgent
+from src.config import get_config
+from src.vlm.claude_client import OpenRouterVLMClient
+from src.memory.filing_memory import FilingMemory
+from src.tools.traditional_ocr import TraditionalOCRTool
+from src.agents.t2_visual import T2VisualAgent
 from data_tools.misviz.loader import MisvizLoader
 from data_tools.misviz.evaluator import MisvizEvaluator
 

@@ -1,9 +1,9 @@
 """Multi-tier orchestrator — dispatches T1, T2, T3 agents and cross-validates."""
 from __future__ import annotations
 
-from finchartaudit.memory.filing_memory import FilingMemory
-from finchartaudit.memory.models import AuditFinding, RiskLevel
-from finchartaudit.vlm.base import VLMClient
+from src.memory.filing_memory import FilingMemory
+from src.memory.models import AuditFinding, RiskLevel
+from src.vlm.base import VLMClient
 
 
 class Orchestrator:
@@ -17,8 +17,8 @@ class Orchestrator:
 
     def audit_chart(self, image_path: str, text_context: str = "",
                     page: int = 0, chart_id: str = "") -> list[AuditFinding]:
-        from finchartaudit.agents.t2_visual import T2VisualAgent
-        from finchartaudit.agents.t1_numerical import T1NumericalAgent
+        from src.agents.t2_visual import T2VisualAgent
+        from src.agents.t1_numerical import T1NumericalAgent
 
         all_findings = []
         cid = chart_id or f"p{page}_c1"
@@ -43,7 +43,7 @@ class Orchestrator:
 
     def audit_filing(self, file_path: str, ticker: str = "",
                      filing_type: str = "") -> list[AuditFinding]:
-        from finchartaudit.agents.t3_pairing import T3PairingAgent
+        from src.agents.t3_pairing import T3PairingAgent
 
         t3 = T3PairingAgent(vlm=self.vlm, memory=self.memory)
         t3.execute({

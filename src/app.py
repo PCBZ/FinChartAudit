@@ -42,10 +42,10 @@ def init_components():
     if "initialized" in st.session_state:
         return
 
-    from finchartaudit.config import get_config
-    from finchartaudit.vlm.claude_client import OpenRouterVLMClient
-    from finchartaudit.memory.filing_memory import FilingMemory
-    from finchartaudit.tools.traditional_ocr import TraditionalOCRTool
+    from src.config import get_config
+    from src.vlm.claude_client import OpenRouterVLMClient
+    from src.memory.filing_memory import FilingMemory
+    from src.tools.traditional_ocr import TraditionalOCRTool
 
     config = get_config()
 
@@ -73,10 +73,10 @@ def get_t2_agent(memory):
     """Create T2 agent based on selected mode."""
     mode = st.session_state.get("t2_mode", "Pipeline")
     if mode == "Pipeline":
-        from finchartaudit.agents.t2_pipeline import T2PipelineAgent
+        from src.agents.t2_pipeline import T2PipelineAgent
         agent = T2PipelineAgent(vlm=st.session_state.vlm, memory=memory)
     else:
-        from finchartaudit.agents.t2_visual import T2VisualAgent
+        from src.agents.t2_visual import T2VisualAgent
         agent = T2VisualAgent(vlm=st.session_state.vlm, memory=memory)
     agent.set_ocr_tool(st.session_state.ocr)
     return agent
@@ -84,7 +84,7 @@ def get_t2_agent(memory):
 
 def reset_memory():
     """Reset memory for a new analysis."""
-    from finchartaudit.memory.filing_memory import FilingMemory
+    from src.memory.filing_memory import FilingMemory
     memory = FilingMemory()
     st.session_state.memory = memory
     return memory
@@ -476,7 +476,7 @@ def page_filing_scanner():
 
 def run_filing_analysis(file_path: str, ticker: str, filing_type: str):
     """Run T3 pairing analysis on a filing."""
-    from finchartaudit.agents.orchestrator import Orchestrator
+    from src.agents.orchestrator import Orchestrator
 
     memory = reset_memory()
     orchestrator = Orchestrator(vlm=st.session_state.vlm, memory=memory)

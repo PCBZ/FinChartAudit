@@ -81,11 +81,12 @@ class TraditionalOCRTool:
         if region != "full":
             img = self._crop_region(img, region)
 
-        # Save temp image for OCR
+        # Save temp image for OCR (close before PIL writes to avoid Windows permission errors)
         import tempfile
-        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
-            img.save(f.name)
-            temp_path = f.name
+        fd, temp_path = tempfile.mkstemp(suffix=".png")
+        import os
+        os.close(fd)
+        img.save(temp_path)
 
         try:
             if self._backend == "paddleocr":

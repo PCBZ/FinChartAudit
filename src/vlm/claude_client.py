@@ -9,11 +9,14 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import mimetypes
 import time
 from pathlib import Path
 
 import httpx
+
+log = logging.getLogger(__name__)
 
 from .base import VLMClient, VLMResponse, ToolCall
 
@@ -35,6 +38,16 @@ class OpenRouterVLMClient(VLMClient):
             "Content-Type": "application/json",
         }
         self._conversation: list[dict] = []
+
+    def close(self):
+        """Close the underlying HTTP client."""
+        self._client.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.close()
 
     def analyze(self, image_path: str, prompt: str,
                 tools: list[dict] | None = None,
@@ -61,7 +74,7 @@ class OpenRouterVLMClient(VLMClient):
                 + f"\n\n[... {len(prompt) - max_prompt_chars:,} chars truncated for context limit ...]\n\n"
                 + prompt[-half:]
             )
-            print(f"  [VLM] Prompt truncated from {len(prompt):,} to {max_prompt_chars:,} chars")
+            log.warning(f" Prompt truncated from {len(prompt):,} to {max_prompt_chars:,} chars")
 
         content.append({"type": "text", "text": prompt})
 
@@ -143,13 +156,13 @@ class OpenRouterVLMClient(VLMClient):
                     retry_after = e.response.headers.get("retry-after")
                     if retry_after and retry_after.isdigit():
                         wait = max(wait, int(retry_after))
-                    print(f"  [retry {attempt + 1}/3] HTTP {e.response.status_code}, waiting {wait}s...")
+                    log.warning(f"[retry {attempt + 1}/3] HTTP {e.response.status_code}, waiting {wait}s...")
                     time.sleep(wait)
                 else:
                     raise
             except (httpx.ReadTimeout, httpx.ConnectTimeout) as e:
                 if attempt < 2:
-                    print(f"  [retry {attempt + 1}/3] {type(e).__name__}, waiting {5}s...")
+                    log.warning(f"[retry {attempt + 1}/3] {type(e).__name__}, waiting {5}s...")
                     time.sleep(5)
                 else:
                     raise

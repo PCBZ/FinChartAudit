@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import json
 
-from finchartaudit.agents.base import BaseAgent
-from finchartaudit.memory.models import AuditFinding, Claim, RiskLevel, Tier
-from finchartaudit.prompts.t1_numerical import T1_SYSTEM_PROMPT, build_t1_prompt
+from src.agents.base import BaseAgent
+from src.memory.models import AuditFinding, Claim, RiskLevel, Tier
+from src.prompts.t1_numerical import T1_SYSTEM_PROMPT, build_t1_prompt
 
 
 class T1NumericalAgent(BaseAgent):

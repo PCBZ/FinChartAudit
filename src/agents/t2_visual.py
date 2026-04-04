@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import json
 
-from finchartaudit.agents.base import BaseAgent
-from finchartaudit.memory.models import AuditFinding, ChartRecord, RiskLevel, Tier
-from finchartaudit.prompts.t2_visual import T2_SYSTEM_PROMPT, build_detection_prompt, SEC_RULE_MAPPING
+from src.agents.base import BaseAgent
+from src.memory.models import AuditFinding, ChartRecord, RiskLevel, Tier
+from src.prompts.t2_visual import T2_SYSTEM_PROMPT, build_detection_prompt, SEC_RULE_MAPPING
 
 
 class T2VisualAgent(BaseAgent):

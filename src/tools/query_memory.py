@@ -1,7 +1,7 @@
 """Memory query tool — agents use this to check cached data before calling OCR."""
 from __future__ import annotations
 
-from finchartaudit.memory.filing_memory import FilingMemory
+from src.memory.filing_memory import FilingMemory
 
 
 class QueryMemoryTool:

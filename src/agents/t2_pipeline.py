@@ -14,11 +14,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from finchartaudit.memory.models import AuditFinding, ChartRecord, RiskLevel, Tier
-from finchartaudit.memory.filing_memory import FilingMemory
-from finchartaudit.vlm.base import VLMClient
-from finchartaudit.tools.rule_check import RuleEngine
-from finchartaudit.prompts.t2_visual import MISLEADER_DEFINITIONS, COMPLETENESS_CHECKS, SEC_RULE_MAPPING
+from src.memory.models import AuditFinding, ChartRecord, RiskLevel, Tier
+from src.memory.filing_memory import FilingMemory
+from src.vlm.base import VLMClient
+from src.tools.rule_check import RuleEngine
+from src.prompts.t2_visual import MISLEADER_DEFINITIONS, COMPLETENESS_CHECKS, SEC_RULE_MAPPING
 
 
 PIPELINE_SYSTEM_PROMPT = """You are a financial chart auditor detecting misleading visual encodings and completeness issues.
