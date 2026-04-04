@@ -1,3 +1,4 @@
+import os
 """V6 pipeline: B's prompt + targeted VLM re-ask for blind spots + DePlot axis_range + CLEAN veto.
 
 Architecture:
@@ -126,7 +127,7 @@ BLIND_SPOT_MAP = {
 def select_samples() -> list[dict]:
     from data_tools.misviz.loader import MisvizLoader
 
-    b_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_path = Path(os.environ.get("BASELINE_RESULTS_PATH", "data/baseline/claude_vision_only.json"))
     b_data = json.loads(b_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 

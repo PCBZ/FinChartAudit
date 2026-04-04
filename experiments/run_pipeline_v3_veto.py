@@ -1,3 +1,4 @@
+import os
 """Route 3 experiment: VLM-only detection + Rule [CLEAN] post-processing veto.
 
 VLM sees ONLY the image (no OCR data in prompt).
@@ -68,7 +69,7 @@ Respond with ONLY valid JSON:
 def select_samples() -> list[dict]:
     from data_tools.misviz.loader import MisvizLoader
 
-    b_results_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_results_path = Path(os.environ.get("BASELINE_RESULTS_PATH", "data/baseline/claude_vision_only.json"))
     b_data = json.loads(b_results_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 

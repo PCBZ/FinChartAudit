@@ -34,7 +34,7 @@ def select_samples_aligned_with_b() -> list[dict]:
     import json as _json
     from data_tools.misviz.loader import MisvizLoader
 
-    b_results_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_results_path = Path(os.environ.get("BASELINE_RESULTS_PATH", "data/baseline/claude_vision_only.json"))
     if not b_results_path.exists():
         raise FileNotFoundError(f"B's results not found at {b_results_path}. Clone B's repo first.")
 

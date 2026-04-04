@@ -1,3 +1,4 @@
+import os
 """Apply expanded CLEAN veto on V7 results (no VLM calls needed)."""
 import json
 import re
@@ -23,7 +24,7 @@ deplot = DePlotTool(device="cpu")
 loader = MisvizLoader()
 real_data = loader.load_real()
 
-b_data = json.loads(open('C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json').read())
+b_data = json.loads(open(os.environ.get('BASELINE_RESULTS_PATH', 'data/baseline/claude_vision_only.json')).read())
 local_by_bbox = {}
 for i, item in enumerate(real_data):
     bbox = item.get("bbox", [])

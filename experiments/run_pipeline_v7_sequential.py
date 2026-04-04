@@ -1,3 +1,4 @@
+import os
 """V7 pipeline: B's prompt + sequential per-type re-ask for clean charts + CLEAN veto + DePlot axis_range.
 
 Key insight: VLM CAN detect blind spot types when asked individually.
@@ -147,7 +148,7 @@ TARGETED_PROMPTS = {
 def select_samples() -> list[dict]:
     from data_tools.misviz.loader import MisvizLoader
 
-    b_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_path = Path(os.environ.get("BASELINE_RESULTS_PATH", "data/baseline/claude_vision_only.json"))
     b_data = json.loads(b_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 

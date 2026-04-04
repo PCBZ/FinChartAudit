@@ -1,3 +1,4 @@
+import os
 """V5 pipeline: B's prompt + DePlot table rules + CLEAN veto.
 
 Phase 1: DePlot extracts data tables from all charts (GPU, cached)
@@ -101,7 +102,7 @@ Respond with valid JSON only:
 def select_samples() -> list[dict]:
     from data_tools.misviz.loader import MisvizLoader
 
-    b_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_path = Path(os.environ.get("BASELINE_RESULTS_PATH", "data/baseline/claude_vision_only.json"))
     b_data = json.loads(b_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 
