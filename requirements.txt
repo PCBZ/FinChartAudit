@@ -9,4 +9,5 @@ playwright
 scikit-learn
 tenacity
 matplotlib
-tqdm
+tqdmhttpx
+httpx

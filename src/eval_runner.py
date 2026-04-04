@@ -1,84 +1,20 @@
-# src/eval_runner.py
-
-import json
-import os
-import base64
-import threading
-from pathlib import Path
-from io import BytesIO
-from PIL import Image
-from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from openai import OpenAI
-from huggingface_hub import login
-from datasets import load_dataset
-from tqdm import tqdm
-from tenacity import retry, stop_after_attempt, wait_exponential
-
-from prompts import (
-    build_vision_only_prompt,
-    build_vision_text_prompt,
-    build_bbox_text,
-    build_rq3_prompt,
-)
-from config import DEFAULT_MODELS, DEFAULT_CONDITIONS, DEFAULT_API_BASE_URL
-
-# ── Shared helpers ────────────────────────────────────────────────────────────
-
-def _make_client(api_key: str, api_base_url: str = DEFAULT_API_BASE_URL) -> OpenAI:
-    return OpenAI(api_key=api_key, base_url=api_base_url)
 
 
-def _img_to_b64(img_path: Path, max_bytes: int = 4 * 1024 * 1024) -> tuple[str, str]:
-    """Returns (mime_type, base64_string), compressing to JPEG if needed."""
-    img = Image.open(img_path)
-    if img.mode in ("CMYK", "RGBA", "P"):
-        img = img.convert("RGB")
-    quality = 85
-    while True:
-        buf = BytesIO()
-        img.save(buf, format="JPEG", quality=quality)
-        if buf.tell() <= max_bytes or quality <= 30:
-            break
-        quality -= 10
-    buf.seek(0)
-    return "image/jpeg", base64.b64encode(buf.read()).decode()
 
 
-def _parse_response(content: str) -> dict:
-    content = content.strip()
-    if content.startswith("```"):
-        content = content.split("```")[1]
-        if content.startswith("json"):
-            content = content[4:]
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        return {"misleading": None, "misleader_types": [], "explanation": content, "parse_error": True}
 
 
 # ── RQ1 / RQ2: Misviz ────────────────────────────────────────────────────────
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
-def _call_misviz_api(client: OpenAI, model: str, image_url: str,
+def _call_misviz_api(client, model: str, image_url: str,
                      condition: str, bbox_text: str = "") -> str:
-    """Raw API call — raises on error so tenacity can retry."""
+    """Build prompt and call shared VLM client."""
     prompt = (
         build_vision_only_prompt() if condition == "vision_only"
         else build_vision_text_prompt(bbox_text)
     )
-    response = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": [
-            {"type": "text",      "text": prompt},
-            {"type": "image_url", "image_url": {"url": image_url}},
-        ]}],
-        max_tokens=512,
-    )
-    if not response.choices or response.choices[0].message.content is None:
-        raise ValueError("Empty response")
-    return response.choices[0].message.content
+    return call_vlm(client, model, prompt, image_url)
+
 
 
 def _run_single_misviz(client: OpenAI, model: str, image_url: str,
