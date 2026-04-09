@@ -1,0 +1,51 @@
+{
+  "ticker": "STZ",
+  "cik": "0000016918",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2025-04-23",
+      "accessionNumber": "0000016918-25-000022",
+      "primaryDocument": "stz-20250228.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-04-23",
+      "accessionNumber": "0000016918-24-000054",
+      "primaryDocument": "stz-20240229.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2023-04-20",
+      "accessionNumber": "0000016918-23-000045",
+      "primaryDocument": "stz-20230228.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-06-12",
+      "accessionNumber": "0000000000-23-006281"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-05-25",
+      "accessionNumber": "0000016918-23-000088"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-05-16",
+      "accessionNumber": "0000000000-23-005247"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-03-09",
+      "accessionNumber": "0000016918-23-000020"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-02-28",
+      "accessionNumber": "0000000000-23-001971"
+    }
+  ]
+}

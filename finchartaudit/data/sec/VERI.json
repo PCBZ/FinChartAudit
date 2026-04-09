@@ -1,0 +1,51 @@
+{
+  "ticker": "VERI",
+  "cik": "0001615165",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2025-04-01",
+      "accessionNumber": "0000950170-25-048602",
+      "primaryDocument": "veri-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-04-01",
+      "accessionNumber": "0000950170-24-038819",
+      "primaryDocument": "veri-20231231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2023-03-16",
+      "accessionNumber": "0000950170-23-008493",
+      "primaryDocument": "veri-20221231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-12-06",
+      "accessionNumber": "0000000000-24-013471"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-06-18",
+      "accessionNumber": "0000950170-24-074666"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-06-17",
+      "accessionNumber": "0000000000-24-006939"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-01-11",
+      "accessionNumber": "0001193125-24-006593"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-01-10",
+      "accessionNumber": "0000000000-24-000344"
+    }
+  ]
+}

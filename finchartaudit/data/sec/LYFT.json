@@ -1,0 +1,51 @@
+{
+  "ticker": "LYFT",
+  "cik": "0001759509",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-11",
+      "accessionNumber": "0001628280-26-006960",
+      "primaryDocument": "lyft-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-14",
+      "accessionNumber": "0001759509-25-000025",
+      "primaryDocument": "lyft-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-20",
+      "accessionNumber": "0001759509-24-000019",
+      "primaryDocument": "lyft-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-06-06",
+      "accessionNumber": "0000000000-24-006496"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-05-28",
+      "accessionNumber": "0001759509-24-000077"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-05-02",
+      "accessionNumber": "0000000000-24-005026"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-01-12",
+      "accessionNumber": "0000000000-23-000351"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-01-05",
+      "accessionNumber": "0001759509-23-000005"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FinChartAudit"
+version = "0.1.0"
+description = "Financial Chart Audit - Evaluation framework for chart understanding in financial documents"
+authors = [{name = "FinChartAudit Contributors"}]
+requires-python = ">=3.9"
+dependencies = [
+    "requests",
+    "tqdm",
+    "datasets",
+    "huggingface_hub",
+    "beautifulsoup4",
+    "openai",
+    "python-dotenv",
+    "Pillow",
+    "playwright",
+    "scikit-learn",
+    "tenacity",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+    "flake8",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]

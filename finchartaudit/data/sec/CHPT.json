@@ -1,0 +1,41 @@
+{
+  "ticker": "CHPT",
+  "cik": "0001777393",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2025-03-28",
+      "accessionNumber": "0001777393-25-000030",
+      "primaryDocument": "chpt-20250131.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-04-01",
+      "accessionNumber": "0001777393-24-000052",
+      "primaryDocument": "chpt-20240131.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2023-04-03",
+      "accessionNumber": "0001777393-23-000008",
+      "primaryDocument": "chpt-20230131.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-06-20",
+      "accessionNumber": "0000000000-24-007021"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-06-17",
+      "accessionNumber": "0001777393-24-000082"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-06-04",
+      "accessionNumber": "0000000000-24-006413"
+    }
+  ]
+}

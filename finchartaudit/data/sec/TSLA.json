@@ -1,0 +1,61 @@
+{
+  "ticker": "TSLA",
+  "cik": "0001318605",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-01-29",
+      "accessionNumber": "0001628280-26-003952",
+      "primaryDocument": "tsla-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-01-30",
+      "accessionNumber": "0001628280-25-003063",
+      "primaryDocument": "tsla-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-01-29",
+      "accessionNumber": "0001628280-24-002390",
+      "primaryDocument": "tsla-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-01-25",
+      "accessionNumber": "0000000000-24-001022"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-12-15",
+      "accessionNumber": "0001193125-23-296911"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-11-28",
+      "accessionNumber": "0001193125-23-284505"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-11-22",
+      "accessionNumber": "0000000000-23-012801"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-10-27",
+      "accessionNumber": "0001193125-23-265032"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-10-02",
+      "accessionNumber": "0001193125-23-249271"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-09-26",
+      "accessionNumber": "0000000000-23-010608"
+    }
+  ]
+}

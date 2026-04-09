@@ -1,0 +1,989 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "condition": "vision_text",
+  "total": 96,
+  "flagged": 38,
+  "flag_rate": 0.3958333333333333,
+  "results": {
+    "BCO": [
+      {
+        "file": "table_011.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This image is a table of contents for an SEC filing, not a financial chart or data table containing metrics. It lists section headings and page numbers without presenting any numerical data, financial figures, or Non-GAAP measures that could be misrepresented or improperly highlighted. No visual distortion, axis truncation, or prominence violations are present in a table of contents structure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents share repurchase data with clearly labeled GAAP-compliant columns (total shares purchased, average price paid, cumulative shares, and remaining authorization). All measures are presented uniformly with consistent formatting and labeling; there is no prominence given to non-GAAP metrics over GAAP measures. The table structure follows standard SEC disclosure requirements for Item 5 share repurchase reporting, with no truncation, distortion, or reconciliation issues evident.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_006.png",
+        "date": "2026-02-26",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents straightforward GAAP financial data segmented by geography and asset type (Facilities and Vehicles), with clear column headers distinguishing Leased, Owned, and Total categories. All figures are labeled consistently as actual counts with no non-GAAP measures present, reconciliations needed, or prominence violations. The structure complies with SEC disclosure requirements for tabular GAAP data presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measure labeling and prominence violation; inconsistent identification of measures as GAAP vs. non-GAAP",
+        "explanation": "This table presents 'Other operating income (expense)' and its components, which appear to be reconciling items used to derive non-GAAP measures (operating profit, income from continuing operations, and EPS) as identified in the SEC comment letter context. However, the table fails to clearly label which line items are GAAP-based and which are non-GAAP adjustments, directly violating the SEC's instruction to 'revise the labels as necessary to identify the measures as either GAAP or non-GAAP.' Additionally, the presentation of these adjustments without prominent placement of the corresponding GAAP measure (e.g., GAAP operating income or net income) alongside the non-GAAP derivation violates Regulation G prominence requirements. The table should explicitly distinguish between GAAP and non-GAAP components and provide clear reconciliation to the primary GAAP measure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_018.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measure labeling and prominence violation; ambiguous GAAP vs. non-GAAP classification",
+        "explanation": "This table presents line items that appear to reconcile operating results to non-GAAP measures (e.g., 'Gain (loss) on equity and debt securities,' 'Retirement benefit cost other than service cost,' 'Argentina turnover tax') but fails to clearly label whether each figure is GAAP or non-GAAP. Per the SEC comment letter context, BCO was cited for identifying non-GAAP measures without proper labeling and for conflating GAAP and non-GAAP measures. The table does not explicitly state that these are adjustment items used to derive non-GAAP 'operating profit' or other adjusted metrics, nor does it clearly delineate the starting GAAP figure and reconciliation items. This creates ambiguity about which figures represent reportable GAAP results versus adjustments, violating Regulation G requirements for clear labeling and reconciliation presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measures presented with equal or greater prominence than GAAP measures; inadequate labeling of GAAP vs. Non-GAAP; missing or unclear reconciliation",
+        "explanation": "This table violates SEC Regulation G and Item 10(e) of Regulation S-K by presenting Non-GAAP measures (operating profit, income from continuing operations, diluted EPS) with equivalent visual prominence to their GAAP counterparts, rather than subordinating them. The SEC comment letter specifically flagged that revenue, capital expenditures, and financing leases are mislabeled as both GAAP and Non-GAAP without clear distinction. Additionally, the Non-GAAP section lacks explicit reconciliation showing the adjustments from GAAP measures, and superscript notations (a)(b) are used without sufficient explanation of excluded items on this page. The table structure presents operating profit and EPS metrics side-by-side without clear hierarchical differentiation, violating the requirement that Non-GAAP measures be clearly subordinate to comparable GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation and labeling deficiency per SEC Regulation G and Item 10(e) of Regulation S-K",
+        "explanation": "The table presents Non-GAAP measures (operating profit, income from continuing operations, and EPS) with equal or greater visual prominence than their GAAP counterparts, violating SEC rules requiring Non-GAAP measures to be clearly subordinate to the most directly comparable GAAP measure. The SEC's September 24, 2024 comment letter specifically cited BCO for failing to clearly distinguish GAAP versus Non-GAAP measures, particularly regarding revenue, capital expenditures, and financing leases\u2014issues that extend to this income tax reconciliation table. The Non-GAAP section appears at the bottom without clear hierarchical distinction or prominent GAAP labeling, and the pre-tax income figures lack explicit GAAP/non-GAAP designations despite mixing both types of metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measure labeling and prominence violation; unclear GAAP vs. non-GAAP designation",
+        "explanation": "This table presents adjustments and exclusions without clearly distinguishing whether line items are GAAP or non-GAAP measures, creating ambiguity about the nature of reported figures. The SEC's September 2024 comment letter to BCO specifically flagged the need to clearly label measures as either GAAP or non-GAAP, particularly when revenue, capital expenditures, and financing leases are described as both. The table lacks explicit GAAP/non-GAAP labeling for each line item and does not prominently display the comparable GAAP measure alongside the adjusted figures, potentially violating Regulation G requirements. Without a clear reconciliation structure and proper identification of which figures are GAAP-compliant versus adjusted non-GAAP metrics, the presentation obscures the most directly comparable GAAP measure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP measure prominence and labeling violation; ambiguous GAAP vs. non-GAAP classification",
+        "explanation": "This table presents 'Organic Change' as a non-GAAP measure with comparable prominence to GAAP revenue and operating profit figures, violating SEC Regulation G requirements that non-GAAP measures not appear more prominently than their GAAP counterparts. The column header 'Organic Change' lacks explicit non-GAAP labeling, and no reconciliation is provided showing how organic change reconciles to GAAP measures. Consistent with the SEC's September 2024 comment letter to BCO, the filing fails to clearly distinguish which metrics are GAAP versus non-GAAP, creating potential investor confusion about the basis for performance comparison.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2026-02-26",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation and inadequate labeling per SEC Regulation G and Item 10(e) of Regulation S-K",
+        "explanation": "The table presents Non-GAAP measures (Operating profit non-GAAP of $709.9M, Income from continuing operations non-GAAP of $342.0M, and Adjusted EBITDA of $977.1M) with equal or greater visual prominence than their corresponding GAAP measures, violating SEC requirements that Non-GAAP measures not appear more prominently than comparable GAAP measures. The SEC's September 2024 comment letter specifically cited BCO for ambiguous labeling of measures identified as both GAAP and non-GAAP; this table perpetuates that violation by failing to clearly distinguish which line items are GAAP adjustments versus final non-GAAP totals, and by presenting the non-GAAP subtotals immediately after GAAP figures without clear demarcation or hierarchical distinction. The reconciliation structure, while present, does not adequately subordinate the non-GAAP figures or ensure GAAP measures are presented with primary emphasis.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "CHPT": [
+      {
+        "file": "table_058.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting GAAP expense categories (Cost of revenue, R&D, Sales and marketing, G&A) and total stock-based compensation expense across three fiscal years in consistent format. The table clearly labels all line items, uses uniform presentation, and contains no Non-GAAP measures or reconciliation issues. No truncation, axis distortion, or prominence violations are evident.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_071.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is an earnings per share (EPS) calculation table presenting GAAP measures (net income/loss and weighted average shares outstanding) with standard reconciliation to per-share results. The table properly displays GAAP numerators and denominators, clearly labels all line items, and presents information in logical hierarchical order. No Non-GAAP measures are presented, and the structure complies with standard financial reporting conventions. The table does not raise SEC Regulation G or Item 10(e) prominence concerns.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_030.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard cash flow statement table presenting GAAP measures in a conventional format with no Non-GAAP metrics prominently displayed or inadequately labeled. The table follows proper SEC disclosure conventions by organizing cash flows from operating, investing, and financing activities with appropriate line-item reconciliations. No truncation, axis manipulation, or Non-GAAP prominence violations are evident in this filing visual.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_067.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant financial table presenting deferred tax assets and liabilities for years ended January 31, 2025 and 2024. The table properly reconciles gross deferred tax assets to net deferred tax assets by subtracting the valuation allowance and deferred tax liabilities, with all line items clearly labeled and consistently formatted. No Non-GAAP measures are presented, and the visual contains no chart-based distortions or misleading presentations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a GAAP-compliant comprehensive loss reconciliation table presenting net loss and other comprehensive income components for three fiscal years (2025, 2024, 2023). All line items are clearly labeled as GAAP measures with appropriate sub-classifications (e.g., 'net of tax' designations), and no Non-GAAP metrics are presented. The table structure follows standard SEC presentation conventions with consistent formatting and transparent reconciliation from net loss to total comprehensive loss, posing no prominence or labeling violations relative to the cited SEC comment letter regarding Non-GAAP gross profit/margin disclosure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant financial statement table presenting revenue, cost of revenue, gross profit, operating expenses, and net loss for fiscal years 2025, 2024, and 2023. All line items are labeled in accordance with GAAP, and no Non-GAAP measures are presented in this excerpt. The table structure, formatting, and presentation order comply with SEC requirements\u2014GAAP measures are presented clearly without prominence violations or missing reconciliations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2024-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet (statement of financial position) presenting GAAP-compliant financial data as of January 31, 2024 and 2023. All line items are GAAP measures with appropriate labeling, footnote references (e.g., Note 7), and allowance disclosures (e.g., 'net of allowance of $14,000'). No Non-GAAP measures are presented in this table, so there are no prominence violations or reconciliation issues that would trigger the SEC Comment Letter violations noted for CHPT regarding Non-GAAP gross profit and margin disclosure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_029.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a stockholders' equity rollforward table presenting GAAP-basis balance sheet components (Common Stock, Additional Paid-In Capital, Accumulated Other Comprehensive Income, etc.) with no Non-GAAP measures present. The table structure appropriately segregates share count, dollar amounts, and reconciling items across multiple reporting periods (January 31, 2022\u20132025). No prominence violations occur because no non-GAAP metrics are disclosed, and all line items are clearly labeled and consistently formatted. The table complies with standard equity statement presentation requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-03-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet table presenting GAAP financial statements with proper line-item classifications and clear labeling of current assets, liabilities, and stockholders' equity. No non-GAAP measures are presented in this visual, and all figures are clearly identified with their corresponding GAAP categories and comparative periods. The table structure complies with standard financial reporting conventions and does not contain the prominence or reconciliation violations cited in the CHPT SEC comment letter regarding non-GAAP gross profit and gross margin disclosures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2024-04-01",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP presentation concern: Gross profit line item appears without clear GAAP reconciliation labeling in this income statement format. Given the SEC comment letter dated 2024-06-04 regarding CHPT's non-GAAP gross profit and gross margin disclosures, this table should explicitly reconcile any non-GAAP gross profit figures to GAAP cost of revenue and total revenue to ensure compliance with Regulation G and Item 10(e)(1)(i)(B) of Regulation S-K.",
+        "explanation": "This is a standard GAAP income statement table showing revenue, cost of revenue, and gross profit for fiscal years 2024, 2023, and 2022. While the table itself is not visually misleading and follows appropriate row ordering, the SEC's June 2024 comment letter to CHPT specifically flagged inadequate reconciliation of non-GAAP gross profit measures. If the 'Gross profit' line ($30,118 in 2024) represents a non-GAAP measure or includes non-GAAP adjustments, the filing must provide explicit reconciliation to the directly comparable GAAP measure (calculated as Total revenue minus Total cost of revenue). Without clear labeling and reconciliation on the face of the statement or in accompanying notes, this presentation risks violating SEC prominence rules for non-GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "IRBT": [
+      {
+        "file": "table_020.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP financial table presenting interest income, interest expense, fair value changes, debt costs, investment losses, and other items across three fiscal years. All line items are clearly labeled with their GAAP classifications, and no Non-GAAP measures are presented. The table contains no visual distortions, truncated axes, or prominence violations. While IRBT has a history of Non-GAAP compliance issues per the SEC comment letters cited, this particular visual does not exhibit those violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_023.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This image is a table of contents for an SEC filing, not a financial chart or detailed metrics table. It shows hyperlinked document sections with corresponding page numbers, lacking any data visualization, Non-GAAP metrics, or comparative financial measures that would constitute misleading presentation. No analysis of Non-GAAP prominence violations or chart distortion is applicable to this navigational element.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a stockholders' equity reconciliation table presenting GAAP-basis balance sheet line items (Common Stock, Additional Paid-in Capital, Retained Earnings, Accumulated Other Comprehensive Income, and Stockholders' Equity) across multiple periods. The table contains no Non-GAAP measures, non-GAAP exclusions, or reconciliations that would trigger Non-GAAP prominence violations under Regulation G. All figures are clearly labeled with their GAAP classifications, and the presentation follows standard SEC 10-K formatting for equity roll-forwards.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant income statement table presented as percentages of revenue across three fiscal years (2024, 2023, 2022). All line items are clearly labeled with GAAP measures (revenue, cost of product revenue, operating expenses, net loss, etc.), and no Non-GAAP measures are presented or highlighted more prominently than GAAP figures. The table structure is transparent and does not contain the types of Non-GAAP prominence violations cited in the IRBT SEC comment letters (e.g., excluding IP litigation expense, improper tax valuation allowance treatment, or undisclosed methodology changes). The presentation is orderly, consistent, and compliant with SEC disclosure requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a straightforward GAAP financial table presenting net loss and components of other comprehensive income for three fiscal years. All line items are clearly labeled GAAP measures (net loss, foreign currency translation, cash flow hedges, etc.) with no Non-GAAP measures present. The table structure is standard and transparent, with consistent column organization and proper presentation hierarchy. No prominence violations, missing reconciliations, or labeling deficiencies are evident.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant income statement table presenting three years of financial data (2024, 2023, 2022) with consistent line items, clear labeling, and proper GAAP measures. No Non-GAAP metrics are presented in this visual, eliminating prominence or reconciliation concerns. The table format, consistent columns, and straightforward presentation comply with SEC disclosure requirements and do not exhibit the chart distortions or Non-GAAP violations referenced in the IRBT comment letters.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation & Missing Reconciliation Disclosure",
+        "explanation": "This reconciliation table presents Non-GAAP measures (Non-GAAP Gross Profit, Non-GAAP Operating Loss, Non-GAAP Net Loss) with equal or greater visual prominence than their GAAP counterparts, violating SEC Regulation G requirements. Critically, the table excludes IP litigation expense from Non-GAAP adjustments despite the May 12, 2023 SEC comment letter specifically objecting to this exclusion from Non-GAAP Operating Income, Operating Margin, and per-share measures. The company appears to have continued the disputed practice without disclosing the SEC's challenge or documenting reconsideration under CDI Question 100.02 regarding methodology changes, as required by the August 8, 2023 comment letter.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet (Assets; Liabilities and Stockholders' Equity) presenting GAAP-compliant financial position data as of two fiscal periods. The table contains no Non-GAAP measures, no prominence violations, and employs consistent formatting with appropriate line items and subtotals. While the SEC comment letters reference Non-GAAP metric concerns in IRBT's MD&A (page 32), this particular visual is a consolidated balance sheet containing only GAAP line items with no reconciliations, exclusions, or alternative metrics that would trigger Non-GAAP disclosure rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2025-03-12",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Non-GAAP measures presented without corresponding GAAP measures and lack clear reconciliation",
+        "explanation": "This table presents Non-GAAP Gross Profit, Non-GAAP Gross Margin, Non-GAAP Operating Loss, and Non-GAAP Operating Margin as the primary financial metrics without displaying the most directly comparable GAAP measures (GAAP Gross Profit, GAAP Operating Income/Loss) alongside them. This violates Regulation G and Item 10(e) of Regulation S-K by failing to present Non-GAAP metrics with equal or subordinate prominence to their GAAP counterparts. Additionally, given the SEC's May 2023 comment regarding IRBT's exclusion of IP litigation expense from Non-GAAP measures, the absence of a clear reconciliation showing what adjustments were made to GAAP figures to arrive at these Non-GAAP amounts exacerbates the compliance deficiency and prevents users from understanding the material differences between reported and adjusted metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2025-03-12",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard consolidated statement of operations table presenting GAAP financial measures across three fiscal years (2024, 2023, 2022) with consistent line-item categorization and proper hierarchical organization. No Non-GAAP measures are presented in this visual, and all figures are clearly labeled with appropriate currency notation and sign conventions. The table does not exhibit the prominence, reconciliation, or labeling violations cited in the IRBT SEC comment letters regarding Non-GAAP exclusions (IP litigation, tax provisions, methodology changes), as those violations pertained to separate Non-GAAP reconciliation sections in MD&A, not to core GAAP financial statements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "KMI": [
+      {
+        "file": "table_022.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial reconciliation table presenting GAAP-based line items (Risk management activities, Gain on divestitures, Income tax Certain Items, and Other) with appropriate labeling and footnote references (a, b, c, d). The table clearly shows comparable GAAP measures across two years (2025 and 2024) in consistent format. No Non-GAAP measures are presented, and all items are properly identified with supporting footnotes, which satisfies SEC disclosure requirements for reconciliation tables.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents GAAP-based expense line items (General and administrative, Corporate charges, and Certain items) with actual dollar amounts and year-over-year changes, all properly labeled and consistently formatted. No Non-GAAP measures are present, so there are no prominence violations. The reconciliation structure is transparent, showing both absolute values and earnings impact changes without obscuring GAAP comparability.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a pension and OPEB sensitivity analysis table presenting actuarial assumptions and their one-percent impacts on net benefit costs and funded status. The table uses standard GAAP pension accounting measures (net benefit cost, funded status) and is appropriately formatted with clear labeling, consistent columns, and proper units. No Non-GAAP measures are presented, and there is no prominence hierarchy issue. The visual accurately represents the mathematical relationships without distortion or misleading presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a descriptive project table presenting capital allocation information across three columns: Asset/Project, Description, and Activity/Capital Scope. The table contains no financial metrics, no Non-GAAP measures, and no GAAP measures that would trigger Non-GAAP prominence rules. The visual presents factual project details (Texas Access project, CO2, Diamond M expansion) with straightforward capital scope amounts, which are standard GAAP-compliant disclosures without any misleading comparative analysis or metric presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_007.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This table presents project acquisition and divestiture information with GAAP-aligned metrics (capital scope in millions, completion dates, and descriptions). The data is organized clearly with appropriate columns and comparable GAAP measures throughout. No Non-GAAP metrics are presented, and there is no prominence violation or misleading presentation detected. The table complies with standard SEC disclosure requirements for capital project reporting.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table disclosing construction projects and capital expenditures, not a performance metric presentation. The table appropriately presents GAAP-basis capital scope amounts in clear columns without non-GAAP measures. While the SEC's 2023 comment letter to KMI flagged non-GAAP prominence issues in performance discussions, this specific table does not present non-GAAP metrics and therefore does not violate Non-GAAP prominence rules. The disclosure is straightforward and factual.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2026-02-13",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Adjusted Net Income and Adjusted EBITDA presented without corresponding GAAP measures (Net Income and Operating Income) in the same table, violating Regulation G Item 10(e)",
+        "explanation": "This table presents Non-GAAP measures (Adjusted Net Income Attributable to Kinder Morgan, Inc. and Adjusted EBITDA) as the primary performance metrics without displaying their directly comparable GAAP equivalents (Net Income and Operating Income) in equivalent prominence or position. The SEC's March 28, 2023 comment letter to KMI specifically noted the company's failure to provide discussion and analysis including consolidated GAAP measures of revenues, cost of sales, and operating income alongside non-GAAP metrics. By presenting only adjusted figures without GAAP reconciliation in the main performance table, the filing violates the requirement that non-GAAP measures must not appear more prominently than the most directly comparable GAAP measure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_023.png",
+        "date": "2026-02-13",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard consolidated statement of income presented in table format with GAAP measures (revenues, operating income, net income) displayed prominently and consistently alongside comparable 2024 figures and year-over-year changes. All line items are clearly labeled as GAAP measures, reconciliations are implicit in the consolidated structure, and no Non-GAAP metrics are presented with greater prominence than GAAP measures. The table follows standard SEC financial reporting conventions and does not violate Regulation G or Item 10(e) of Regulation S-K.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2026-02-13",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Adjusted Net Income, Adjusted EPS, and Adjusted EBITDA presented as primary metrics without sufficient prominence of GAAP measures; reconciliation provided but Non-GAAP figures dominate disclosure layout",
+        "explanation": "This reconciliation table presents multiple Non-GAAP measures (Adjusted Net Income Attributable to Kinder Morgan, Adjusted Net Income Attributable to Common Stock, Adjusted EPS, and Adjusted EBITDA) as the focal point of the filing, with GAAP measures relegated to starting points in the reconciliation. The SEC's March 2023 comment letter to KMI specifically flagged that the company failed to provide adequate discussion and analysis including consolidated GAAP measures of revenues and cost of sales, and that Non-GAAP measures were evaluated as primary performance indicators. By structuring this table to emphasize Non-GAAP outcomes (bolded, at bottom of each section) rather than displaying GAAP and Non-GAAP side-by-side with equal prominence, the filing violates Regulation G's requirement that Non-GAAP measures not be presented more prominently than comparable GAAP measures. The layout implicitly positions adjusted metrics as the 'real' financial results rather than adjustments to GAAP.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LITE": [
+      {
+        "file": "table_023.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting comprehensive income data with GAAP measures (Net income/loss and Comprehensive income) clearly displayed alongside components of other comprehensive income. The table structure is standard and transparent, with proper labeling of periods and dollar amounts. No Non-GAAP measures are presented in this excerpt, and GAAP measures are not subordinated to any alternative metrics. The presentation complies with standard financial reporting requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_026.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a GAAP cash flow statement table presenting standard supplemental disclosures of non-cash transactions and cash paid information. All line items are properly labeled as GAAP measures (cash paid for taxes, settlement of loan, right-of-use assets, etc.), with no Non-GAAP metrics presented or highlighted with greater prominence. The table structure follows standard SEC cash flow presentation requirements and does not violate Regulation G Non-GAAP prominence rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard EPS calculation table presenting GAAP net income and share count data used to derive basic and diluted earnings per share. The table clearly displays GAAP measures (net income, weighted average shares) as the primary components, with proper labeling and reconciliation structure. No Non-GAAP measures are presented in this visual, and the table follows appropriate GAAP disclosure conventions without prominence violations or misleading presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_024.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet table presenting GAAP-compliant financial data for two periods (June 28, 2025 and June 29, 2024) with assets, liabilities, and stockholders' equity clearly organized and labeled. No Non-GAAP measures are presented in this visual, and all figures are accompanied by appropriate GAAP classifications and subtotals. The table structure is transparent and does not exhibit any prominence violations or misleading presentation techniques.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP financial table presenting net revenue by geographic segment across three fiscal periods, with no non-GAAP measures present. The table clearly displays absolute dollar amounts and percentage contributions in a consistent format with proper labeling and hierarchical organization. No misleading presentation techniques are evident, and the SEC's prior comments regarding non-GAAP adjustments for inventory and component costs are not applicable to this particular revenue reconciliation table.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant consolidated statement of operations presenting net revenue, cost of sales, gross profit, operating expenses, and net income in proper hierarchical order. All line items are clearly labeled GAAP measures with no Non-GAAP metrics appearing in this table. While the SEC comment letters reference concerns about non-GAAP adjustments for incremental cost of sales and inventory charges in other filings (Form 8-K/A Exhibit 99.1), this particular income statement table does not exhibit prominence violations or misleading presentation\u2014it maintains appropriate GAAP hierarchy without Non-GAAP metric introduction or emphasis.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_027.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a stockholders' equity rollforward table presenting GAAP-compliant financial statement components (Common Stock, Additional Paid-In Capital, Retained Earnings, Accumulated Other Comprehensive Income, and Total Stockholders' Equity) with no Non-GAAP measures present. The table follows standard accounting presentation with clear line-item descriptions, consistent formatting, and appropriate currency notation. No truncation, distortion, or prominence violations are evident, as the visual is a pure GAAP equity reconciliation absent any non-GAAP adjustments or alternative metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_025.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard cash flow statement table presenting GAAP measures (net income, depreciation, stock-based compensation, etc.) organized by operating, investing, and financing activities. No Non-GAAP measures are presented in this visual, eliminating prominence or reconciliation violations. The table structure is transparent, with line items clearly labeled and values properly formatted across three fiscal periods, adhering to SEC disclosure requirements for cash flow statement presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2025-08-19",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation and inadequate reconciliation disclosure",
+        "explanation": "The table presents 'Amortization of acquired developed intangibles' (5.0, 6.2, 4.8) as a separate line item within Cost of Sales without clear labeling as a Non-GAAP adjustment or reconciliation to GAAP cost of sales. This line item appears to be added back in non-GAAP calculations but is presented with equal prominence to GAAP measures, violating Regulation G requirements. The SEC's September 2024 comment specifically required the company to address Question 100.01 regarding Non-GAAP determinations, yet this filing lacks explicit non-GAAP labeling and a clear reconciliation table distinguishing GAAP from adjusted measures. The presentation conflates acquired intangible amortization (a normal operating cost per prior SEC comments) with GAAP line items, creating ambiguity about which figures are GAAP-compliant.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2025-08-19",
+        "pred_misleading": false,
+        "pred_violation": "Potential Non-GAAP prominence concern requiring clarification under SEC CDI 100.01",
+        "explanation": "This is a standard GAAP financial table presenting segment revenue, gross profit, operating expenses, and restructuring charges with proper GAAP labeling and reconciliation structure. However, given the SEC's September 11, 2024 comment letter specifically directing the company to address CDI 100.01 regarding Non-GAAP determinations, any accompanying non-GAAP reconciliation exhibit (referenced in the 8-K/A filed August 21, 2024) must ensure non-GAAP measures do not appear more prominently than their GAAP counterparts and include complete reconciliation detail. The table itself shows no violation, but compliance depends on how adjusted/non-GAAP figures are presented in related reconciliation schedules, particularly regarding the previously flagged inventory and excess/obsolete inventory adjustments that the SEC deemed to be normal operating costs.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "LYFT": [
+      {
+        "file": "table_032.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a table of contents for an SEC filing displaying standard GAAP financial statements (Balance Sheets, Statements of Operations, Comprehensive Income, Stockholders' Equity, and Cash Flows) with corresponding page numbers. No Non-GAAP measures are presented, no misleading chart elements are present, and the document structure follows standard SEC filing format without prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_035.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting net income, other comprehensive income components, and comprehensive income for three fiscal years (2025, 2024, 2023) in thousands of dollars. All figures are GAAP-based measures with consistent labeling and appropriate presentation hierarchy\u2014GAAP measures (Net income, Comprehensive income) are clearly identified and presented with equal prominence throughout. No Non-GAAP metrics are present, no reconciliation issues exist, and the table structure complies with standard SEC financial statement formatting requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_033.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet (assets, liabilities, and stockholders' equity) presenting GAAP-compliant financial information as of December 31, 2025 and 2024. All line items are clearly labeled with their GAAP classifications (e.g., current assets, total assets, total liabilities), and no Non-GAAP measures are presented. The table structure is transparent and follows conventional SEC filing format with appropriate subtotals and cross-references to supporting notes.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_030.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard cash flow statement table presenting GAAP-compliant line items from operating, investing, and financing activities. All measures are GAAP-based with no Non-GAAP metrics present, and the presentation follows conventional SEC filing format with appropriate labeling and year-over-year comparisons. No truncation, axis distortion, or prominence violations are evident.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_018.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP income statement presented as a percentage-of-revenue common-size table for fiscal years 2025 and 2024. All line items are clearly labeled as GAAP measures (Revenue, Cost of revenue, Operating expenses, etc.) with no Non-GAAP metrics present. The table properly presents GAAP measures without prominence violations, and no reconciliation is required since no non-GAAP adjustments are shown. The format is consistent with typical SEC filing presentations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_017.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard consolidated statement of operations presented in tabular format comparing fiscal years 2025 and 2024. All line items are clearly labeled with GAAP measures (Revenue, Cost of Revenue, Operating Expenses, Net Income, etc.) with no Non-GAAP metrics present or improperly highlighted. The table follows conventional income statement structure with appropriate subtotals and maintains consistent formatting, presenting GAAP results transparently without prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_036.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a stockholders' equity rollforward table presenting GAAP-compliant financial statement data with proper columnar organization and clear labeling. All line items are identified by account type (shares, common stock, paid-in capital, accumulated deficit, comprehensive income, and total equity), with amounts properly attributed to their respective columns. No Non-GAAP measures are presented, and the table structure follows standard SEC filing conventions with consistent formatting and complete reconciliation of beginning and ending balances across all three years shown.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_034.png",
+        "date": "2026-02-11",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard financial table presenting consolidated statements of operations for three fiscal years (2025, 2024, 2023) in a format consistent with GAAP requirements. The table clearly presents revenue, costs and expenses itemized by category, operating results, and net income in a hierarchical structure with proper line-item labeling and dollar amounts. No Non-GAAP measures are presented, and all figures appear to be GAAP-compliant with appropriate reconciliation between line items (e.g., total costs reconcile to loss from operations). The presentation follows conventional SEC filing standards without truncation, distortion, or prominence violations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-11",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Adjusted EBITDA and Free Cash Flow presented with equal or greater prominence than comparable GAAP measures; Non-GAAP metrics lack clear labeling and appear in primary metrics section without adequate GAAP reconciliation context.",
+        "explanation": "The table presents Non-GAAP measures (Adjusted EBITDA, Free Cash Flow, Adjusted EBITDA margin) in a dedicated 'Key Metrics and Non-GAAP Financial Measures' section positioned immediately after GAAP measures, with identical formatting and no visual distinction. Adjusted EBITDA is shown without an explicit reconciliation to Net Income on this page, violating SEC Regulation G requirements that Non-GAAP measures not be presented more prominently than the most directly comparable GAAP measure. The superscript footnote references suggest reconciliations exist elsewhere, but their absence from this primary disclosure section violates the prominence rule and SEC Item 10(e) of Regulation S-K.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_028.png",
+        "date": "2026-02-11",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Adjusted EBITDA presented without sufficient GAAP context and reconciliation clarity",
+        "explanation": "This table presents Adjusted EBITDA ($528.8M in 2025) as a Non-GAAP measure with a detailed reconciliation from Net income ($2,844.0M), but the layout and presentation create prominence concerns. The Adjusted EBITDA line is visually separated with dollar signs and bold formatting, and derivative metrics like 'Adjusted EBITDA margin' are calculated and presented without clear labeling that these are Non-GAAP derived figures. While a reconciliation is technically provided, the prominent display of Non-GAAP metrics (Adjusted EBITDA and its margin percentage) alongside gross bookings without equally prominent GAAP alternatives may violate SEC Regulation G requirements for Non-GAAP measure presentation. The table should more clearly demarcate Non-GAAP measures and ensure GAAP net income receives equal or greater visual prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "OGN": [
+      {
+        "file": "table_018.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant financial table showing provision activity and balance sheet reconciliation across three years (2025, 2024, 2023). All line items are clearly labeled with GAAP measures (Balance, Provision, Payments), and the table presents no Non-GAAP metrics. The footnote reference '(1)' on Payments suggests standard reconciliation documentation. No truncation, axis distortion, or prominence violations are evident in this straightforward tabular presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP revenue figures (in millions) across three fiscal years with year-over-year percentage changes. All metrics displayed are GAAP measures with no Non-GAAP metrics present, eliminating prominence or reconciliation violations. The table is clearly labeled, logically organized by geography (United States, International, Total), and presents comparable GAAP measures consistently without distortion or misleading presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_015.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP measures (revenue figures in millions for Arexvia and Viama across 2025, 2024, and 2023) with year-over-year percentage changes. The table does not present Non-GAAP measures, contains no reconciliation issues, and displays GAAP figures with appropriate labeling and consistent formatting. No truncated axes, chart distortions, or prominence violations are evident in this tabular presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP revenue figures (in millions) organized by business segment across three fiscal years with percentage change calculations. The table contains only GAAP measures (revenues by segment) with no Non-GAAP metrics present, and therefore does not violate Non-GAAP prominence rules or require reconciliation. The presentation is straightforward and compliant with SEC disclosure requirements for segment reporting.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP revenue data by segment across three fiscal years with year-over-year percentage changes. The table does not present Non-GAAP measures, contains no missing GAAP reconciliations, and displays all figures with consistent labeling and clarity. No prominence violations or misleading chart effects are present, as this is a straightforward tabular disclosure of comparable GAAP metrics.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_017.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP financial table presenting income statement line items (cost of sales, gross profit, operating expenses, and other items) with no Non-GAAP measures visible. The table follows proper format with clear GAAP metrics, consistent labeling, dollar amounts in millions, and year-over-year percentage changes. No truncation, distortion, or prominence violations are evident, and the presentation complies with SEC disclosure requirements for this type of comparative financial statement.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20251231_g21.jpg",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a performance comparison chart showing total return across multiple indices and a company (Organon) from 06/02/21 to 12/31/25. The chart uses a properly scaled y-axis starting at $0, consistent line widths, and clear labeling of all five series with distinct colors and markers. No Non-GAAP measures are present\u2014all displayed metrics are standard market indices or total shareholder return, which do not require GAAP reconciliation under SEC rules.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP revenue metrics (Atozet, Zetia/Vytorin, Cozaar/Hyzaar) across three years with year-over-year percentage changes. The table contains only GAAP measures with clear labeling, proper columnar organization, and transparent presentation of both absolute values and percentage changes. No Non-GAAP measures are present, and no prominence violations or chart distortions apply to tabular GAAP-only data presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_012.png",
+        "date": "2026-02-24",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a financial table presenting GAAP revenue measures by segment (Reniflexis, Hadlima, Ontruzant, Brenzys) across three years with corresponding year-over-year percentage changes. The table contains no Non-GAAP measures, no truncated axes, and no visual distortions\u2014it is a straightforward presentation of comparable GAAP figures with consistent formatting and clear labeling of foreign exchange adjustments. No SEC Regulation G or Item 10(e) violation is present, and the table adheres to standard financial reporting transparency.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "ogn-20241231_g20.jpg",
+        "date": "2025-02-28",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a performance comparison chart showing total return across multiple indices and the company (Organon) over time, with a properly scaled y-axis starting at $0 and consistent intervals. The chart does not contain GAAP/Non-GAAP metric violations, as it presents comparative investment performance rather than financial reporting metrics subject to Regulation G. The visual accurately represents the labeled values without distortion, truncation, or inappropriate chart mechanics, and does not violate SEC Non-GAAP prominence rules that apply to earnings releases and financial statements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "STZ": [
+      {
+        "file": "stz-20250228_g9.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "This pie chart presents packaging material composition data (41% aluminum cans, 56% glass bottles, 3% steel kegs) using a pie chart format, which is inappropriate for non-additive or non-hierarchical categorical data that does not represent a meaningful part-to-whole relationship. Pie charts should only be used when categories represent proportional segments of a single total; here, the data appears to represent product mix or volume categories that do not form a natural whole. This visual choice exaggerates the visual prominence of differences and obscures the actual business relationships between packaging types, similar to SEC concerns about misleading metric prominence in STZ filings.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g5.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "The pie chart presents product category breakdowns (Beer 83.7%, Wine 14.2%, Spirits 2.1%) that sum to 100%, making it a legitimate part-to-whole comparison suitable for pie chart presentation. However, the visual distortion created by the donut chart's design\u2014particularly the dark navy Wine segment positioned prominently against the lighter blue Beer segment\u2014can exaggerate the perceived size difference and may obscure the true proportional relationship. While not a GAAP/Non-GAAP violation, the chart presentation could benefit from a standard pie chart or bar chart for clearer visual accuracy in financial reporting context.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g8.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential misleading presentation through inappropriate chart type selection",
+        "explanation": "This pie chart presents packaging material composition data (Glass bottles 58%, Aluminum cans 39%, Steel kegs 3%) using a donut chart format, which is inappropriate for displaying non-part-to-whole comparative metrics or operational data that may represent operational segments rather than true compositional parts. While the percentages sum to 100%, pie/donut charts can distort perception of differences between similar values (e.g., 58% vs. 39% appear more disparate visually than numerically). Given SEC concerns regarding STZ's presentation clarity and GAAP vs. non-GAAP distinction, this chart lacks context indicating whether these are GAAP-based or non-GAAP derived figures, and the visual format may overstate or misrepresent operational relationships without proper labeling or reconciliation to underlying financial statements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g6.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "This pie chart uses an inappropriate visualization for Consolidated Net Sales composition data. While the percentages sum to 100% (81.9% + 15.6% + 2.5%), a pie chart is designed for part-to-whole relationships where all components are comparable in significance. The extreme dominance of Beer at 81.9% renders the Wine (15.6%) and Spirits (2.5%) segments visually imperceptible, making comparative analysis difficult. A horizontal or vertical bar chart would more effectively communicate the sales mix without the visual distortion inherent in pie charts with highly skewed distributions.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g4.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential presentation issue with product category composition that may obscure material business segments",
+        "explanation": "This pie chart uses a donut format to display Fiscal 2024 Consolidated Net Sales by product category (Beer 81.9%, Wine 15.6%, Spirits 2.5%). While pie charts are technically appropriate for part-to-whole comparisons, the donut format with the hollow center creates visual distortion that can exaggerate the perceived size of the largest segment (Beer) relative to smaller segments. More critically, given Constellation Brands' SEC comment letter history regarding unclear GAAP vs. non-GAAP presentation and the instruction to clarify reported amounts, this chart should explicitly state whether these percentages represent GAAP-reported net sales or adjusted/non-GAAP amounts, and should reference the underlying financial statements for reconciliation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g5.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Inappropriate chart type for financial presentation; pie charts are unsuitable for depicting consolidated net sales composition with three segments where one segment (Beer at 79.0%) dominates disproportionately.",
+        "explanation": "The donut/pie chart presents Fiscal 2023 Consolidated Net Sales across three beverage categories, but the extreme dominance of Beer (79.0%) makes the Wine (18.2%) and Spirits (2.8%) segments visually indistinguishable and minimizes their perceived significance. Pie charts are inappropriate for part-to-whole comparisons when one component overwhelmingly exceeds others, as this visual distortion obscures the actual contribution of minority segments. A horizontal bar chart or stacked column chart would provide clearer, non-misleading visual representation suitable for SEC financial disclosures. This presentation style violates general principles of clear financial communication expected in SEC filings.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g20.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential Non-GAAP prominence violation and misleading visual presentation of financial metrics without clear GAAP context or reconciliation labels",
+        "explanation": "The y-axis is severely truncated, starting at $10,500M instead of $0, which exaggerates visual differences between bars and distorts the comparative magnitudes of the underlying financial metrics. The chart presents multiple financial line items (Senior Notes, Commercial Paper, etc.) without clear labeling as to whether these represent GAAP or Non-GAAP measures, and lacks reconciliation language or footnotes explaining their relationship to reported GAAP amounts. This presentation mirrors the SEC's February 2023 and May 2023 comment letters to Constellation Brands regarding failure to clearly distinguish Non-GAAP amounts from comparable GAAP amounts and omission of proper reconciliations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g9.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": null,
+        "explanation": "This donut chart presents geographic distribution data (Mexico 57%, U.S. 38%, Other Non-U.S. 5%) using a pie/donut format, which is structurally appropriate for part-to-whole composition. However, the visual distortion created by the donut hole and the varying segment angles makes precise comparison difficult\u2014the human eye struggles to compare the 57% and 38% segments accurately due to angular rather than linear representation. While not a direct SEC Non-GAAP violation, this chart type is suboptimal for financial disclosure and could mislead investors regarding relative geographic contribution magnitudes, particularly given SEC precedent emphasizing clear, unambiguous financial presentations.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20250228_g21.jpg",
+        "date": "2025-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Potential misrepresentation through non-sequential temporal presentation and irregular grouping of maturity dates",
+        "explanation": "The chart displays Senior Notes maturities in calendar years but presents them in a non-sequential, irregular pattern (2025\u20132033, then jumps to 2047\u20132050), creating visual discontinuity that obscures the true distribution of debt obligations over time. The inconsistent spacing and grouping of maturity dates\u2014particularly the large gap between 2033 and 2047\u2014may mislead investors about the company's debt profile and refinancing timeline. This presentation style, combined with SEC's prior comments on STZ regarding clarity in financial metric presentation (Feb 27, 2023 and May 16, 2023 letters), suggests potential compliance concerns with how debt maturities are communicated to investors.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "stz-20240229_g22.jpg",
+        "date": "2024-04-23",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation and potential misrepresentation of financial metrics without clear GAAP reconciliation context",
+        "explanation": "This chart displays multiple financial line items with inconsistent bar heights that do not clearly correspond to their labeled values, particularly evident in the negative values shown in parentheses where bar sizes appear disproportionate to the magnitude of losses. The ordering of items by date and transaction type rather than by financial significance, combined with the use of different colors (dark blue, light blue, gray) without clear labeling of whether these represent GAAP or Non-GAAP measures, creates visual confusion. Given STZ's SEC violations regarding Non-GAAP prominence and the requirement to present Reported EBIT based on GAAP statements, this chart fails to clearly distinguish between GAAP and Non-GAAP amounts and lacks adequate reconciliation context. The visual presentation appears designed to emphasize certain metrics over others through color and positioning rather than providing transparent financial disclosure.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "UPS": [
+      {
+        "file": "table_008.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This financial table presents GAAP measures (Revenue, Operating Expenses, Operating Profit, Net Income, and EPS) with appropriate dollar signs and clear labeling. While the table does not appear to include Non-GAAP measures, the presentation follows standard format with GAAP metrics given primary prominence. However, given UPS's SEC comment history regarding inadequate differentiation and labeling of Non-GAAP measures, any future inclusion of adjusted metrics in similar tables should ensure explicit 'Non-GAAP' labeling and concurrent GAAP reconciliation to avoid violations of Regulation G and Item 10(e) of Regulation S-K.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_010.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence and labeling violation; inadequate differentiation and reconciliation disclosure",
+        "explanation": "This Non-GAAP adjustments table presents adjusted measures without sufficient clarity distinguishing them from GAAP measures, consistent with SEC comment letters from 2024-07-26 and 2024-10-11 criticizing UPS for limited differentiation using only the term 'adjusted' in labels. The table lacks clear GAAP baseline figures, reconciliation detail, and comprehensive explanation of why significant items (transformation strategy costs, pension/postretirement losses, impairments, regulatory payments) are excluded. The SEC specifically requested that UPS provide additional details about costs, scope, duration, and status of excluded initiatives\u2014information absent from this presentation, creating prominence and transparency violations under Regulation G and Item 10(e) of Regulation S-K.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_009.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence and disclosure violation: inadequate differentiation and missing reconciliation context",
+        "explanation": "This Non-GAAP adjustments table presents reconciling items without sufficient context showing the comparable GAAP measure or clear reconciliation to operating profit/expenses. The SEC's July 2024 comment letter specifically cited UPS for limited differentiation of non-GAAP measures (noting reliance on 'adjusted' terminology alone is insufficient), and the October 2024 follow-up required enhanced disclosure of transformation strategy costs including scope, duration, and status. This table lacks narrative context explaining why these material adjustments (totaling $794M in 2025 and $426M in 2024) are excluded, and fails to present the reconciliation prominently alongside the most directly comparable GAAP measure, violating Regulation G requirements for balanced presentation.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_020.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence and inadequate differentiation from GAAP measures; insufficient disclosure of exclusion rationale",
+        "explanation": "This table presents Non-GAAP adjustments to operating expenses but fails to clearly differentiate these adjustments from comparable GAAP measures, consistent with SEC's July 2024 comment letter noting that UPS's differentiation is 'limited to using the term adjusted in the label.' The table itemizes various excluded costs (Transformation Strategy Costs, Divestiture Gains/Losses, Goodwill Impairment) but provides minimal context on why these specific items warrant exclusion or their strategic relevance, violating the SEC's October 2024 requirement for 'additional details about these initiatives...costs, scope, duration and status.' The presentation lacks a direct reconciliation showing how these adjustments bridge from reported GAAP operating expenses to adjusted operating expenses, making it difficult for investors to assess comparability.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_022.png",
+        "date": "2026-02-17",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP presentation lacks sufficient differentiation and context; reconciliation table presented without clear GAAP comparatives on same page",
+        "explanation": "This reconciliation table presents Non-GAAP adjustments to operating expenses but does not display the corresponding GAAP operating expenses figure or the calculated non-GAAP operating expenses on the same page, making it difficult for investors to immediately understand the magnitude of adjustments relative to GAAP results. Per the SEC's July 2024 comment letter to UPS, differentiation from GAAP measures is limited\u2014the table uses only the term 'adjusted' in labels without prominent, side-by-side GAAP comparatives. Additionally, the October 2024 comment letter specifically requested detailed explanations of transformation strategy costs (the largest adjustment at $593M and $322M), including costs, scope, duration, and status\u2014information not evident in this table. The absence of these contextual details alongside the reconciliation constitutes insufficient prominence and clarity of GAAP measures relative to non-GAAP adjustments.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_019.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Non-GAAP measures presented more prominently than comparable GAAP measures; insufficient differentiation and missing reconciliation context.",
+        "explanation": "The table presents Non-GAAP Adjusted Operating Expenses ($9,444M in 2025) and Non-GAAP Adjusted Operating Profit ($1,122M in 2025) with equal or greater visual prominence than their GAAP counterparts (Operating Expenses $9,498M and Operating Profit $1,068M). The non-GAAP adjustments are listed separately but lack clear labeling distinguishing them from GAAP measures, and the reconciliation is fragmented across multiple line items without a consolidated bridge. This presentation violates SEC Regulation G requirements, consistent with UPS's 2024-07-26 comment letter noting that 'differentiation from similar GAAP measures is limited to using the term adjusted in the label.' The structure obscures which figure is the primary GAAP baseline and makes the non-GAAP measures appear as the standard reporting metric.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_021.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation - Regulation G and Item 10(e) of Regulation S-K",
+        "explanation": "This table presents Non-GAAP adjusted measures ('Non-GAAP Adjusted Compensation and Benefits' at $48,185M and 'Non-GAAP Adjusted Total Other Expenses' at $31,815M) with equal or greater visual prominence than their corresponding GAAP measures, violating SEC requirements that Non-GAAP measures must not be presented more prominently than the most directly comparable GAAP measure. The table structure places the Non-GAAP figures in the primary calculation flow without clear differentiation, and the reconciliation items (Transformation Strategy Costs, Multiemployer Pension, etc.) are scattered throughout rather than consolidated, making the GAAP-to-Non-GAAP bridge unclear. This aligns with the SEC's 2024-07-26 and 2024-10-11 comment letters criticizing UPS for inadequate differentiation of Non-GAAP measures and insufficient explanation of excluded transformation strategy costs, requiring enhanced disclosure of project details, scope, duration, and status.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation: Non-GAAP 'Adjusted Operating Profit' and 'Non-GAAP Adjusted Operating Expenses' presented with equal or greater visual prominence than comparable GAAP measures ('Operating Profit' and 'Operating Expenses'), violating Regulation G and Item 10(e) of Regulation S-K.",
+        "explanation": "This table presents Non-GAAP adjusted measures (Adjusted Operating Expenses of $54,915M and Adjusted Operating Profit of $4,604M) immediately adjacent to and with identical formatting as their GAAP counterparts, creating visual parity that violates SEC prominence rules. The SEC's July 2024 comment letter specifically flagged UPS for insufficient differentiation of non-GAAP measures using only the term 'adjusted' in labels, and this table exhibits the same deficiency. The non-GAAP adjustments (transformation strategy costs, impairment charges, pension expenses) lack adequate reconciliation detail and context as required by the October 2024 SEC comment requesting 'additional details about these initiatives.' The presentation structure fails to clearly subordinate non-GAAP measures to their GAAP equivalents, directly contradicting SEC guidance that non-GAAP metrics must not appear more prominently than comparable GAAP measures.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_016.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation - Regulation G and Item 10(e) of Regulation S-K",
+        "explanation": "This financial table presents Non-GAAP measures (Adjusted Operating Expenses, Non-GAAP Adjusted Operating Profit, and Non-GAAP Adjusted Operating Margin) with equal or greater visual prominence than their comparable GAAP measures, violating SEC requirements. The Non-GAAP adjusted figures are presented immediately after GAAP figures without sufficient differentiation\u2014merely using the term 'adjusted' as a label, which the SEC specifically criticized in its July 2024 comment letter. The placement of Non-GAAP metrics in the operating profit section and margin calculations suggests they are primary performance indicators rather than supplementary, contrary to Regulation G guidance that requires GAAP measures to be at least equally prominent. Additionally, the table lacks clear reconciliation details and explanation of why transformation strategy costs and other adjustments are excluded, consistent with SEC concerns raised in October 2024.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_011.png",
+        "date": "2026-02-17",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence and Disclosure Violation - Inadequate Differentiation and Missing Context",
+        "explanation": "This Non-GAAP adjustments table presents multiple transformation strategy cost line items (Transformation 2.0, Business Portfolio Review, Fit to Serve, Network Reconfiguration) without sufficient clarity regarding their nature, scope, duration, or business justification. The SEC's October 11, 2024 comment letter specifically requested that UPS provide 'additional details about these initiatives in future disclosures, such as the costs, scope, duration and status of the projects, and further explanation about why you exclude the costs.' This table fails to meet that requirement by merely listing line items with dollar amounts and italicized descriptions that lack substantive operational context. Additionally, the table does not clearly delineate which GAAP measure each adjustment reconciles to or present the comparable GAAP figures alongside the adjustments, violating Regulation G's requirement that Non-GAAP measures be presented with equal or lesser prominence than their GAAP counterparts.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ],
+    "VERI": [
+      {
+        "file": "table_010.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant operating expenses table presenting actual reported costs for 2024 and 2023 with year-over-year changes. The table properly displays GAAP measures (cost of revenue, operating expenses) with clear line-item detail and reconciliation to totals. No Non-GAAP measures are presented in this visual, and there is no prominence violation or misleading chart distortion. The structure follows SEC disclosure requirements for comparative financial statements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_008.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP-compliant income statement table presenting Year Ended December 31 comparisons for 2024 and 2023. All line items are clearly labeled with GAAP measures (revenue, operating expenses, net loss) in consistent format with appropriate footnote references (e.g., 'exclusive of depreciation and amortization shown separately below'). No Non-GAAP measures are presented in this table, so no prominence violations occur. The table structure follows standard SEC disclosure practices without truncation, misrepresentation, or misleading emphasis.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_013.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard balance sheet (GAAP-based financial statement) presenting Assets and Liabilities and Stockholders' Equity as of December 31, 2024 and 2023. No Non-GAAP measures are presented in this table, and all line items are clearly labeled and organized according to standard accounting classifications. The presentation follows proper GAAP formatting with appropriate subtotals and does not violate SEC Regulation G or Item 10(e) of Regulation S-K regarding Non-GAAP prominence or disclosure requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_005.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": "Non-GAAP Prominence Violation - Item 10(e) of Regulation S-K",
+        "explanation": "The table presents 'Non-GAAP net income from discontinued operations' as a derived metric without adequate prominence given to the underlying GAAP measure ('Net income from discontinued operations'). The non-GAAP figure ($10,170k in 2024) is presented in the same row hierarchy as GAAP items, creating ambiguity about which measure is primary. Given the SEC's December 2024 comment letter to VERI regarding non-GAAP metric prominence and the need for clear reconciliation, this presentation fails to clearly label the non-GAAP measure as such or adequately distinguish it from GAAP net income. A clear reconciliation showing the adjustment components and explicit non-GAAP labeling is required to comply with SEC guidance.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_014.png",
+        "date": "2025-04-01",
+        "pred_misleading": false,
+        "pred_violation": null,
+        "explanation": "This is a standard GAAP consolidated statement of operations presented in proper tabular format with clear line items, appropriate hierarchy, and reconciliation from revenue to net loss. All figures are GAAP-based with no Non-GAAP measures presented in this particular table. While the SEC's December 6, 2024 comment letter to VERI flagged concerns about Non-GAAP gross margin prominence in other disclosures, this specific income statement does not contain Non-GAAP metrics and therefore does not violate Regulation G prominence requirements.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_006.png",
+        "date": "2025-04-01",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP Prominence Violation - Item 10(e) of Regulation S-K and SEC Comment Letter Context",
+        "explanation": "The table presents Non-GAAP gross profit ($65,383k) and Non-GAAP gross margin (70.6%) immediately after GAAP gross profit and margin, with Non-GAAP metrics appearing in the same visual hierarchy and font size as GAAP measures. This violates SEC Regulation G requirements that Non-GAAP measures must not appear more prominently than the most directly comparable GAAP measure. Given the SEC's December 2024 comment letter specifically flagging VERI's non-GAAP gross margin disclosure for lacking sufficient context about revenue mix impacts on Managed Services versus Software Products & Services margins, this presentation fails to adequately subordinate the Non-GAAP figures or clarify their composition. The reconciliation is present but the equal visual prominence and sequential placement create a misleading presentation that elevates non-GAAP metrics beyond appropriate prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      },
+      {
+        "file": "table_004.png",
+        "date": "2025-04-01",
+        "pred_misleading": true,
+        "pred_violation": "Non-GAAP prominence violation and inadequate reconciliation context",
+        "explanation": "The table presents Non-GAAP net loss and Non-GAAP per-share metrics with equal or greater visual prominence than GAAP measures (Net loss appears first, but Non-GAAP variants are highlighted and summarized). More critically, the SEC's December 2024 comment letter flagged that VERI's non-GAAP gross margin disclosures lack adequate explanation of material drivers\u2014specifically the differential impact of Software Products vs. Managed Services mix. This reconciliation table fails to clarify how non-GAAP adjustments vary by business segment, leaving investors unable to assess the comparability of non-GAAP performance. The table's structure buries segment-level reconciliation context that is essential under Regulation G, creating potential for misleading Non-GAAP prominence.",
+        "has_gt_violation": true,
+        "parse_error": false,
+        "api_error": false
+      }
+    ]
+  }
+}

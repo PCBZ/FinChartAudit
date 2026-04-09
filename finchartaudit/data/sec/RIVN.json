@@ -1,0 +1,41 @@
+{
+  "ticker": "RIVN",
+  "cik": "0001874178",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-12",
+      "accessionNumber": "0001874178-26-000008",
+      "primaryDocument": "rivn-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-24",
+      "accessionNumber": "0001874178-25-000007",
+      "primaryDocument": "rivn-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-26",
+      "accessionNumber": "0001874178-24-000014",
+      "primaryDocument": "rivn-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-05-10",
+      "accessionNumber": "0000000000-23-004897"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-05-05",
+      "accessionNumber": "0001193125-23-137044"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-04-24",
+      "accessionNumber": "0000000000-23-004053"
+    }
+  ]
+}

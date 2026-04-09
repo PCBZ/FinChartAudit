@@ -1,0 +1,71 @@
+{
+  "ticker": "UPS",
+  "cik": "0001090727",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-17",
+      "accessionNumber": "0001628280-26-008432",
+      "primaryDocument": "ups-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-18",
+      "accessionNumber": "0001090727-25-000019",
+      "primaryDocument": "ups-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-20",
+      "accessionNumber": "0001090727-24-000008",
+      "primaryDocument": "ups-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-11-06",
+      "accessionNumber": "0000000000-24-012348"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-11-04",
+      "accessionNumber": "0001090727-24-000059"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-10-11",
+      "accessionNumber": "0000000000-24-011572"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-09-26",
+      "accessionNumber": "0001090727-24-000053"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-09-06",
+      "accessionNumber": "0001090727-24-000048"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-07-26",
+      "accessionNumber": "0000000000-24-008476"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-12-15",
+      "accessionNumber": "0000000000-23-013710"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-11-01",
+      "accessionNumber": "0001090727-23-000056"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-10-23",
+      "accessionNumber": "0000000000-23-011599"
+    }
+  ]
+}

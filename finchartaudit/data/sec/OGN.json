@@ -1,0 +1,51 @@
+{
+  "ticker": "OGN",
+  "cik": "0001821825",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-24",
+      "accessionNumber": "0001628280-26-011125",
+      "primaryDocument": "ogn-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-28",
+      "accessionNumber": "0001821825-25-000006",
+      "primaryDocument": "ogn-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-26",
+      "accessionNumber": "0001628280-24-006733",
+      "primaryDocument": "ogn-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-06-25",
+      "accessionNumber": "0000000000-24-007148"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-06-06",
+      "accessionNumber": "0001821825-24-000069"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-05-23",
+      "accessionNumber": "0000000000-24-005970"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-05-14",
+      "accessionNumber": "0001821825-24-000067"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-04-30",
+      "accessionNumber": "0000000000-24-004812"
+    }
+  ]
+}

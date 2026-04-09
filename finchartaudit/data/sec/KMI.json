@@ -1,0 +1,56 @@
+{
+  "ticker": "KMI",
+  "cik": "0001506307",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-13",
+      "accessionNumber": "0001506307-26-000011",
+      "primaryDocument": "kmi-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-13",
+      "accessionNumber": "0001506307-25-000008",
+      "primaryDocument": "kmi-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-20",
+      "accessionNumber": "0001506307-24-000011",
+      "primaryDocument": "kmi-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-06-09",
+      "accessionNumber": "0000000000-23-006243"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-06-07",
+      "accessionNumber": "0001506307-23-000052"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-05-24",
+      "accessionNumber": "0000000000-23-005548"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-04-25",
+      "accessionNumber": "0001506307-23-000038"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-04-07",
+      "accessionNumber": "0001506307-23-000032"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-03-28",
+      "accessionNumber": "0000000000-23-003113"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "ticker": "ABNB",
+  "cik": "0001559720",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-12",
+      "accessionNumber": "0001559720-26-000004",
+      "primaryDocument": "abnb-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-13",
+      "accessionNumber": "0001559720-25-000010",
+      "primaryDocument": "abnb-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-16",
+      "accessionNumber": "0001559720-24-000006",
+      "primaryDocument": "abnb-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-11-02",
+      "accessionNumber": "0000000000-23-011987"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2023-10-30",
+      "accessionNumber": "0001193125-23-266279"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2023-09-21",
+      "accessionNumber": "0000000000-23-010418"
+    }
+  ]
+}

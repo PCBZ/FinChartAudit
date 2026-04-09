@@ -1,0 +1,41 @@
+{
+  "ticker": "BCO",
+  "cik": "0000078890",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2026-02-26",
+      "accessionNumber": "0000078890-26-000010",
+      "primaryDocument": "bco-20251231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2025-02-26",
+      "accessionNumber": "0000078890-25-000059",
+      "primaryDocument": "bco-20241231.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-02-29",
+      "accessionNumber": "0000078890-24-000054",
+      "primaryDocument": "bco-20231231.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-11-05",
+      "accessionNumber": "0000000000-24-012318"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-10-22",
+      "accessionNumber": "0001104659-24-110607"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-09-24",
+      "accessionNumber": "0000000000-24-010828"
+    }
+  ]
+}

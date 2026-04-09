@@ -1,0 +1,5974 @@
+{
+  "model": "qwen/qwen3-vl-8b-instruct",
+  "condition": "vision_text",
+  "n_samples": 271,
+  "binary_accuracy": 0.6642066420664207,
+  "results": [
+    {
+      "id": 0,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart uses silhouettes to represent age groups with percentage labels, which is a valid visual metaphor. The percentages are clearly labeled and consistently displayed without distortion or misleading scaling.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 1,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 7,
+          "y": 29,
+          "width": 49,
+          "height": 351
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 19400 instead of zero, which exaggerates the visual difference between the bars and misrepresents the magnitude of change over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 2,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to display numerical values that are not parts of a whole, which is inappropriate for this data type. Pie charts should represent proportions summing to 100%, but these values (38,462, 34,615, 26,923) are absolute counts and do not form a meaningful part-to-whole relationship.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 3,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 30,
+          "y": 68,
+          "width": 33,
+          "height": 95
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays two time-series metrics (opens and clicks) with consistent y-axis scaling starting at 1 and evenly spaced ticks. The chart type is suitable for sequential data, and no visual distortions or inappropriate elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 4,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 14,
+          "y": 1,
+          "width": 25,
+          "height": 255
+        },
+        {
+          "name": "rect",
+          "x": 478,
+          "y": 2,
+          "width": 31,
+          "height": 251
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inconsistent binning size",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart uses a line chart for categorical data (individuals), which is inappropriate. The x-axis labels are not evenly spaced or ordered consistently, creating false impressions. Additionally, the y-axis for 'Assignment scores' is not scaled consistently with 'Heterozygosity', suggesting inconsistent binning or misleading comparison.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 5,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 30,
+          "y": 577,
+          "width": 42,
+          "height": 29
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inconsistent binning size"
+      ],
+      "explanation": "The x-axis uses inconsistent binning, with some bins spanning 1 unit (e.g., 6-7) while others span 2 or more units (e.g., 77-78). This unequal binning distorts the visual representation of the distribution and misleads interpretation of frequency.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 6,
+      "gt_misleaders": [
+        "misrepresentation",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents survey responses (47% Yes, 43% No, 10% Don't Know) which are not parts of a whole, making a pie chart inappropriate. The chart visually implies a complete distribution, misleading viewers into thinking the percentages sum to 100%.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 7,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart correctly uses consistent scaling and spacing, with clear labeling and appropriate use of color coding for two categories. No visual distortions or inappropriate chart choices are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 8,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 55,
+          "y": 533,
+          "width": 662,
+          "height": 53
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the count of positions by salary range and race, with consistent axis scaling and appropriate labeling. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 9,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 497,
+          "y": 295,
+          "width": 176,
+          "height": 270
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses consistent color intervals in the legend to represent percentage ranges, and there are no visual distortions or inappropriate chart elements. The data is clearly categorized and displayed appropriately for geographic distribution.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 10,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 382,
+          "y": 1585,
+          "width": 180,
+          "height": 158
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The map visually implies a trend by highlighting states with stars, but the chart type (choropleth map) is misused to suggest a sequential or linear trend, which is inappropriate. Additionally, the item order (states) is manipulated to emphasize a narrative, creating a false impression that criminality 'goes up' where SP Forum participants govern.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 11,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to represent media channels, but the percentages do not represent parts of a whole (e.g., 50% + 21% + 17% + 12% = 100%, which suggests these are mutually exclusive categories, but the context implies they may not sum to a complete set or are not part-to-whole). Pie charts are inappropriate when categories are not mutually exclusive or when the total doesn't represent 100% of a whole.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 12,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 18,
+          "y": 418,
+          "width": 53,
+          "height": 25
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays sequential quarterly data with a y-axis starting at 950 and consistent tick intervals. The chart type is suitable for showing trends over time, and no visual distortions or misleading elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 13,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 115,
+          "y": 153,
+          "width": 24,
+          "height": 18
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately displays frame rates for two processors with consistent y-axis scaling and even tick intervals. The values are correctly labeled and visually proportional to the data.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 14,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the number of corruption cases by sector, with bar heights proportional to the labeled values. There are no truncated axes, inappropriate chart types, or other misleading visual elements.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 15,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the comparison with bar lengths proportional to labeled values. No axis truncation, inappropriate chart type, or other misleading elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 16,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays percentages of different spoofing types, which are not parts of a single whole but rather categories of attack vectors. A donut chart is inappropriate for this data, as it implies a part-to-whole relationship that does not exist.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 17,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 217,
+          "y": 104,
+          "width": 31,
+          "height": 197
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends over time with consistent y-axis scaling starting at 0. The legend clearly distinguishes categories, and the data is presented in a suitable sequential format. No misleading visual elements are detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 18,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 54,
+          "y": 557,
+          "width": 202,
+          "height": 30
+        },
+        {
+          "name": "rect",
+          "x": 258,
+          "y": 557,
+          "width": 195,
+          "height": 29
+        },
+        {
+          "name": "rect",
+          "x": 458,
+          "y": 556,
+          "width": 203,
+          "height": 29
+        },
+        {
+          "name": "rect",
+          "x": 662,
+          "y": 555,
+          "width": 192,
+          "height": 30
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of bar chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The chart uses a bar chart to represent time-series data, which is inappropriate as it obscures the temporal trend. Additionally, the bars are not consistently spaced or binned, making it difficult to compare values across different dates.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 19,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 87,
+          "y": 35,
+          "width": 41,
+          "height": 243
+        },
+        {
+          "name": "rect",
+          "x": 558,
+          "y": 34,
+          "width": 37,
+          "height": 243
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses two y-axes with different scales (left for bank assets, right for GDP) to compare vastly different magnitudes, which can mislead viewers into perceiving proportional relationships that do not exist.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 20,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 33,
+          "y": 72,
+          "width": 18,
+          "height": 25
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents percentages with consistent spacing and appropriate axis scaling. The y-axis starts at 56 and increases in 4-unit increments, which is suitable for displaying survey response percentages without distortion.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 21,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The pie chart misrepresents data as part-to-whole when it shows percentages of survey responses (92%, 7%, 1%) which are not a whole. Additionally, the legend on the right uses inconsistent binning for the 'Sector of activity' with unequal percentages across categories, misleading viewers about distribution.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 22,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 157,
+          "y": 278,
+          "width": 46,
+          "height": 244
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart uses a bar chart to compare two discrete time periods, but visually misrepresents the growth by placing the smaller bar (2014-15) on the left and the larger bar (2015-16) on the right with a diagonal arrow, which implies a continuous trend rather than a discrete jump. Additionally, the arrow and text 'New capacity addition in just one year almost equals total capacity till now' suggest a linear progression, which is misleading since the data is not sequential or continuous.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 23,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 423,
+          "y": 123,
+          "width": 64,
+          "height": 53
+        },
+        {
+          "name": "rect",
+          "x": 430,
+          "y": 358,
+          "width": 55,
+          "height": 38
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order",
+        "truncated axis"
+      ],
+      "explanation": "The y-axis is truncated, starting at 34% rather than 0%, which exaggerates the visual difference between the bars. Additionally, the bars are ordered by value (35% then 39.6%) rather than chronologically or logically, which misleads the viewer about the nature of the change.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 24,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 4,
+          "y": 81,
+          "width": 37,
+          "height": 253
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart"
+      ],
+      "explanation": "A line chart is being used to represent the year A.D., which is a continuous, sequential time variable that should be shown as a timeline or calendar, not a variable with a measurable trend. The chart visually implies a trend or change, when the data is simply a sequence of years with no inherent variation.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 25,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents absolute counts (14 accurate, 36 misleading statements), not proportions of a whole, making a pie chart inappropriate. A pie chart implies part-to-whole relationships, which misleads viewers into thinking the segments are a single entity divided into parts.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 26,
+      "gt_misleaders": [
+        "inappropriate use of line chart",
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 12,
+          "y": 21,
+          "width": 25,
+          "height": 82
+        },
+        {
+          "name": "rect",
+          "x": 265,
+          "y": 22,
+          "width": 16,
+          "height": 86
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The Pareto chart correctly uses bars for complaint counts and a line for cumulative percentage, with appropriate axis scaling and consistent tick intervals. The chart type is suitable for displaying the 80/20 rule, and no misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 27,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 55,
+          "y": 17,
+          "width": 44,
+          "height": 361
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart uses appropriate scaling with consistent tick intervals and a y-axis starting at 9100. The bars accurately represent their labeled values without distortion or misleading visual effects.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 28,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays survey results for five different questions, which are not parts of a whole but rather separate categories. Pie charts are inappropriate for such data as they imply a part-to-whole relationship that does not exist.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 29,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 36,
+          "y": 71,
+          "width": 401,
+          "height": 36
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart uses a choropleth map with consistent color coding and a supporting table to display fraud rates by state. The legend clearly defines the percentage ranges, and the data is presented accurately without visual distortion or misleading scaling.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 30,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to represent percentages of toppings on a pizza, but these are not parts of a whole\u2014each topping is a separate ingredient, not a component of a single unified entity. Pie charts are inappropriate for this type of data comparison.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 31,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 38,
+          "y": 26,
+          "width": 37,
+          "height": 273
+        },
+        {
+          "name": "rect",
+          "x": 409,
+          "y": 28,
+          "width": 39,
+          "height": 270
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses two y-axes with different scales (John: 83-87, Adam: 55-95) to compare two students' scores, which misleads by making the visual difference appear larger than it is. The scales are not aligned, distorting the true relative performance.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 32,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents individual statistics (e.g., percentages of buyers achieving certain outcomes), not parts of a single whole, making a pie chart inappropriate. A pie chart misleads by implying these values sum to 100%.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 33,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 1193,
+          "y": 351,
+          "width": 84,
+          "height": 175
+        },
+        {
+          "name": "rect",
+          "x": 327,
+          "y": 524,
+          "width": 498,
+          "height": 59
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis starts at 0 but the scale is misleadingly compressed, with the final value at 65k appearing disproportionately large compared to the initial values. This exaggerates the perceived growth rate over the short time period shown.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 34,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 288,
+          "y": 845,
+          "width": 540,
+          "height": 77
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart appropriately displays literacy rate percentages over time with a y-axis starting at 0.00%, consistent tick intervals, and correct use of a bar chart for discrete time points. The visual representation accurately reflects the data.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 35,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 81,
+          "y": 108,
+          "width": 36,
+          "height": 487
+        },
+        {
+          "name": "rect",
+          "x": 827,
+          "y": 103,
+          "width": 44,
+          "height": 496
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual y-axis with different scales (millions of victims vs. billions of dollars) to plot two unrelated metrics, creating a misleading visual comparison. The fraud loss line appears to decline sharply while victim numbers remain relatively stable, which can mislead viewers into thinking the fraud losses are decreasing in relation to the number of victims.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 36,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 16,
+          "y": 15,
+          "width": 22,
+          "height": 180
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents cholesterol point drops over four weeks with consistent spacing and appropriate y-axis scaling starting from 196. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 37,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to display absolute counts (e.g., 1,739, 1,149) with corresponding percentages, which is misleading because the slices represent different absolute values, not proportions of a single whole. A pie chart is inappropriate for comparing absolute counts across categories.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 38,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the labeled values with proportional bar lengths. The y-axis is not truncated, ticks are consistent, and the chart type is appropriate for comparing discrete categories.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 39,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to compare two salary increases, which is inappropriate since these are not parts of a whole. Pie charts are meant for showing proportions, not absolute values or comparisons between unrelated categories.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 40,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 30,
+          "y": 90,
+          "width": 52,
+          "height": 279
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 249,000 instead of zero, exaggerating the visual difference between the 2014 and 2015 bars. This misleads viewers into perceiving a 'huge spike' when the actual increase is only $2,000.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 41,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "3d"
+      ],
+      "explanation": "The 3D effect distorts the visual comparison of the percentages, making some bars appear taller than others even when their values are similar. This can mislead viewers into perceiving larger differences than actually exist.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 42,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays market share percentages for news channels, which are not parts of a single whole but rather competing entities. A pie chart is inappropriate for this data as it implies a part-to-whole relationship that does not exist.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 43,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 236,
+          "y": 95,
+          "width": 66,
+          "height": 34
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a sequential time axis and a y-axis starting at zero with consistent intervals. The chart type is suitable for showing cumulative deficit over time.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 44,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 55,
+          "y": 282,
+          "width": 38,
+          "height": 22
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents SLUG% values with consistent y-axis scaling starting at 0.5, evenly spaced ticks, and appropriate use of color coding for actual vs. expected values. No misleading elements detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 45,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The image displays menu items with their prices, without any visual distortion or misleading chart elements. It presents clear, direct pricing information without axes, bars, or graphs that could introduce misrepresentation.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 46,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 146,
+          "y": 282,
+          "width": 363,
+          "height": 35
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays unemployment trends over time with a y-axis starting at zero and evenly spaced ticks. The data is sequential and continuous, making the line chart suitable for this visualization.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 47,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The damage chart uses consistent bar lengths matching labeled values, with no truncated axes, inappropriate chart types, or misleading visual effects. The data is presented accurately for comparison.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 48,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 22,
+          "y": 285,
+          "width": 31,
+          "height": 26
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 48 instead of 0, exaggerating the visual difference between the 60% and 50% bars. This misrepresents the actual magnitude of change.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 49,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents percentages of workers from different countries who agreed with a statement, not parts of a whole. A pie chart is inappropriate for this type of comparative data, as it implies the percentages sum to 100% and represent proportional shares of a single entity, which is misleading here.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 50,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 22,
+          "y": 601,
+          "width": 1024,
+          "height": 84
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable",
+        "inappropriate use of bar chart"
+      ],
+      "explanation": "The chart uses country flags as bar segments, which is misleading because flags are not quantitative data. The bar heights appear to represent counts, but the visual encoding with flags obscures the actual distribution. Additionally, the use of flags to represent discrete categories rather than continuous values misrepresents the data structure.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 51,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 75,
+          "y": 249,
+          "width": 35,
+          "height": 28
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart appropriately displays percentages for different political groups with consistent y-axis scaling starting at 50. Bars are correctly sized and ordered, and there are no visual distortions or inappropriate chart choices.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 52,
+      "gt_misleaders": [
+        "inconsistent tick intervals",
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 74,
+          "y": 351,
+          "width": 741,
+          "height": 69
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a sequential time series with consistent y-axis scaling from 0 to 40. Tick intervals are even, and the chart type is suitable for showing trends over time. No misleading elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 53,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 100,
+          "y": 729,
+          "width": 105,
+          "height": 83
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 3000 instead of 0, exaggerating the differences between the libraries' book circulation numbers. Library A's value is visually much larger than it would appear with a full scale from 0.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 54,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The categories represent distinct types of scams, not parts of a whole, making a pie chart inappropriate. Pie charts are meant to show proportional composition, not categorical distribution.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 55,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 197,
+          "y": 124,
+          "width": 100,
+          "height": 65
+        },
+        {
+          "name": "rect",
+          "x": 438,
+          "y": 141,
+          "width": 118,
+          "height": 68
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The bar for 'Original Estimate' (7M) is visually taller than the bar for 'Current Estimate' (6M), but the difference is only 1M. The chart's design exaggerates this difference by making the bars appear unequal in height, misleading viewers about the magnitude of the change.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 56,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 92,
+          "y": 27,
+          "width": 41,
+          "height": 468
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a line plot for continuous data, with consistent grid spacing and appropriate axis labeling. The y-axis starts at 29, which is reasonable given the data range, and tick intervals are evenly spaced.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 57,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 8,
+          "y": 153,
+          "width": 67,
+          "height": 108
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "This chart uses a standardized energy efficiency scale with consistent bar widths and clear labels, appropriate for categorical comparison. The 'Current' and 'Potential' values are displayed with arrows pointing to their respective bands, without axis distortion or misleading visual effects.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 58,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the FBI crime data with consistent y-axis scaling from 0 and clear labeling. The 3D effect is present but does not distort the visual comparison of values. All bars correspond correctly to their labeled values, and the chart type is appropriate for comparing discrete categories across two years.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 59,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately displays two distinct financial metrics (Tax Credits Awarded and Funds Leveraged) for each fiscal year with consistent scaling and clear labels. The totals are correctly summed and presented without visual distortion or misleading axis manipulation.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 60,
+      "gt_misleaders": [
+        "inappropriate item order",
+        "3d"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 477,
+          "y": 199,
+          "width": 102,
+          "height": 67
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis",
+        "3d"
+      ],
+      "explanation": "The 3D effect distorts the visual comparison of the stacked bar segments. Additionally, the y-axis starts at $0 but the scale is truncated visually, making the top segment appear disproportionately large compared to the overall height.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 61,
+      "gt_misleaders": [
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 35,
+          "y": 82,
+          "width": 40,
+          "height": 526
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 81 instead of 0, exaggerating the visual difference between the graduation rates of 1991 and 1992. This makes the 1992 increase appear much larger than it is proportionally.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 62,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 1984,
+          "y": 995,
+          "width": 125,
+          "height": 580
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate axis range"
+      ],
+      "explanation": "The chart uses a line to represent world population over time, but the y-axis is inverted and starts at 7 billion (top) rather than 0, exaggerating the perceived growth. Additionally, the line chart is inappropriate for this type of data, which should be shown with bars or area charts to accurately represent population size.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 63,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 3283,
+          "y": 1174,
+          "width": 616,
+          "height": 222
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis begins at $0, which is appropriate for this data. However, the chart's visual design, particularly the height of the bars and the spacing between them, exaggerates the perceived growth in revenue compared to the acquisition cost. This is a misleading visual effect that distorts the true scale of the data.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 64,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 319,
+          "y": 354,
+          "width": 170,
+          "height": 14
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays cumulative adoption percentages over time for different Australian regions. The y-axis starts at 0 and uses consistent intervals, and the data is sequential and continuous, making the line chart suitable for this type of data.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 65,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a pie chart to show market share, which is a part-to-whole comparison. The percentages sum to approximately 100%, and the visual representation matches the data. No misleading elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 66,
+      "gt_misleaders": [
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents two categories that are not parts of a whole (4% and 96%), making a pie chart inappropriate. Pie charts are meant to show proportions of a single total, not absolute values or categories that sum to more than 100%.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 67,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays continuous identification strength on the x-axis with evenly spaced ticks and a consistent y-axis scale from 0% to 90%. The chart type is suitable for showing trends across a continuous variable, and there are no visual distortions or inappropriate elements.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 68,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 8,
+          "y": 19,
+          "width": 129,
+          "height": 62
+        },
+        {
+          "name": "rect",
+          "x": 36,
+          "y": 386,
+          "width": 93,
+          "height": 59
+        },
+        {
+          "name": "rect",
+          "x": 855,
+          "y": 48,
+          "width": 104,
+          "height": 63
+        },
+        {
+          "name": "rect",
+          "x": 831,
+          "y": 409,
+          "width": 126,
+          "height": 57
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart"
+      ],
+      "explanation": "The data points represent discrete values at two time points (2006 and 2013), making a line chart inappropriate as it implies a continuous trend between them. A scatter plot would be more suitable for comparing these two values.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 69,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The 3D effect is present but does not distort visual comparison significantly. Bars are labeled accurately with percentages that sum to 100%, and the chart type is appropriate for showing distribution across age groups.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 70,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays a time series with consistent y-axis scaling and evenly spaced ticks. The chart type is suitable for showing trends over time, and no visual distortions or inappropriate elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 71,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 102,
+          "y": 33,
+          "width": 35,
+          "height": 602
+        },
+        {
+          "name": "rect",
+          "x": 963,
+          "y": 28,
+          "width": 23,
+          "height": 600
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual y-axis to plot two different metrics with vastly different scales: Price-Earnings Ratio (0 to 50) and Long-Term Interest Rates (0 to 18). This makes it difficult to compare the trends accurately, as the visual height of the lines does not reflect proportional relationships.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 72,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "misrepresentation"
+      ],
+      "explanation": "The bar for chickens (1.2 billion) is visually much shorter than the bar for sheep (7.2 million), despite being over 100 times larger, indicating a misrepresentation of scale.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 73,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 35,
+          "y": 85,
+          "width": 36,
+          "height": 326
+        },
+        {
+          "name": "rect",
+          "x": 435,
+          "y": 78,
+          "width": 47,
+          "height": 332
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses two y-axes with different scales (Aid/GNI in % on left, Growth GDP/Capita in % on right) to represent two distinct metrics, which can mislead by making trends appear more or less significant than they are. The scales are not proportional, and the axes are not clearly labeled to indicate their respective ranges, increasing the risk of misinterpretation.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 74,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 8,
+          "y": 103,
+          "width": 33,
+          "height": 455
+        },
+        {
+          "name": "rect",
+          "x": 476,
+          "y": 17,
+          "width": 33,
+          "height": 377
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate axis range"
+      ],
+      "explanation": "The chart uses line charts for commodity prices, which is appropriate for time-series data. However, the y-axis ranges are inconsistent across commodities (e.g., Silver from $0.25 to $1.20, Crude Oil from $0.30 to $3.00), making direct comparisons misleading. Additionally, the chart includes vertical lines and annotations that exaggerate perceived declines, creating visual distortion.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 75,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 13,
+          "y": 70,
+          "width": 86,
+          "height": 334
+        },
+        {
+          "name": "rect",
+          "x": 406,
+          "y": 58,
+          "width": 64,
+          "height": 364
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inverted axis"
+      ],
+      "explanation": "The chart uses two intersecting lines to compare two unrelated metrics over time, which is misleading because the lines cross at a point that implies a false equivalence. Additionally, the y-axis is inverted, as the values decrease from top to bottom, which reverses the perceived trend and distorts the visual comparison.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 76,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 52,
+          "y": 150,
+          "width": 35,
+          "height": 43
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays sequential time-series data with consistent y-axis intervals starting at $0.00. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 77,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 101,
+          "y": 203,
+          "width": 86,
+          "height": 435
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of bar chart",
+        "inconsistent item order"
+      ],
+      "explanation": "The chart uses a bar chart to compare proportions of vaccinated vs. total people, but the bars are stacked horizontally, making it hard to compare absolute values. Additionally, the age groups are ordered by vaccination rate (descending), which creates a misleading impression of progression.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 78,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 6,
+          "y": 29,
+          "width": 35,
+          "height": 295
+        },
+        {
+          "name": "rect",
+          "x": 570,
+          "y": 29,
+          "width": 28,
+          "height": 296
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual-axis setup with two different scales (absolute numbers vs. percentage change), which can mislead viewers into comparing incompatible metrics. Additionally, the percentage change line (blue) is plotted on a percentage axis while the abortion count (orange) is on a linear scale, making the visual comparison misleading.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 79,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 19,
+          "y": 6,
+          "width": 32,
+          "height": 304
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays mean and median latency over time with a y-axis starting at 0 and evenly spaced ticks. The chart type is suitable for showing trends in continuous data.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 80,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 54,
+          "y": 71,
+          "width": 45,
+          "height": 564
+        },
+        {
+          "name": "rect",
+          "x": 807,
+          "y": 87,
+          "width": 31,
+          "height": 510
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual y-axis with different scales (left: mortality rates from 50-58, right: deaths per 100,000 from 120-160), which misleads by making the visual comparison between the two groups inaccurate. The scales are not proportional, exaggerating the perceived difference in trends.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 81,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "line chart",
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays monthly unemployment rates with consistent y-axis scaling starting at 8% and evenly spaced ticks. The data is sequential and the chart type is suitable for showing trends over time.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 82,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 8,
+          "y": 56,
+          "width": 37,
+          "height": 241
+        },
+        {
+          "name": "rect",
+          "x": 345,
+          "y": 55,
+          "width": 38,
+          "height": 237
+        },
+        {
+          "name": "rect",
+          "x": 415,
+          "y": 53,
+          "width": 36,
+          "height": 244
+        },
+        {
+          "name": "rect",
+          "x": 761,
+          "y": 56,
+          "width": 38,
+          "height": 245
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range",
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual y-axis with different scales for Trials (left, 900-1.8K) and Subscriptions (right, 30-90), making direct comparisons misleading. Additionally, the right y-axis for Subscriptions is scaled to exaggerate the perceived growth relative to the left axis.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 83,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 32,
+          "y": 114,
+          "width": 82,
+          "height": 482
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays enrollment trends over time with a y-axis starting at 0 and evenly spaced ticks. The data is sequential and continuous, making the line chart suitable for this visualization.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 84,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 0,
+          "y": 200,
+          "width": 135,
+          "height": 1488
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis is labeled as '50x scale', implying the data is artificially amplified. The axis ranges from 10 to 110, which exaggerates the perceived temperature change, even though the actual temperature trend is very small. This misleads viewers into thinking there is a large, dramatic change when the real change is minimal.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 85,
+      "gt_misleaders": [
+        "misrepresentation"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents liquid waste in quarts with consistent y-axis scaling from 0 to 80. Bar heights match labeled values, and the chart type is appropriate for comparing discrete categories. No misleading elements detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 86,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 4,
+          "y": 638,
+          "width": 459,
+          "height": 36
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses color gradients and labeled percentages to show the female population percentage by state, with a consistent legend and appropriate visual encoding. No misleading elements such as truncated axes, inappropriate chart types, or distorted scales are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 87,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 5,
+          "y": 26,
+          "width": 39,
+          "height": 418
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inverted axis"
+      ],
+      "explanation": "The chart uses a line chart for a categorical variable (years) and displays a near-constant value (0%) for 'Died', which is misleading. The y-axis is inverted, making the 'Died' line appear as a spike when it should be near zero, and the green area dominates the chart, obscuring the actual data trend.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 88,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 84,
+          "y": 253,
+          "width": 843,
+          "height": 64
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a consistent color scale to represent population growth ranges, and the legend clearly defines each category. No axes, truncations, or inappropriate chart types are present. The visualization accurately conveys regional growth patterns without misleading elements.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 89,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 291,
+          "y": 1443,
+          "width": 2637,
+          "height": 156
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays percent distribution across income brackets over time with a y-axis starting at 0 and evenly spaced ticks. The visual comparison is valid for showing trends in income distribution.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 90,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 50,
+          "y": 203,
+          "width": 41,
+          "height": 1051
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart uses a horizontal bar format to compare two metrics across states, but the bars are not ordered consistently (e.g., by death rate or stringency score), creating misleading visual patterns. Additionally, the chart misrepresents data as if it were a line chart, which is inappropriate for comparing discrete states.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 91,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 148,
+          "y": 223,
+          "width": 371,
+          "height": 109
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends for categorical data with consistent y-axis scaling and evenly spaced ticks. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 92,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart displays trail difficulty percentages, which are not parts of a whole but rather categories of a discrete dataset. A pie chart is inappropriate for this type of categorical data comparison.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 93,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 314,
+          "y": 420,
+          "width": 182,
+          "height": 20
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 0, which is appropriate for this data. However, the scale is misleading because the bars are disproportionately tall for the values shown, exaggerating the perceived growth. The chart visually implies an exponential surge, but the actual values (e.g., 2 to 12,462) show a more gradual increase over time.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 94,
+      "gt_misleaders": [
+        "inconsistent tick intervals",
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 267,
+          "y": 329,
+          "width": 334,
+          "height": 31
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The bars are ordered chronologically by date, but the dates shown (18 sep, 9 oct, 23 oct, 29 sep) are not in chronological order, creating a misleading visual impression of trends.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 95,
+      "gt_misleaders": [
+        "inappropriate item order",
+        "3d"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 111,
+          "y": 859,
+          "width": 1073,
+          "height": 103
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order",
+        "3d"
+      ],
+      "explanation": "The 3D effect distorts the visual comparison of bar heights. Additionally, the bars are ordered by height rather than by category name, which misleads viewers about the actual ranking of channels.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 96,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 80,
+          "y": 268,
+          "width": 124,
+          "height": 1383
+        },
+        {
+          "name": "rect",
+          "x": 1185,
+          "y": 265,
+          "width": 191,
+          "height": 1393
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a line graph to show engine output (bhp) and torque versus RPM. Both axes start at zero, ticks are evenly spaced, and the dual-axis representation is appropriate for comparing two different units of measurement (bhp and mkg).",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 97,
+      "gt_misleaders": [
+        "truncated axis",
+        "inappropriate item order",
+        "3d"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 52,
+          "y": 220,
+          "width": 307,
+          "height": 33
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart appropriately displays temperature anomalies for different years with consistent y-axis scaling and clear labeling. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 98,
+      "gt_misleaders": [
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 62,
+          "y": 47,
+          "width": 167,
+          "height": 753
+        },
+        {
+          "name": "rect",
+          "x": 1904,
+          "y": 47,
+          "width": 178,
+          "height": 803
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual-axis setup where Defendant's Sales (blue bars) and Plaintiff's Commissions (red line) are plotted against separate y-axes with vastly different scales. This makes the commission line appear more volatile and significant than it is relative to the sales, misleading viewers about the relationship between the two metrics.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 99,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart is used to represent three distinct survey findings (55%, 31%, 55%) that are not parts of a single whole, making the chart type inappropriate and misleading.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 100,
+      "gt_misleaders": [
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 42,
+          "y": 134,
+          "width": 143,
+          "height": 20
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays a trend over time with consistent axis scaling and evenly spaced ticks. The data represents a continuous variable over sequential years, making the line chart suitable for this context.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 101,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 29,
+          "y": 340,
+          "width": 352,
+          "height": 231
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses color coding to represent different age groups' poverty rate changes, which is appropriate for geographic data. The legend clearly defines each color, and there are no axis distortions or inappropriate chart types. The chart accurately reflects regional variations without misleading visual cues.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 102,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 5,
+          "y": 44,
+          "width": 45,
+          "height": 211
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis starts at 0 but the data values are extremely close to zero, making the visual representation misleadingly flat and obscuring actual changes over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 103,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 613,
+          "y": 117,
+          "width": 82,
+          "height": 291
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis is truncated at 100.0, exaggerating the spike in the Tech sector after 16:00. The chart shows a rebase where values are normalized to 100, but the truncated range misleads by making the post-16:00 surge appear disproportionately large.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 104,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 390,
+          "y": 36,
+          "width": 152,
+          "height": 90
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The stacked bar chart appropriately displays cumulative CO2 emissions by region and time period. The y-axis starts at zero with consistent intervals, and the chart type is suitable for comparing aggregated values across categories.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 105,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 1563,
+          "y": 485,
+          "width": 634,
+          "height": 174
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart uses a color-coded grid to show monthly job gains/losses across sectors, with consistent y-axis scaling and appropriate use of color for percentage change. The axis labels and legend are clear, and no misleading visual distortions are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 106,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 108,
+          "y": 201,
+          "width": 324,
+          "height": 33
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays productivity against fertilizer levels with a y-axis starting at zero and evenly spaced ticks. The chart type is suitable for showing trends across categorical inputs.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 107,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 523,
+          "y": 333,
+          "width": 2734,
+          "height": 144
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable"
+      ],
+      "explanation": "The map uses a color scale to represent the number of confirmed cases, but the legend groups continuous data into discrete bins (e.g., '10,000+', '1,000+', '100+'). This hides the actual distribution and can mislead viewers about the magnitude of differences between regions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 108,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 34,
+          "y": 371,
+          "width": 720,
+          "height": 73
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart"
+      ],
+      "explanation": "The chart uses a line chart for categorical data (fruits), which is inappropriate as lines imply continuity or trend, misleading viewers into thinking there's a progression between unrelated categories.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 109,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 535,
+          "y": 83,
+          "width": 249,
+          "height": 125
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable"
+      ],
+      "explanation": "The map uses discrete color bins to represent a continuous variable (number of cases), hiding the actual distribution and making it difficult to compare magnitudes between states. The legend groups cases into arbitrary ranges (e.g., '1 to 100' vs '10,001 or more'), which obscures the true scale and can mislead viewers about the severity of outbreaks.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 110,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 92,
+          "y": 500,
+          "width": 1095,
+          "height": 49
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The x-axis is ordered chronologically but displays years from 2014 backwards to 1993, creating a misleading impression of a decreasing trend over time. The data should be presented in ascending order for accurate temporal interpretation.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 111,
+      "gt_misleaders": [
+        "inappropriate use of line chart",
+        "dual axis"
+      ],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 628,
+          "y": 19,
+          "width": 48,
+          "height": 322
+        },
+        {
+          "name": "rect",
+          "x": 10,
+          "y": 17,
+          "width": 54,
+          "height": 295
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to represent department selection percentages, but the data is not part-to-whole; it shows distribution across multiple categories, which is not suitable for a pie chart.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 112,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 31,
+          "y": 802,
+          "width": 1437,
+          "height": 81
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The x-axis is ordered chronologically from left to right, but the chart displays data from 2014-15 to 2010-11, which is reverse chronological. This reversal creates a false impression of a downward trend followed by an upward trend, when in reality the data should be viewed from 2010-11 to 2014-15 to show the actual progression.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 113,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 107,
+          "y": 159,
+          "width": 49,
+          "height": 223
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays enrollment trends over time with consistent axis scaling and evenly spaced ticks. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 114,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 69,
+          "y": 297,
+          "width": 282,
+          "height": 58
+        },
+        {
+          "name": "rect",
+          "x": 461,
+          "y": 293,
+          "width": 190,
+          "height": 54
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis",
+        "inappropriate use of bar chart"
+      ],
+      "explanation": "The chart uses a dual-axis bar chart to display two different metrics on the same scale, which is misleading. The left axis represents total taxable income (in trillions), while the right axis represents tax liability (also in trillions). However, the bars visually represent only one of these metrics, creating confusion. Additionally, using a bar chart for income distribution obscures the true relationship between income brackets and tax liability.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 115,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 166,
+          "y": 221,
+          "width": 1003,
+          "height": 59
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The months are ordered by batting average rather than chronologically, creating a misleading visual trend. April (.238) is shown first, but the data spans from April to September, which should be presented in chronological order for accurate interpretation.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 116,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 47,
+          "y": 836,
+          "width": 308,
+          "height": 341
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a consistent color scale to represent discrete ranges of values, with clear legend mapping. No axis truncation, inappropriate chart type, or inconsistent binning is present. The visual encoding matches the ground-truth data region (Region 1: \u897f\u85cf) which is correctly shown in the lightest color corresponding to 1-9.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 117,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 156,
+          "y": 200,
+          "width": 906,
+          "height": 849
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a donut chart to show proportions of favorite colors from a sample of 80 friends, with each slice representing a percentage of the total. The data is part-to-whole, making the chart appropriate for this context.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 118,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 669,
+          "y": 227,
+          "width": 176,
+          "height": 166
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents age groups within a population, not parts of a whole, making a pie chart inappropriate. The percentages shown (1%, 56%, 35%, 8%) do not sum to 100%, indicating the chart is misleading by implying a part-to-whole relationship.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 119,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 76,
+          "y": 777,
+          "width": 476,
+          "height": 185
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a consistent color scale to represent the fraction of precipitation lost to evapotranspiration, with clear legend intervals. No axes, bars, or misleading visual effects are present, and the chart type is appropriate for spatial data distribution.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 120,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map",
+        "scatter plot"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 26,
+          "y": 435,
+          "width": 175,
+          "height": 102
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses proportional coloring to represent percentages of Linux desktops by country, with a clear legend. There are no axis distortions, inappropriate chart types, or misleading visual elements detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 121,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 23,
+          "y": 59,
+          "width": 48,
+          "height": 407
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate axis range"
+      ],
+      "explanation": "The line chart is inappropriate for displaying counts of mass shootings, which cannot be negative. The y-axis range is misleadingly set to include negative values, which is nonsensical for this data type and falsely implies negative shootings.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 122,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 45,
+          "y": 163,
+          "width": 141,
+          "height": 170
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a consistent color scale to represent conflict counts across regions, with clear legend intervals. No visual distortions, truncated axes, or inappropriate chart types are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 123,
+      "gt_misleaders": [
+        "inconsistent tick intervals",
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 130,
+          "y": 188,
+          "width": 63,
+          "height": 142
+        },
+        {
+          "name": "rect",
+          "x": 103,
+          "y": 422,
+          "width": 92,
+          "height": 84
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The scatter plot appropriately uses dots to represent percentages across demographic categories over time, with consistent x-axis scaling and clear labeling. No misleading visual elements are present.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 124,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 517,
+          "y": 34,
+          "width": 100,
+          "height": 256
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The 'Binary Brexit Map' uses a binary color scheme (yellow/blue) that oversimplifies complex voting data, misrepresenting nuanced regional support. This is misleading because it hides the actual distribution shown in the 'Real Brexit Map', which uses a continuous gradient. The binary map also implies a false dichotomy where regions are either 'for' or 'against' Brexit, ignoring the full spectrum of support.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 125,
+      "gt_misleaders": [
+        "discretized continuous variable",
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 1230,
+          "y": 501,
+          "width": 157,
+          "height": 266
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable"
+      ],
+      "explanation": "The chart bins continuous case counts into discrete ranges, which can obscure the true distribution and make small differences appear more significant than they are. The highlighted range (2,811 - 298,937) is disproportionately large compared to the lower bins, potentially misleading viewers about the scale of variation.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 126,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays percentages that do not represent parts of a whole; they are individual values for different candidates, making a pie chart inappropriate for this data type.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 127,
+      "gt_misleaders": [
+        "discretized continuous variable"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 16,
+          "y": 124,
+          "width": 401,
+          "height": 195
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable"
+      ],
+      "explanation": "The map uses a color gradient to represent case counts, but the legend bins the data into discrete ranges (e.g., 1-999, 1,000-9,999), which obscures the true distribution and makes it difficult to compare states accurately.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 128,
+      "gt_misleaders": [
+        "misrepresentation",
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 13,
+          "y": 111,
+          "width": 46,
+          "height": 79
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart uses a line chart to represent population data, which is inherently categorical (discrete years), making the line chart inappropriate. Additionally, the years are visually ordered by bar width rather than chronologically, creating a false impression of growth rate.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 129,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 788,
+          "y": 103,
+          "width": 86,
+          "height": 310
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes trends over time for different age groups. The y-axis starts at 0, ticks are evenly spaced, and the chart type is suitable for sequential data. No misleading elements detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 130,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 98,
+          "y": 88,
+          "width": 98,
+          "height": 499
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis"
+      ],
+      "explanation": "The y-axis is inverted, with 0% at the top and 100% at the bottom, which reverses the perceived trend. The line shows a decrease over time, but the inverted axis makes it appear as if access is increasing.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 131,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 95,
+          "y": 666,
+          "width": 993,
+          "height": 71
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents gun deaths per private gun owned across countries with consistent y-axis scaling starting at zero. Bars are proportional to their values, and the chart type is appropriate for comparing discrete categories.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 132,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 12,
+          "y": 51,
+          "width": 19,
+          "height": 284
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis range is set from -10 to 110, which is inappropriate for temperature data that is typically positive and centered around a baseline (e.g., 0\u00b0F or 50\u00b0F). This range exaggerates perceived differences and misrepresents the actual scale of temperature changes over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 133,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 191,
+          "y": 320,
+          "width": 775,
+          "height": 50
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays percentages for categories but is not a pie chart. This misleads viewers into thinking the categories are parts of a whole, which is not indicated by the chart's structure or labeling.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 134,
+      "gt_misleaders": [
+        "misrepresentation",
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 770,
+          "y": 1242,
+          "width": 293,
+          "height": 107
+        },
+        {
+          "name": "rect",
+          "x": 141,
+          "y": 1259,
+          "width": 336,
+          "height": 76
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inconsistent item order",
+        "inappropriate use of visual comparison"
+      ],
+      "explanation": "The chart uses a before/after visual split with contrasting colors and car designs to imply a dramatic savings, but lacks a proper scale or percentage calculation. The 'before' price ($186) is shown in a smaller, less prominent box, while the 'after' price ($64) is emphasized in a larger, brighter box, creating a false impression of greater savings than the actual 65% reduction.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 135,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 64,
+          "y": 433,
+          "width": 1088,
+          "height": 250
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents minimum height requirements for police officers by gender across German states, with consistent axis scaling and appropriate chart type. Bars for men and women are clearly differentiated and visually comparable without distortion.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 136,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 11,
+          "y": 161,
+          "width": 281,
+          "height": 39
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "truncated axis"
+      ],
+      "explanation": "The y-axis starts at 0.0 but the scale is misleadingly compressed, exaggerating the perceived differences between bars, especially for the tallest bars which are near 14.0. This visual distortion can mislead viewers about the true magnitude of differences.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 137,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 355,
+          "y": 533,
+          "width": 720,
+          "height": 57
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents average annual economic growth with consistent y-axis scaling from 0% to 4.0% and evenly spaced ticks. The bar heights correctly reflect the labeled values (3.5% and 1.4%), and the chart type is appropriate for comparing two time periods.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 138,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart displays vote shares for candidates in a rural region, but the largest slice (38%) is visually emphasized by being rendered in white with a textured pattern, which is not a standard pie chart representation and may mislead viewers about the proportion. Additionally, the sum of the labeled percentages (19% + 22% + 38% = 79%) is less than 100%, indicating the chart is not showing a complete part-to-whole distribution, which is the fundamental purpose of a pie chart.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 139,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 127,
+          "y": 736,
+          "width": 50,
+          "height": 300
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "Both bar charts use appropriate scales, consistent tick intervals, and suitable chart types for displaying discrete energy values. The y-axes start at zero or appropriate negative baselines, and bars accurately represent their labeled values without distortion.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 140,
+      "gt_misleaders": [
+        "inverted axis",
+        "truncated axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 3,
+          "y": 39,
+          "width": 706,
+          "height": 392
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The horizontal bar chart accurately represents the cost of each tier with proportional bar lengths and clear labels. The y-axis starts at $500 and ends at $2,500, with consistent tick intervals, and the chart type is appropriate for comparing discrete values.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 141,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to display support percentages for GOP candidates, but these are not parts of a whole; they represent separate opinion polls or survey results. Pie charts are inappropriate for such data, as they imply a part-to-whole relationship that does not exist.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 142,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart displays market values (USD billions) for different years, which are not parts of a whole, making the pie chart inappropriate for this data type.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 143,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 50,
+          "y": 557,
+          "width": 190,
+          "height": 28
+        },
+        {
+          "name": "rect",
+          "x": 230,
+          "y": 558,
+          "width": 186,
+          "height": 28
+        },
+        {
+          "name": "rect",
+          "x": 357,
+          "y": 557,
+          "width": 171,
+          "height": 27
+        },
+        {
+          "name": "rect",
+          "x": 461,
+          "y": 558,
+          "width": 177,
+          "height": 29
+        },
+        {
+          "name": "rect",
+          "x": 646,
+          "y": 559,
+          "width": 160,
+          "height": 30
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of bar chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The chart displays multiple counties over time with bars of varying heights, but the x-axis represents discrete dates, making it inappropriate for showing trends over time. Additionally, the bars are not consistently binned, as the data is shown as daily values without uniform time intervals, misleading viewers about the distribution.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 144,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 315,
+          "y": 821,
+          "width": 1455,
+          "height": 72
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "dual axis"
+      ],
+      "explanation": "The chart combines two different metrics (person cooling degree days and AC ownership) on a single plot with dual y-axes, making direct comparisons misleading. Additionally, a line chart is used for a categorical variable (countries), which is inappropriate for this data type.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 145,
+      "gt_misleaders": [
+        "inconsistent binning size"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 336,
+          "y": 592,
+          "width": 325,
+          "height": 37
+        },
+        {
+          "name": "rect",
+          "x": 75,
+          "y": 589,
+          "width": 225,
+          "height": 37
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart misleads by ordering age groups in ascending order for flu (0-4, <0-17, etc.) while using descending order for COVID-19 (80+, 70-79, etc.), creating a false impression of severity. Additionally, the y-axis is inverted, making the bars appear to increase downward, which distorts the visual comparison.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 146,
+      "gt_misleaders": [
+        "inconsistent binning size",
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 1033,
+          "y": 257,
+          "width": 168,
+          "height": 115
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a color-coded legend to represent Hofstede's Individualism scores across regions, which is an appropriate visualization for categorical data. The color scale is consistent and the legend clearly defines score ranges without distortion.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 147,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a 3D pie chart to display the frequency of named items, but the data represents individual categories rather than parts of a whole. The sum of percentages (8% + 8% + 52% + 35% + 31% + 29% + 25% + 20% + 20% + 19% + 19% + 15% + 14% + 14% + 14% + 12% + 12% + 11% + 13% + 13%) exceeds 100%, indicating it's not a true part-to-whole comparison.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 148,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a pie chart to display average spend breakdown, but the values are absolute dollar amounts, not proportions of a whole. A pie chart is inappropriate for this type of data, as it implies the categories sum to 100% and are parts of a whole, which is not the case here.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 149,
+      "gt_misleaders": [
+        "inappropriate use of pie chart",
+        "3d"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents average trip lengths for different periods, which are not parts of a whole, making a pie chart inappropriate. A bar chart would be more suitable for comparing these discrete values.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 150,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The infographic uses appropriate chart types and visual elements for the data presented. Bar comparisons, percentages, and icons are used correctly without distortion, truncation, or inappropriate scaling. All data representations align with the ground-truth and are clearly labeled.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 151,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The pie chart appropriately represents categorical proportions of user behavior. The segments sum to 100% and are clearly labeled, with no visual distortion or inappropriate scaling.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 152,
+      "gt_misleaders": [
+        "misrepresentation",
+        "inverted axis"
+      ],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 163,
+          "y": 113,
+          "width": 164,
+          "height": 310
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart uses a circular design to represent percentage decreases, but these are not parts of a whole and cannot be meaningfully compared as proportions. A pie chart is inappropriate for displaying percentage changes.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 153,
+      "gt_misleaders": [
+        "inappropriate use of pie chart"
+      ],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents distribution across categories (e.g., personality types) within different demographic groups, which is suitable for part-to-whole comparison. However, the use of pie charts is misleading because the categories are not mutually exclusive and the percentages do not sum to 100% in each chart (e.g., M\u00e4nner: 8%+11%+13%+13%+19%+22% = 96%). This violates the fundamental purpose of pie charts and distorts the visual representation.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 154,
+      "gt_misleaders": [
+        "inappropriate item order"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 78,
+          "y": 217,
+          "width": 391,
+          "height": 39
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart appropriately displays monthly starter counts with consistent y-axis scaling starting at zero and evenly spaced ticks. The chart type is suitable for comparing discrete categorical data over time.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 155,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inverted axis"
+      ],
+      "explanation": "The chart uses a line chart for categorical data (cities/counties), which is inappropriate. Additionally, the y-axis is inverted, with higher values at the top, which can mislead viewers about the trend direction.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 156,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 79,
+          "y": 508,
+          "width": 389,
+          "height": 39
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays average 20-year solar savings across states with a y-axis starting at 0 and consistent tick intervals. The data is categorical (by state) and the chart type is suitable for comparing discrete values.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 157,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 16,
+          "y": 486,
+          "width": 44,
+          "height": 248
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inverted axis"
+      ],
+      "explanation": "The chart uses a bar-like representation with a logarithmic y-axis, but the bars are drawn as if they were lines, which is inappropriate for discrete counts. Additionally, the y-axis is inverted, with larger values at the bottom, which reverses the visual perception of magnitude.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 158,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart",
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 10,
+          "y": 139,
+          "width": 257,
+          "height": 41
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The bars are ordered by decreasing height, which visually implies a ranking from best to worst. However, the categories represent distinct benefits (satisfaction, cost reduction, productivity, IT simplification) that are not inherently comparable or ranked, creating a misleading impression of hierarchy.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 159,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart",
+        "other"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 8,
+          "y": 207,
+          "width": 280,
+          "height": 116
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The chart uses a line chart to connect categorical survey responses, which is inappropriate for non-sequential data. Additionally, the 'Non' response is split into two bins (35% and 65%) without clear justification, creating a misleading visual impression of a continuous distribution.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 160,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 52,
+          "y": 378,
+          "width": 826,
+          "height": 44
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends for promotional products across countries with consistent y-axis scaling from 0% to 80%. The chart type, axis range, and tick intervals are suitable for comparing relative market shares.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 161,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 289,
+          "y": 1245,
+          "width": 1602,
+          "height": 60
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The x-axis is ordered chronologically backward (from 2012 to 1998), which creates a misleading visual impression of trends over time. The data should be displayed from earliest to latest year for accurate interpretation.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 162,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 89,
+          "y": 368,
+          "width": 471,
+          "height": 29
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis"
+      ],
+      "explanation": "The y-axis is inverted, with positive percentages at the bottom and negative percentages at the top, which reverses the visual perception of revenue changes. This makes negative growth appear larger and positive growth appear smaller than they actually are.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 163,
+      "gt_misleaders": [
+        "inappropriate use of line chart"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 14,
+          "y": 298,
+          "width": 610,
+          "height": 85
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart uses appropriate axis scaling with y-axis starting at 0 and evenly spaced ticks. The chart type is suitable for showing trends across categorical x-axis labels. No misleading elements detected.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 164,
+      "gt_misleaders": [
+        "inappropriate use of line chart",
+        "dual axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 7,
+          "y": 1,
+          "width": 23,
+          "height": 290
+        },
+        {
+          "name": "rect",
+          "x": 547,
+          "y": 1,
+          "width": 23,
+          "height": 291
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses two distinct lines to compare two metrics across cities. The y-axes are scaled consistently from 0, with even tick intervals, and the chart type is suitable for sequential data comparison.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 165,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 395,
+          "y": 45,
+          "width": 62,
+          "height": 139
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents percentages with proportional bar lengths. The y-axis is not truncated, ticks are consistent, and the chart type is appropriate for comparing categorical data with numerical values.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 166,
+      "gt_misleaders": [
+        "inappropriate axis range",
+        "inconsistent tick intervals"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis",
+        "inappropriate item order"
+      ],
+      "explanation": "The x-axis is labeled 'Years before present' but is reversed, with 0 on the right (AD) and 10,000 on the left (BC), which misrepresents chronological order. Additionally, the population curve shows a sharp rise near 0 AD, which is visually misleading as it implies an exponential growth starting from near zero, while the actual historical population growth was gradual before the industrial era.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 167,
+      "gt_misleaders": [
+        "inappropriate axis range"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 88,
+          "y": 38,
+          "width": 46,
+          "height": 193
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses sequential time data on the x-axis and a consistent y-axis starting at zero. Tick intervals are evenly spaced, and the chart type is suitable for showing trends over time.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 168,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 177,
+          "y": 524,
+          "width": 884,
+          "height": 365
+        }
+      ],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart displays clear percentages (78% and 22%) with proportional progress bars, representing a part-to-whole relationship suitable for this type of visualization. The data is presented accurately without any visual distortions or inappropriate chart choices.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 169,
+      "gt_misleaders": [
+        "inappropriate use of line chart",
+        "inverted axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 32,
+          "y": 130,
+          "width": 136,
+          "height": 1121
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The chart displays years in reverse chronological order on the y-axis, which is unconventional and can mislead viewers into perceiving a downward trend when the data is actually increasing over time.",
+      "binary_correct": true,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 170,
+      "gt_misleaders": [
+        "inverted axis"
+      ],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [
+        {
+          "name": "rect",
+          "x": 26,
+          "y": 421,
+          "width": 59,
+          "height": 1202
+        }
+      ],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis"
+      ],
+      "explanation": "The y-axis is inverted, with higher values at the bottom (4) and lower values at the top (0), which reverses the perceived trend and misleads viewers about the progression of the data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 171,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The area chart accurately represents the percentage of films by genre over time, with the y-axis starting at 0% and consistent spacing. The stacked area design is appropriate for showing part-to-whole composition changes over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 172,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable",
+        "inappropriate use of bar chart"
+      ],
+      "explanation": "The chart uses bar heights to represent price per kg for diverse items, but the bars are not scaled proportionally to their values, misleadingly suggesting a visual hierarchy. Additionally, treating price-per-kilogram as a discrete category rather than a continuous variable hides the true distribution and makes direct comparisons invalid.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 173,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a stacked bar format to show categorized procedures per 1,000 population. Y-axis starts at zero, tick intervals are consistent, and the chart type is appropriate for comparing compositional breakdowns across regions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 174,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays time-series data for different age groups with consistent y-axis scaling starting at zero. The chart type, axis ranges, and tick intervals are suitable for comparing trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 175,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays mean life expectancy over time for multiple countries. The y-axis starts at 30.0 and increases in consistent intervals, and the data is inherently sequential, making the line chart suitable for this visualization.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 176,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate item order"
+      ],
+      "explanation": "The x-axis orders dates chronologically, but the lines are plotted as if 'Baby' and 'Gangnam Style' are sequential events, which misrepresents their actual release timeline. Additionally, using a line chart for non-sequential categorical data (songs) is inappropriate.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 177,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends over time with consistent axis scaling and clear labeling. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 178,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents viewer numbers with consistent axis scaling and appropriate labeling. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 179,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the count of each ingredient with proportional bar heights. The y-axis starts at zero and has consistent intervals, and the chart type is appropriate for comparing discrete categories.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 180,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses an appropriate choropleth format to show percentage data by county, with a clear legend and consistent color scaling. The inclusion of the pre-1848 border is a contextual note, not a misleading element.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 181,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays time-series data with consistent y-axis scaling starting at $280 and evenly spaced ticks. The use of dual lines to compare two related metrics is suitable for this context.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 182,
+      "gt_misleaders": [],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The data represents market shares of different cable providers, which are parts of a whole and suitable for a pie chart. However, the chart displays two pie charts with different total percentages (37% vs. 57%), which is inconsistent and misleading. The pie charts should represent the same total (100%) for valid comparison.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 183,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the percentage of commit messages with expressions of anger for each programming language, with consistent spacing, correct axis scaling from 0.00 to 0.20, and accurate bar heights matching the labeled values.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 184,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes average movie length over time for different genres. The y-axis starts at 0, ticks are evenly spaced, and the chart type is suitable for sequential data. No misleading elements detected.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 185,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual-axis bar chart to compare two different metrics\u2014download speed (Mbps) and monthly price ($)\u2014on the same scale, which can mislead viewers into comparing them directly. The axes represent fundamentally different units (speed vs. cost), making direct visual comparisons invalid and potentially deceptive.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 186,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends over time for multiple countries with consistent axis scaling. The y-axis starts at 0 and uses evenly spaced ticks, and the chart type is suitable for sequential data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 187,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The scatter plot appropriately uses two axes to compare medal percentages from two different Olympic events. The axes are scaled from 0 to 12 with consistent intervals, and the chart type is suitable for displaying paired categorical data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 188,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays survival rates over time with consistent axis scaling and clear labeling. The use of lines for continuous data and appropriate y-axis range (50 to 95) without truncation or distortion makes the visualization accurate and non-misleading.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 189,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart misrepresents the data by showing Windows as a single, oversized segment (90.62%) while the bar chart reveals it's composed of multiple OS versions. This obscures the true distribution and misleads viewers into thinking Windows is one monolithic entity rather than a collection of distinct products.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 190,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The horizontal bar chart accurately represents the percent responding favorably for each country, with consistent bar lengths matching the labeled percentages. The color-coding provides additional context without distorting the data. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 191,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis",
+        "inappropriate item order"
+      ],
+      "explanation": "The chart orders countries by descending number of winners but visually presents the United States bar vertically inverted, making it appear shorter than it is. The y-axis is also inverted, with the highest value (156) at the top and lowest (0) at the bottom, which can mislead viewers about the magnitude of differences.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 192,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays log death rates across age groups with a consistent y-axis starting at -8 and evenly spaced ticks. The chart type is suitable for showing trends in mortality data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 193,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The scatter plot appropriately uses a 2D coordinate system to show the relationship between two continuous variables. Axes are scaled from 0 to 100 with consistent intervals, and no misleading visual effects or inappropriate chart types are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 194,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map correctly uses color coding to show the ancestry with the largest population in each county, with a consistent legend and appropriate geographic representation. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 195,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the percent change in state spending per student with consistent bar lengths matching labeled values. The y-axis starts at -50.4% and ends at 16.5%, with evenly spaced tick intervals, and the chart type is appropriate for comparing discrete categorical data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 196,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents natural gas volumes with proportional bar lengths. The x-axis starts at zero and uses consistent tick intervals. The chart type is appropriate for comparing categorical data across regions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 197,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends over time with consistent axis scaling and evenly spaced ticks. The y-axis starts at zero, and the chart type is suitable for sequential data. No misleading elements detected.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 198,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate use of bar chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The chart mixes line and bar charts for different data types (actor age, actress age, difference) on the same axis, which is inappropriate. The bar chart for 'difference' has inconsistent binning (each bar represents a different movie) and is visually misaligned with the line chart, creating confusion. The line chart is also misapplied as it's not showing a continuous trend but discrete data points.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 199,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The scatter plot appropriately displays life expectancy against health spending per capita with a clear trend line. The axes are scaled logically, ticks are evenly spaced, and the chart type is suitable for showing the relationship between two continuous variables.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 200,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "discretized continuous variable",
+        "inappropriate use of bar chart"
+      ],
+      "explanation": "The chart uses a bar chart to represent occupation counts, but the note indicates some members selected multiple occupations, making the data inherently non-exclusive. This violates the bar chart\u2019s assumption of discrete, non-overlapping categories. Additionally, the bar lengths represent counts, not proportions, so the chart is misleadingly implying a part-to-whole relationship when it\u2019s not.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 201,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inconsistent binning size"
+      ],
+      "explanation": "The chart uses a line chart to show individual user karma over time, but the data is not sequential or continuous for each user; it's a ranked list of top users. Additionally, the chart implicitly bins users into discrete groups (top 20) without normalization, misleadingly suggesting a continuous distribution when it's actually a ranked snapshot over time.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 202,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart uses appropriate bar charts to display speaker counts and proportions, with consistent y-axis scaling and clear labeling. The dual-panel layout effectively separates total speakers from secondary speaker ratios without misleading comparisons.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 203,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "Each bar chart uses appropriate scaling and consistent tick intervals. The charts accurately represent their respective metrics (wage, hours worked, hourly worth) without distortion or misleading visual cues.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 204,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The stacked bar chart accurately represents deaths per 100,000 by cause for two years, with consistent scaling and clear labels. The y-axis starts at 0, and the segments visually correspond to their labeled values without distortion.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 205,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays percentage of total population over time for different age groups. The y-axis starts at 0 and has consistent intervals, and the chart type is suitable for showing trends in categorical data over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 206,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes cumulative word counts over time for multiple novel series. The y-axis starts at zero, ticks are evenly spaced, and the chart type is suitable for showing trends in sequential data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 207,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inverted axis",
+        "inappropriate item order"
+      ],
+      "explanation": "The map uses color shading to represent height, but the color scale is inverted: lighter shades indicate taller heights, which contradicts typical color-to-value conventions. Additionally, the text claims the Netherlands is the tallest and Indonesia the shortest, but the color gradient suggests the opposite, creating a misleading visual hierarchy.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 208,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes tweets per second over time, with a y-axis starting at 0 and evenly spaced ticks. The annotations correlate with events, and the chart type is suitable for showing temporal trends.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 209,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays trends over time with consistent axis scaling and clear labeling. The y-axis starts at 0, ticks are evenly spaced, and the chart type is suitable for showing sequential data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 210,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "All charts use appropriate chart types for the data: line charts for time series, bar charts for categorical comparisons. Axes are appropriately scaled, with consistent tick intervals and no truncated axes or dual axes. The visualizations accurately represent the ground-truth data without misleading elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 211,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a horizontal bar chart to compare two metrics (Adjusted Gross and Adj. Budget) for each movie. The y-axis starts at zero and has consistent tick intervals, and the chart type is appropriate for this data comparison.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 212,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of line chart",
+        "inappropriate axis range"
+      ],
+      "explanation": "The chart uses a line chart to show percentage increases, which is misleading because the y-axis is scaled to exaggerate the growth of textbook prices relative to consumer prices. The y-axis starts at 0 but the scale is not linearly proportional to the percentage increase, making the steep rise of textbook prices appear disproportionately larger than the more gradual rise of consumer prices.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 213,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a color gradient to represent proportions of agricultural land use (food vs. feed and fuel) across regions, with a clear legend. There are no visual distortions, inappropriate chart types, or misleading axis scaling.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 214,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The area chart accurately represents the proportional shares of world citizens under different political systems over time, with the y-axis starting at 0% and consistent spacing. The stacked area design is appropriate for showing part-to-whole composition changes.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 215,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses an index scale starting at 100 for both series, with consistent spacing on both axes. The chart type is suitable for showing trends over time, and the data is clearly labeled without misleading visual distortions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 216,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays cost per unit of alcohol across different alcohol percentages. The y-axis starts at $0.00 and has consistent intervals, and the chart type is suitable for showing trends across a continuous variable.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 217,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays time-series data with consistent axis scaling and evenly spaced ticks. The y-axis starts at zero, and the chart type is suitable for showing trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 218,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents two distinct proportions for each race/ethnicity category using appropriately scaled bars. The y-axis starts at 0 and has consistent intervals, and the chart type is suitable for comparing two categorical distributions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 219,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents percentages with consistent bar lengths matching labeled values. The y-axis is implied to start at zero, and there are no inappropriate chart types, axis ranges, or visual distortions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 220,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses color coding to represent categorical data (YES, LIKELY, NO) across states, with population data provided as labels. There are no visual distortions, inappropriate chart types, or axis manipulations. The data is presented clearly and accurately for geographic comparison.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 221,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays a continuous time series with consistent y-axis scaling starting at 34.83 and evenly spaced ticks. The chart type is suitable for showing price trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 222,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents Facebook shares with proportional bar lengths matching labeled values. The y-axis uses consistent tick intervals (0, 2M, 4M, 6M, 8M, 10M), and the chart type is appropriate for comparing discrete values.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 223,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a y-axis starting at 0 with even tick intervals, and the data is sequential over time. The chart type is suitable for showing trends in crude oil production for two regions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 224,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The scatter plot appropriately visualizes normalized payroll deviations over time, with clear axis labels and consistent tick intervals. Red points represent World Series winners, and the chart does not exhibit any misleading elements from the provided taxonomy.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 225,
+      "gt_misleaders": [],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The pie chart accurately represents the proportional distribution of causes of death for Roman emperors, with each slice corresponding to a category's count. The data is suitable for a part-to-whole comparison, and no visual distortions or inappropriate charting techniques are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 226,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The choropleth map uses a consistent color scale to represent the ratio of girls to boys, with a clear legend. There are no visual distortions or inappropriate charting techniques detected.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 227,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents comment length per subreddit with consistent y-axis scaling starting at zero and evenly spaced ticks. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 228,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart displays popularity by number of upvotes, which is not a part-to-whole relationship, making the pie chart inappropriate. The chart misleads by implying these categories represent proportions of a single whole when they are absolute counts.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 229,
+      "gt_misleaders": [],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The chart displays categories with percentages that do not sum to 100% (total shown: 100%), suggesting it is not a true part-to-whole representation. The inclusion of 'error; 0%' and the overall structure make it inappropriate for a standard pie chart, which should depict proportions of a single whole.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 230,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "dual axis"
+      ],
+      "explanation": "The chart uses a dual y-axis with different scales (Pages Read on left, Pages per Day on right), which can mislead viewers by making trends appear more or less significant than they are. The right axis ranges from 0 to 80, while the left axis ranges from 0 to 400, creating a visual distortion in comparing the two metrics.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 231,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays time-series data with consistent y-axis scaling starting at zero and evenly spaced ticks. The use of two lines with shaded confidence intervals is suitable for comparing trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 232,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays measles cases over time with a y-axis starting at zero and consistent tick intervals. The chart effectively shows trends and key events without distortion or misleading elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 233,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a sequential x-axis for monthly data and a consistent y-axis scale starting at zero. The visual comparison between the two submission types is accurate and not distorted by misleading design elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 234,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays user ratings over sequential seasons with a y-axis starting at 0 and evenly spaced ticks. The chart type is suitable for showing trends in continuous data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 235,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie chart is used to represent survey responses about perceived dress color, which are categorical and not parts of a whole, making it an inappropriate chart type for this data.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 236,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The map uses a consistent color scale to represent the Democracy Index across Asian countries, with clear legend and anchor points (North Korea and Japan). No visual distortions, inappropriate chart types, or axis issues are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 237,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays averaged Nielsen ratings over time for different Star Trek series. The y-axis starts at 0 with consistent spacing, and the chart type is suitable for showing trends across categorical data (series) over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 238,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays average payout proportions against current numbers with a y-axis starting at 0 and evenly spaced ticks. The chart type is suitable for showing trends across discrete steps, and the legend correctly explains the data series.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 239,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart appropriately uses a line chart to show temperature trends over time, with a y-axis starting at -20\u00b0 and consistent tick intervals. The visualization effectively compares 2015 temperatures against historical norms without misleading elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 240,
+      "gt_misleaders": [],
+      "chart_type": [
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The pie chart appropriately represents percentages of websites using various content languages, where each slice corresponds to a part of the whole. The data is clearly labeled and visually consistent with the chart type.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 241,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a horizontal bar chart to compare two related metrics (clock duration and actual gameplay time) for different sports. The bars are appropriately sized and labeled, with consistent spacing and no truncated axis or other misleading visual elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 242,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly visualizes atmospheric pressure over time using a scatter plot with a clear x-axis (Date/time) and y-axis (Raw atmospheric pressure). The y-axis starts at 950 millibars and includes consistent tick intervals, accurately representing the data without distortion or misleading scaling.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 243,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The stacked bar chart appropriately shows the composition of artists listened to over time, with consistent axis scaling and clear labeling. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 244,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents population and settlement numbers with consistent scaling. The line chart appropriately shows historical settlement trends with a note explaining the 1800 dip. The maps visually compare settlement distributions without distortion. No misleading elements detected.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 245,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents subscriber counts with proportional bar lengths. The y-axis starts at zero, ticks are evenly spaced, and the chart type is appropriate for comparing discrete values.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 246,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart",
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a sequential x-axis for seasons and a consistent y-axis scale. The bar chart accurately represents weighted totals with proportional bar lengths. No misleading elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 247,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart uses appropriate scaling with y-axis starting at zero, consistent tick intervals, and clear labeling. The chart type is suitable for comparing discrete categories, and no visual distortions or inappropriate representations are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 248,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate item order"
+      ],
+      "explanation": "The categories are ranked in descending order by percentage, but the chart visually implies a hierarchy where the 'Remaining 31 (subcategories)' category is the largest, which is misleading since it aggregates many small categories. The actual largest category is 'Christianity' at 14.5%, not the aggregated 'Remaining 31' at 15.8%.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 249,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a line chart for time-series data, with consistent y-axis scaling from 0 and evenly spaced x-axis ticks. Both lines represent distinct metrics (marriages and divorces) appropriately labeled and plotted without visual distortion or misleading scaling.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 250,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other",
+        "pie chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate use of pie chart"
+      ],
+      "explanation": "The pie charts misrepresent the data by showing murder rates as parts of a whole, which is inappropriate since murders are a subset of all deaths, not a separate whole. The chart falsely implies that 'murders' and 'murders in mass shootings' are competing categories rather than hierarchical.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 251,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The horizontal bar chart accurately represents the number of edits for each Wikipedia page with proportional bar lengths matching the labeled values. The consistent spacing and clear labeling make it an appropriate visualization for ranked data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 252,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The density plots accurately represent the distribution of like ratios for each category, with consistent axes and appropriate chart type for showing density distributions. Medians are correctly labeled, and no visual distortions or inappropriate chart choices are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 253,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a step plot to show cumulative population over time for different regions. The y-axis starts at zero and has consistent intervals, and the chart type is suitable for sequential data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 254,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart uses stacked bars to show total artwork and separate bar charts for proportions by card color/type, both with appropriate scales starting at zero. The visualization accurately represents the data without distortion or misleading elements.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 255,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately uses a sequential time axis and consistent percentage scale. Both lines are clearly labeled and the y-axis starts at 0%, allowing for accurate visual comparison of trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 256,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The area chart appropriately uses stacked areas to show the changing proportions of people in and out of absolute poverty over time. The y-axis starts at zero and has consistent intervals, and the chart type is suitable for sequential, continuous data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 257,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the percentage distribution of Jungian personality types across global and Reddit populations. The y-axis starts at 0%, and the bars' heights correctly reflect the labeled percentages. The dual-axis comparison is appropriate for showing relative distributions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 258,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays unemployment rate over time with a y-axis starting at 0% and evenly spaced ticks. The use of color-coded presidential administrations and annotations for key events is informative without misleading visual distortion.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 259,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents the number of 'I' mentions for each candidate with proportional bar lengths. The y-axis starts at zero, ticks are evenly spaced, and the chart type is appropriate for comparing discrete categorical data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 260,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "Each line chart appropriately displays nomination probability over time with consistent y-axis scaling from 0% to 40%. The charts use the correct chart type for sequential data, and there are no truncated axes, inappropriate binning, or misleading visual effects.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 261,
+      "gt_misleaders": [],
+      "chart_type": [
+        "scatter plot"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays run times for animated Disney movies in chronological order. The y-axis starts at 60 minutes and has consistent spacing, and the chart type is suitable for showing trends over time.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 262,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays probability trends over time with consistent axis scaling and evenly spaced ticks. The chart type is suitable for sequential data, and no visual distortions or inappropriate representations are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 263,
+      "gt_misleaders": [],
+      "chart_type": [
+        "map"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The choropleth map uses a consistent color scale to represent public health expenditure as a proportion of GDP, with no visual distortions or inappropriate chart elements. The legend clearly indicates the range, and the data is appropriately mapped to regions.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 264,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays cumulative gross revenue over time for multiple movies. The y-axis starts at $0, ticks are evenly spaced, and the chart type is suitable for showing trends over sequential days. No misleading elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 265,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The chart correctly uses a stacked bar format to show citations before and after retraction for each publication. The values are accurately labeled, and there are no axis truncations, inappropriate chart types, or misleading visual effects.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 266,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": true,
+      "pred_misleader_types": [
+        "inappropriate axis range"
+      ],
+      "explanation": "The y-axis includes negative values, which is inappropriate for subscription counts that cannot be negative. This range distorts the perception of growth and decline, making the drop appear more severe than it is.",
+      "binary_correct": false,
+      "type_match": false,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 267,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately displays probability trends over time with consistent y-axis scaling from 0% to 50%. Tick intervals are evenly spaced, and the chart type is suitable for sequential data. No misleading visual elements are present.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 268,
+      "gt_misleaders": [],
+      "chart_type": [
+        "bar chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The bar chart accurately represents defence budgets with proportional bar lengths matching labeled values. The y-axis starts at zero and uses consistent tick intervals, and the chart type is appropriate for comparing discrete categories.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 269,
+      "gt_misleaders": [],
+      "chart_type": [
+        "other"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes annual growth rates over time with a y-axis starting at -15% and ending at 10%, and evenly spaced ticks. The chart type is suitable for showing trends in percentage change.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    },
+    {
+      "id": 270,
+      "gt_misleaders": [],
+      "chart_type": [
+        "line chart"
+      ],
+      "bbox": [],
+      "pred_misleading": false,
+      "pred_misleader_types": [],
+      "explanation": "The line chart appropriately visualizes speed records over time with consistent axis scaling and clear labeling. The y-axis starts at 0, ticks are evenly spaced, and the chart type is suitable for sequential data.",
+      "binary_correct": true,
+      "type_match": true,
+      "parse_error": false,
+      "api_error": false
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "ticker": "LITE",
+  "cik": "0001633978",
+  "filings_10k": [
+    {
+      "form": "10-K",
+      "filingDate": "2025-08-19",
+      "accessionNumber": "0001628280-25-040830",
+      "primaryDocument": "lite-20250628.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2024-08-21",
+      "accessionNumber": "0001628280-24-038024",
+      "primaryDocument": "lite-20240629.htm"
+    },
+    {
+      "form": "10-K",
+      "filingDate": "2023-08-23",
+      "accessionNumber": "0001628280-23-030374",
+      "primaryDocument": "lite-20230701.htm"
+    }
+  ],
+  "comment_letters": [
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-10-21",
+      "accessionNumber": "0000000000-24-011790"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-10-16",
+      "accessionNumber": "0001628280-24-042971"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-09-19",
+      "accessionNumber": "0001628280-24-040931"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-09-11",
+      "accessionNumber": "0000000000-24-010278"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-08-02",
+      "accessionNumber": "0001628280-24-034515"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-07-17",
+      "accessionNumber": "0001628280-24-032131"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-07-05",
+      "accessionNumber": "0000000000-24-007632"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-05-09",
+      "accessionNumber": "0001628280-24-022410"
+    },
+    {
+      "form": "CORRESP",
+      "filingDate": "2024-04-24",
+      "accessionNumber": "0001628280-24-017616"
+    },
+    {
+      "form": "UPLOAD",
+      "filingDate": "2024-04-11",
+      "accessionNumber": "0000000000-24-003964"
+    }
+  ]
+}
