@@ -51,3 +51,9 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+
+[tool.black]
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
