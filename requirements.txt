@@ -1,13 +1,13 @@
 requests
+httpx
+tqdm
 datasets
 huggingface_hub
 beautifulsoup4
 openai
-dotenv
+python-dotenv
 Pillow
 playwright
 scikit-learn
 tenacity
 matplotlib
-tqdmhttpx
-httpx

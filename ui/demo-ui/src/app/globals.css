@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.pulse-dot {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* SEC table HTML rendering */
+[dangerouslysetinnerhtml] table,
+div[style] table {
+  border-collapse: collapse;
+  width: 100%;
+}
+div[style] td,
+div[style] th {
+  border: 1px solid #e2e8f0;
+  padding: 2px 6px;
+  text-align: right;
+  white-space: nowrap;
+}
+div[style] th {
+  background: #f8fafc;
+  font-weight: 600;
+  text-align: left;
+}
+div[style] tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Selection */
+::selection {
+  background: rgba(5, 150, 105, 0.25);
+  color: #0f172a;
+}
