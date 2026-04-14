@@ -53,6 +53,7 @@ OUTPUT_FORMAT = """{
   "explanation": "<one to three sentences>"
 }"""
 
+
 def build_bbox_text(bboxes: list[dict]) -> str:
     """Convert bbox list from Misviz into a human-readable region description."""
     if not bboxes:
@@ -133,7 +134,8 @@ def build_rq3_prompt(sec_context: str) -> str:
 # ── SEC-specific constants and prompt builders ─────────────────────────────────
 
 SEC_CHART_TAXONOMY = "\n".join(
-    f"- {t}: " + {
+    f"- {t}: "
+    + {
         "truncated axis": "y-axis doesn't start at zero, exaggerating differences",
         "misrepresentation": "bar/area sizes do not match labeled values",
         "3d": "3D effects distort visual comparison",
@@ -142,8 +144,11 @@ SEC_CHART_TAXONOMY = "\n".join(
         "inconsistent tick intervals": "axis ticks are unevenly spaced",
     }[t]
     for t in [
-        "truncated axis", "misrepresentation", "3d",
-        "inappropriate use of pie chart", "dual axis",
+        "truncated axis",
+        "misrepresentation",
+        "3d",
+        "inappropriate use of pie chart",
+        "dual axis",
         "inconsistent tick intervals",
     ]
 )
@@ -182,7 +187,10 @@ Respond with valid JSON only:
 
 def build_table_prompt(sec_context: str = "") -> str:
     """Prompt for SEC financial table analysis — Non-GAAP focus."""
-    ctx = sec_context or "No specific SEC context provided. Analyze the table on its own merits."
+    ctx = (
+        sec_context
+        or "No specific SEC context provided. Analyze the table on its own merits."
+    )
     return f"""You are a financial compliance expert. Analyze this financial table from an SEC filing for Non-GAAP prominence violations.
 
 ## Non-GAAP Prominence Rules (SEC Regulation G, Item 10(e) of Regulation S-K)

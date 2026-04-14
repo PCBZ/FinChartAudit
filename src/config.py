@@ -1,12 +1,12 @@
 # src/config.py
-# 
+#
 # Global configuration for model evaluation, API access, and data downloads
 
 # ── Model & API Configuration ─────────────────────────────────────────────────
 
 DEFAULT_MODELS = {
     "claude": "anthropic/claude-haiku-4.5",
-    "qwen":   "qwen/qwen3-vl-8b-instruct",
+    "qwen": "qwen/qwen3-vl-8b-instruct",
 }
 
 DEFAULT_CONDITIONS = ("vision_only", "vision_text")
@@ -28,8 +28,11 @@ VIT_VETO_THRESHOLD = 0.20
 # ── SEC pipeline constants (migrated from server.py) ──────────────────────────
 
 SEC_CHART_TYPES = {
-    "truncated axis", "misrepresentation", "3d",
-    "inappropriate use of pie chart", "dual axis",
+    "truncated axis",
+    "misrepresentation",
+    "3d",
+    "inappropriate use of pie chart",
+    "dual axis",
     "inconsistent tick intervals",
 }
 MISREP_DEDUP_TYPES = {"3d", "truncated axis"}

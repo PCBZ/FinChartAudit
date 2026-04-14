@@ -9,6 +9,7 @@ Usage:
     python run_vlm_rules.py                  # Full run (8 threads)
     python run_vlm_rules.py --workers 4      # Fewer threads
 """
+
 import argparse
 import base64
 import json
@@ -25,10 +26,14 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from finchartaudit.agents.t2_pipeline import PIPELINE_PROMPT, PIPELINE_SYSTEM_PROMPT
 from finchartaudit.config import get_config
+from finchartaudit.prompts.t2_visual import (
+    COMPLETENESS_CHECKS,
+    MISLEADER_DEFINITIONS,
+    SEC_RULE_MAPPING,
+)
 from finchartaudit.tools.rule_check import RuleEngine
-from finchartaudit.prompts.t2_visual import MISLEADER_DEFINITIONS, COMPLETENESS_CHECKS, SEC_RULE_MAPPING
-from finchartaudit.agents.t2_pipeline import PIPELINE_SYSTEM_PROMPT, PIPELINE_PROMPT
 
 OUT_DIR = Path("data/eval_results/vlm_rules")
 
@@ -58,11 +63,14 @@ Rules:
 
 # ── Sample selection (same as run_pipeline_full.py) ──────────────────────────
 
+
 def select_samples_aligned_with_b() -> list[dict]:
     """Use B's exact 271 sample IDs from his results file."""
     from data_tools.misviz.loader import MisvizLoader
 
-    b_results_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_results_path = Path(
+        "C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json"
+    )
     b_data = json.loads(b_results_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 
@@ -71,31 +79,40 @@ def select_samples_aligned_with_b() -> list[dict]:
 
     content_to_local = defaultdict(list)
     for i, d in enumerate(real_data):
-        key = (frozenset(d.get("misleader", [])), tuple(sorted(d.get("chart_type", []))))
+        key = (
+            frozenset(d.get("misleader", [])),
+            tuple(sorted(d.get("chart_type", []))),
+        )
         content_to_local[key].append(i)
 
     samples = []
     used = set()
     for b_item in b_items:
-        key = (frozenset(b_item["gt_misleaders"]), tuple(sorted(b_item.get("chart_type", []))))
+        key = (
+            frozenset(b_item["gt_misleaders"]),
+            tuple(sorted(b_item.get("chart_type", []))),
+        )
         candidates = [idx for idx in content_to_local.get(key, []) if idx not in used]
         if candidates:
             idx = candidates[0]
             used.add(idx)
             instance = loader.get_real_instance(idx)
             if Path(instance.image_path).exists():
-                samples.append({
-                    "idx": idx,
-                    "instance_id": str(b_item["id"]),
-                    "image_path": instance.image_path,
-                    "ground_truth": instance.misleader,
-                    "b_id": b_item["id"],
-                })
+                samples.append(
+                    {
+                        "idx": idx,
+                        "instance_id": str(b_item["id"]),
+                        "image_path": instance.image_path,
+                        "ground_truth": instance.misleader,
+                        "b_id": b_item["id"],
+                    }
+                )
     print(f"Matched {len(samples)}/271 of B's samples")
     return samples
 
 
 # ── Core logic ───────────────────────────────────────────────────────────────
+
 
 def img_to_b64(image_path: str) -> str:
     img = Image.open(image_path)
@@ -113,10 +130,16 @@ def vlm_call(client, model: str, image_b64: str, system: str, prompt: str) -> st
         model=model,
         messages=[
             {"role": "system", "content": system},
-            {"role": "user", "content": [
-                {"type": "text", "text": prompt},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-            ]},
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"},
+                    },
+                ],
+            },
         ],
         max_tokens=2048,
         temperature=0.0,
@@ -147,7 +170,7 @@ def extract_json(text: str) -> dict | None:
                 depth -= 1
                 if depth == 0:
                     try:
-                        return json.loads(text[brace_start:i + 1])
+                        return json.loads(text[brace_start : i + 1])
                     except json.JSONDecodeError:
                         break
     return None
@@ -169,7 +192,9 @@ def run_rule_checks(engine: RuleEngine, extracted: dict) -> list[str]:
     if y_values:
         # Truncated axis
         try:
-            r = engine.run_check("truncated_axis", {"axis_values": y_values, "chart_type": chart_type})
+            r = engine.run_check(
+                "truncated_axis", {"axis_values": y_values, "chart_type": chart_type}
+            )
             results.append(f"truncated_axis: {r['explanation']}")
         except Exception:
             pass
@@ -200,8 +225,10 @@ def run_rule_checks(engine: RuleEngine, extracted: dict) -> list[str]:
     # Dual axis
     if y_values and right_values:
         try:
-            r = engine.run_check("dual_axis", {
-                "left_axis_values": y_values, "right_axis_values": right_values})
+            r = engine.run_check(
+                "dual_axis",
+                {"left_axis_values": y_values, "right_axis_values": right_values},
+            )
             if r["has_dual_axis"]:
                 results.append(f"dual_axis: {r['explanation']}")
         except Exception:
@@ -247,7 +274,9 @@ def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
         page=1,
         ocr_text=f"Chart type: {extracted.get('chart_type', 'unknown')}\n{axis_str}",
         ocr_axis=str(extracted.get("y_axis_values", [])),
-        rule_results="\n".join(rule_results) if rule_results else "No rule violations detected.",
+        rule_results=(
+            "\n".join(rule_results) if rule_results else "No rule violations detected."
+        ),
         misleader_list=misleader_list,
         completeness_list=completeness_list,
     )
@@ -278,6 +307,7 @@ def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="VLM + Rules Pipeline experiment")
     parser.add_argument("--workers", type=int, default=8)
@@ -290,7 +320,10 @@ def main():
     print(f"Model: {config.vlm_model}")
 
     from openai import OpenAI
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     engine = RuleEngine()
 
     samples = select_samples_aligned_with_b()
@@ -330,11 +363,15 @@ def main():
             results.append(result)
             if "error" in result:
                 errors += 1
-                print(f"[{completed}/{len(samples)}] id={result['instance_id']} ERROR: {result['error'][:60]}")
+                print(
+                    f"[{completed}/{len(samples)}] id={result['instance_id']} ERROR: {result['error'][:60]}"
+                )
             else:
-                print(f"[{completed}/{len(samples)}] id={result['instance_id']} "
-                      f"gt={result['ground_truth']} -> {result['predicted']} "
-                      f"({result['elapsed_s']}s, rules={len(result.get('rule_results', []))})")
+                print(
+                    f"[{completed}/{len(samples)}] id={result['instance_id']} "
+                    f"gt={result['ground_truth']} -> {result['predicted']} "
+                    f"({result['elapsed_s']}s, rules={len(result.get('rule_results', []))})"
+                )
             if completed % 20 == 0:
                 _save(results)
 
@@ -354,6 +391,7 @@ def main():
 
     # Compute metrics
     from data_tools.misviz.evaluator import MisvizEvaluator
+
     evaluator = MisvizEvaluator()
     for r in results:
         if "error" not in r:
@@ -367,7 +405,9 @@ def main():
 
     evaluator.print_summary()
     metrics = evaluator.compute_metrics()
-    (OUT_DIR / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics.json").write_text(
+        json.dumps(metrics, indent=2), encoding="utf-8"
+    )
 
     print(f"\nDone: {completed} charts, {errors} errors, {total_time:.0f}s total")
     print(f"Avg: {total_time / max(completed, 1):.1f}s/chart (wall clock)")
@@ -376,7 +416,8 @@ def main():
 
 def _save(results):
     (OUT_DIR / "raw_results.json").write_text(
-        json.dumps(results, indent=2, default=str), encoding="utf-8")
+        json.dumps(results, indent=2, default=str), encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

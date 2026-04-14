@@ -1,4 +1,5 @@
 """Shared utilities for FinChartAudit."""
+
 from __future__ import annotations
 
 import base64
@@ -26,7 +27,7 @@ def parse_json(text: str) -> dict | None:
         if idx >= 0:
             start = idx + len(marker)
             end = text.find("```", start)
-            block = text[start: end if end >= 0 else len(text)].strip()
+            block = text[start : end if end >= 0 else len(text)].strip()
             try:
                 return json.loads(block)
             except (json.JSONDecodeError, ValueError):
@@ -42,13 +43,15 @@ def parse_json(text: str) -> dict | None:
                 depth -= 1
                 if depth == 0:
                     try:
-                        return json.loads(text[brace: i + 1])
+                        return json.loads(text[brace : i + 1])
                     except json.JSONDecodeError:
                         break
     return None
 
 
-def img_to_b64(source: Union[str, Path, Image.Image], max_bytes: int = 4 * 1024 * 1024) -> tuple[str, str]:
+def img_to_b64(
+    source: Union[str, Path, Image.Image], max_bytes: int = 4 * 1024 * 1024
+) -> tuple[str, str]:
     """Convert a file path or PIL Image to (mime_type, base64_string) JPEG."""
     if isinstance(source, (str, Path)):
         pil = Image.open(source)

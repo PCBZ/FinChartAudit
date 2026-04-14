@@ -20,14 +20,14 @@ from io import BytesIO
 from pathlib import Path
 
 import torch
-from PIL import Image
-from torchvision import transforms
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from PIL import Image
 from pydantic import BaseModel, Field
 from tenacity import retry, stop_after_attempt, wait_exponential
+from torchvision import transforms
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 
@@ -38,9 +38,13 @@ if str(REPO_ROOT) not in sys.path:
 
 load_dotenv(REPO_ROOT / ".env")
 
-OPENROUTER_API_KEY = os.getenv("FCA_OPENROUTER_API_KEY") or os.getenv("OPENROUTER_API_KEY", "")
+OPENROUTER_API_KEY = os.getenv("FCA_OPENROUTER_API_KEY") or os.getenv(
+    "OPENROUTER_API_KEY", ""
+)
 VLM_MODEL = os.getenv("FCA_VLM_MODEL", "anthropic/claude-haiku-4.5")
-CORS_ORIGINS = os.getenv("FCA_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+CORS_ORIGINS = os.getenv(
+    "FCA_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000"
+).split(",")
 VIT_MODEL_PATH = REPO_ROOT / "data" / "models" / "chart_misleader_vit.pt"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -48,21 +52,31 @@ log = logging.getLogger("finchartaudit-api")
 
 # ── Import shared modules ──────────────────────────────────────────────────────
 
-from src.prompts import (
-    MISLEADER_TYPES, TAXONOMY_BLOCK as FULL_TAXONOMY_BLOCK,
-    SEC_CHART_TAXONOMY, MISREP_VERIFY_PROMPT,
-    build_chart_prompt, build_table_prompt,
-    build_classify_prompt, build_table_classify_prompt,
-)
+from src.api.sec import fetch_sec_filing, resolve_cik
+from src.classifier.model import TYPE_TO_IDX, build_vit_model
 from src.config import (
-    VIT_VETO_TYPES, VIT_VETO_THRESHOLD, SEC_CHART_TYPES,
-    MISREP_DEDUP_TYPES, HIGH_SEVERITY_VISUAL,
-    MAX_IMAGES, MAX_TABLES, SUPPORTED_FILING_TYPES,
+    HIGH_SEVERITY_VISUAL,
+    MAX_IMAGES,
+    MAX_TABLES,
+    MISREP_DEDUP_TYPES,
+    SEC_CHART_TYPES,
+    SUPPORTED_FILING_TYPES,
+    VIT_VETO_THRESHOLD,
+    VIT_VETO_TYPES,
+)
+from src.prompts import (
+    MISLEADER_TYPES,
+    MISREP_VERIFY_PROMPT,
+    SEC_CHART_TAXONOMY,
+)
+from src.prompts import TAXONOMY_BLOCK as FULL_TAXONOMY_BLOCK
+from src.prompts import (
+    build_chart_prompt,
+    build_classify_prompt,
+    build_table_classify_prompt,
+    build_table_prompt,
 )
 from src.utils import img_to_data_url, parse_json
-from src.classifier.model import build_vit_model, TYPE_TO_IDX
-from src.api.sec import fetch_sec_filing, resolve_cik
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -155,7 +169,9 @@ def run_vit_veto(
         if t in VIT_VETO_TYPES and t in TYPE_TO_IDX:
             prob = probs[TYPE_TO_IDX[t]].item()
             if prob < VIT_VETO_THRESHOLD:
-                veto_log.append(f"VIT_VETO {t} (prob={prob:.3f} < {VIT_VETO_THRESHOLD})")
+                veto_log.append(
+                    f"VIT_VETO {t} (prob={prob:.3f} < {VIT_VETO_THRESHOLD})"
+                )
                 continue
         filtered.append(t)
 
@@ -189,9 +205,12 @@ async def lifespan(app: FastAPI):
 
     # Initialize shared OpenAI client (reused across requests)
     from openai import OpenAI
+
     vlm_client = None
     if OPENROUTER_API_KEY:
-        vlm_client = OpenAI(api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1")
+        vlm_client = OpenAI(
+            api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1"
+        )
         log.info(f"OpenAI client initialized (model: {VLM_MODEL})")
     else:
         log.warning("No API key — VLM endpoints will return 500")
@@ -227,7 +246,9 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 class AnalyzeRequest(BaseModel):
-    image_base64: str = Field(..., alias="imageBase64", max_length=20_000_000)  # ~15MB image limit
+    image_base64: str = Field(
+        ..., alias="imageBase64", max_length=20_000_000
+    )  # ~15MB image limit
     sec_context: str | None = Field(None, alias="secContext", max_length=20_000)
 
     model_config = {"populate_by_name": True}
@@ -256,8 +277,12 @@ class AnalyzeTableRequest(BaseModel):
 class SecFetchRequest(BaseModel):
     ticker: str
     filing_type: str | list[str] = "10-K"
-    count: int = Field(1, ge=1, le=10)  # number of most-recent filings to fetch (pre-filter)
-    years: list[int] | None = None      # specific fiscal years to include (e.g. [2024, 2023])
+    count: int = Field(
+        1, ge=1, le=10
+    )  # number of most-recent filings to fetch (pre-filter)
+    years: list[int] | None = (
+        None  # specific fiscal years to include (e.g. [2024, 2023])
+    )
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
@@ -286,7 +311,9 @@ def analyze(req: AnalyzeRequest, request: Request):
         # Guard against decompression bombs
         w, h = pil_image.size
         if w * h > 25_000_000:  # ~25 megapixels
-            raise HTTPException(400, f"Image too large: {w}x{h} ({w*h/1e6:.0f}MP, max 25MP)")
+            raise HTTPException(
+                400, f"Image too large: {w}x{h} ({w*h/1e6:.0f}MP, max 25MP)"
+            )
         pil_image = pil_image.convert("RGB")
         data_url = img_to_data_url(pil_image)
     except HTTPException:
@@ -300,7 +327,9 @@ def analyze(req: AnalyzeRequest, request: Request):
     try:
         # ── Step 1: Classify — chart or table? ────────────────────────────
         n_calls += 1
-        classify_result = vlm_call(client, data_url, build_classify_prompt(), max_tokens=100)
+        classify_result = vlm_call(
+            client, data_url, build_classify_prompt(), max_tokens=100
+        )
         image_type = "unknown"
         if classify_result:
             image_type = classify_result.get("type", "unknown")
@@ -327,10 +356,16 @@ def analyze(req: AnalyzeRequest, request: Request):
             result = vlm_call(client, data_url, prompt, max_tokens=600)
 
             if not result:
-                raise HTTPException(502, "VLM returned unparseable response for table analysis")
+                raise HTTPException(
+                    502, "VLM returned unparseable response for table analysis"
+                )
 
             sec_violation = result.get("sec_violation")
-            if isinstance(sec_violation, str) and sec_violation.lower() in ("null", "none", ""):
+            if isinstance(sec_violation, str) and sec_violation.lower() in (
+                "null",
+                "none",
+                "",
+            ):
                 sec_violation = None
             explanation = result.get("explanation", "")
             misleading = bool(result.get("misleading")) or bool(sec_violation)
@@ -354,7 +389,9 @@ def analyze(req: AnalyzeRequest, request: Request):
             result = vlm_call(client, data_url, prompt, max_tokens=512)
 
             if not result:
-                raise HTTPException(502, "VLM returned unparseable response for chart analysis")
+                raise HTTPException(
+                    502, "VLM returned unparseable response for chart analysis"
+                )
 
             predicted = result.get("misleader_types", [])
             if isinstance(predicted, str):
@@ -368,13 +405,17 @@ def analyze(req: AnalyzeRequest, request: Request):
                 overlap = set(predicted) & MISREP_DEDUP_TYPES
                 if overlap:
                     predicted = [t for t in predicted if t != "misrepresentation"]
-                    pipeline_log.append(f"RULE_DEDUP: removed misrep (co-occurs with {overlap})")
+                    pipeline_log.append(
+                        f"RULE_DEDUP: removed misrep (co-occurs with {overlap})"
+                    )
 
             # ── Step 4: Misrepresentation targeted re-ask ────────────────
             if "misrepresentation" in predicted:
                 try:
                     n_calls += 1
-                    verify = vlm_call(client, data_url, MISREP_VERIFY_PROMPT, max_tokens=200)
+                    verify = vlm_call(
+                        client, data_url, MISREP_VERIFY_PROMPT, max_tokens=200
+                    )
                     if verify and not verify.get("verified", True):
                         predicted = [t for t in predicted if t != "misrepresentation"]
                         detail = verify.get("detail", "")[:80]
@@ -392,7 +433,11 @@ def analyze(req: AnalyzeRequest, request: Request):
 
             # ── Step 6: Final result ─────────────────────────────────────
             sec_violation = result.get("sec_violation")
-            if isinstance(sec_violation, str) and sec_violation.lower() in ("null", "none", ""):
+            if isinstance(sec_violation, str) and sec_violation.lower() in (
+                "null",
+                "none",
+                "",
+            ):
                 sec_violation = None
 
             misleading = len(predicted) > 0 or bool(sec_violation)
@@ -419,7 +464,9 @@ def analyze(req: AnalyzeRequest, request: Request):
         raise
     except Exception as e:
         log.error(f"analyze failed: {e}", exc_info=True)
-        raise HTTPException(502, f"Analysis pipeline error: {type(e).__name__}: {str(e)[:200]}")
+        raise HTTPException(
+            502, f"Analysis pipeline error: {type(e).__name__}: {str(e)[:200]}"
+        )
 
 
 @app.post("/api/analyze-table", response_model=AnalyzeResponse)
@@ -435,7 +482,10 @@ def analyze_table(req: AnalyzeTableRequest, request: Request):
 
         # ── Step 1: Classify — is this a financial data table or other text?
         n_calls += 1
-        classify_prompt = build_table_classify_prompt() + f"\n\n## Extracted Text\n{req.table_text[:1500]}"
+        classify_prompt = (
+            build_table_classify_prompt()
+            + f"\n\n## Extracted Text\n{req.table_text[:1500]}"
+        )
         classify_result = vlm_call_text(client, classify_prompt, max_tokens=100)
         table_type = "other"
         if classify_result:
@@ -467,7 +517,11 @@ def analyze_table(req: AnalyzeTableRequest, request: Request):
             raise HTTPException(502, "VLM returned unparseable response")
 
         sec_violation = result.get("sec_violation")
-        if isinstance(sec_violation, str) and sec_violation.lower() in ("null", "none", ""):
+        if isinstance(sec_violation, str) and sec_violation.lower() in (
+            "null",
+            "none",
+            "",
+        ):
             sec_violation = None
         explanation = result.get("explanation", "")
         misleading = bool(result.get("misleading")) or bool(sec_violation)
@@ -487,7 +541,9 @@ def analyze_table(req: AnalyzeTableRequest, request: Request):
         raise
     except Exception as e:
         log.error(f"analyze-table failed: {e}", exc_info=True)
-        raise HTTPException(502, f"Table analysis error: {type(e).__name__}: {str(e)[:200]}")
+        raise HTTPException(
+            502, f"Table analysis error: {type(e).__name__}: {str(e)[:200]}"
+        )
 
 
 @app.post("/api/sec-fetch")
@@ -512,16 +568,26 @@ def sec_fetch(req: SecFetchRequest):
             result = fetch_sec_filing(req.ticker, ft, count=count, years=years)
             all_images.extend(result.get("images", []))
             all_tables.extend(result.get("tables", []))
-            filing_info.append({"type": ft, "date": result["filing_date"], "accession": result["accession"]})
+            filing_info.append(
+                {
+                    "type": ft,
+                    "date": result["filing_date"],
+                    "accession": result["accession"],
+                }
+            )
             if result.get("company_name"):
                 company_name = result["company_name"]
             if result.get("doc_context"):
                 all_doc_context.append(result["doc_context"])
-            total_comment_letters = max(total_comment_letters, result.get("comment_letters", 0))
+            total_comment_letters = max(
+                total_comment_letters, result.get("comment_letters", 0)
+            )
             total_skipped += result.get("skipped_tables", 0)
         except HTTPException as exc:
             if exc.status_code == 404:
-                filing_info.append({"type": ft, "date": None, "error": f"No {ft} found"})
+                filing_info.append(
+                    {"type": ft, "date": None, "error": f"No {ft} found"}
+                )
             else:
                 raise
 

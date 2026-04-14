@@ -11,6 +11,7 @@ Usage:
     python experiments/v8_selfconsist.py
     python experiments/v8_selfconsist.py --workers 8 --votes 5
 """
+
 import argparse
 import json
 import sys
@@ -20,11 +21,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.prompts import TAXONOMY_BLOCK, FEW_SHOT_EXAMPLES, OUTPUT_FORMAT
 from experiments.base import (
-    run_experiment, select_samples, load_ocr_cache, load_deplot_cache,
-    apply_clean_veto, img_to_b64, extract_json,
+    apply_clean_veto,
+    extract_json,
+    img_to_b64,
+    load_deplot_cache,
+    load_ocr_cache,
+    run_experiment,
+    select_samples,
 )
+from src.prompts import FEW_SHOT_EXAMPLES, OUTPUT_FORMAT, TAXONOMY_BLOCK
 
 OUT_DIR = Path("data/eval_results/v8_selfconsist")
 
@@ -45,46 +51,46 @@ Respond with valid JSON only:
 # Per-type targeted prompts — more verbose than V7 to aid self-consistency
 TARGETED_PROMPTS = {
     "inconsistent tick intervals": (
-        'Look at the axis tick marks in this chart. '
-        'Read the tick values along the Y-axis (or X-axis if more prominent). '
-        'Are the intervals between consecutive tick values UNEVEN? '
-        'For example: 0, 10, 20, 50, 100 has uneven gaps (10, 10, 30, 50). '
+        "Look at the axis tick marks in this chart. "
+        "Read the tick values along the Y-axis (or X-axis if more prominent). "
+        "Are the intervals between consecutive tick values UNEVEN? "
+        "For example: 0, 10, 20, 50, 100 has uneven gaps (10, 10, 30, 50). "
         'Does this chart have "inconsistent tick intervals"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
     "inconsistent binning size": (
-        'Is this a histogram (bars representing numeric ranges)? '
-        'If yes, look at the width of each bar carefully. '
-        'Are the bars DIFFERENT widths? For example, one bar covers 0-10 while another covers 10-30. '
+        "Is this a histogram (bars representing numeric ranges)? "
+        "If yes, look at the width of each bar carefully. "
+        "Are the bars DIFFERENT widths? For example, one bar covers 0-10 while another covers 10-30. "
         'Does this chart have "inconsistent binning size"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
     "inverted axis": (
-        'Look at the Y-axis numbers in this chart. '
-        'Read them from bottom to top. Do they DECREASE (e.g., bottom=100, top=0)? '
-        'That would mean the axis is inverted — high values at bottom, low at top. '
+        "Look at the Y-axis numbers in this chart. "
+        "Read them from bottom to top. Do they DECREASE (e.g., bottom=100, top=0)? "
+        "That would mean the axis is inverted — high values at bottom, low at top. "
         'Does this chart have an "inverted axis"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
     "inappropriate axis range": (
-        'Look at the Y-axis range in this chart. '
-        'Does it show only a very narrow slice of values, making tiny differences look huge? '
-        'For example: showing 98% to 102% instead of 0% to 100%, or 4.0 to 4.5 instead of 0 to 5. '
+        "Look at the Y-axis range in this chart. "
+        "Does it show only a very narrow slice of values, making tiny differences look huge? "
+        "For example: showing 98% to 102% instead of 0% to 100%, or 4.0 to 4.5 instead of 0 to 5. "
         'Does this chart have an "inappropriate axis range"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
     "discretized continuous variable": (
-        'Look at this chart. Is the data inherently continuous (like temperature, time, money) '
-        'but displayed in discrete bins or categories that hide the true distribution? '
+        "Look at this chart. Is the data inherently continuous (like temperature, time, money) "
+        "but displayed in discrete bins or categories that hide the true distribution? "
         'For example: showing exact ages as "20-30, 30-40" ranges when finer bins would be better. '
         'Does this chart have a "discretized continuous variable"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
     "inappropriate item order": (
-        'Look at how items are ordered in this chart. '
-        'Are they arranged in a way that creates a false visual trend? '
-        'For example: sorting countries by value to make it look like a declining trend '
-        'when the items have no natural sequence. '
+        "Look at how items are ordered in this chart. "
+        "Are they arranged in a way that creates a false visual trend? "
+        "For example: sorting countries by value to make it look like a declining trend "
+        "when the items have no natural sequence. "
         'Does this chart have "inappropriate item order"? '
         'Answer with JSON: {"answer": "YES" or "NO", "reason": "brief explanation"}'
     ),
@@ -93,12 +99,14 @@ TARGETED_PROMPTS = {
 
 # ── V8-specific DePlot post-processing ───────────────────────────────────────
 
+
 def apply_deplot_axis_range(
     predicted: list[str], deplot_data: dict
 ) -> tuple[list[str], list[str]]:
     if not deplot_data or "error" in deplot_data:
         return predicted, []
     from finchartaudit.tools.table_rules import check_inappropriate_axis_range
+
     rows = deplot_data.get("rows", [])
     if not rows:
         return predicted, []
@@ -110,6 +118,7 @@ def apply_deplot_axis_range(
 
 # ── Per-sample worker ─────────────────────────────────────────────────────────
 
+
 def make_call_fn(client, config, ocr_cache, deplot_cache, n_votes: int, threshold: int):
     def vote_reask(image_b64: str, prompt_text: str) -> tuple[bool, int]:
         """Run prompt N times at temperature=0.7; return (majority_yes, yes_count)."""
@@ -118,16 +127,29 @@ def make_call_fn(client, config, ocr_cache, deplot_cache, n_votes: int, threshol
             try:
                 resp = client.chat.completions.create(
                     model=config.vlm_model,
-                    messages=[{"role": "user", "content": [
-                        {"type": "text", "text": prompt_text},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-                    ]}],
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": prompt_text},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{image_b64}"
+                                    },
+                                },
+                            ],
+                        }
+                    ],
                     max_tokens=150,
                     temperature=0.7,  # variation needed for self-consistency
                 )
                 data = extract_json(resp.choices[0].message.content or "")
-                if data and isinstance(data.get("answer"), str) \
-                        and data["answer"].upper().startswith("YES"):
+                if (
+                    data
+                    and isinstance(data.get("answer"), str)
+                    and data["answer"].upper().startswith("YES")
+                ):
                     yes_count += 1
             except Exception:
                 pass
@@ -144,10 +166,20 @@ def make_call_fn(client, config, ocr_cache, deplot_cache, n_votes: int, threshol
             # Call 1: general detection
             resp1 = client.chat.completions.create(
                 model=config.vlm_model,
-                messages=[{"role": "user", "content": [
-                    {"type": "text", "text": CALL1_PROMPT},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-                ]}],
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": CALL1_PROMPT},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{image_b64}"
+                                },
+                            },
+                        ],
+                    }
+                ],
                 max_tokens=512,
             )
             data1 = extract_json(resp1.choices[0].message.content or "")
@@ -173,27 +205,44 @@ def make_call_fn(client, config, ocr_cache, deplot_cache, n_votes: int, threshol
             veto_log.extend(clean_log)
 
             # Post-processing: DePlot axis_range
-            predicted, deplot_log = apply_deplot_axis_range(predicted, deplot_cache.get(iid, {}))
+            predicted, deplot_log = apply_deplot_axis_range(
+                predicted, deplot_cache.get(iid, {})
+            )
             veto_log.extend(deplot_log)
 
             return {
-                "instance_id": iid, "ground_truth": sample["ground_truth"],
-                "predicted": predicted, "elapsed_s": round(time.time() - start, 1),
-                "n_calls": n_calls, "veto_log": veto_log,
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": predicted,
+                "elapsed_s": round(time.time() - start, 1),
+                "n_calls": n_calls,
+                "veto_log": veto_log,
             }
         except Exception as e:
-            return {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                    "predicted": [], "error": str(e)}
+            return {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
+
     return call_fn
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 def main():
-    parser = argparse.ArgumentParser(description="V8: sequential re-ask + self-consistency voting")
+    parser = argparse.ArgumentParser(
+        description="V8: sequential re-ask + self-consistency voting"
+    )
     parser.add_argument("--workers", type=int, default=8)
-    parser.add_argument("--votes", type=int, default=3,
-                        help="Votes per re-ask (default 3); majority = votes//2+1")
+    parser.add_argument(
+        "--votes",
+        type=int,
+        default=3,
+        help="Votes per re-ask (default 3); majority = votes//2+1",
+    )
     args = parser.parse_args()
 
     n_votes = args.votes
@@ -201,17 +250,22 @@ def main():
 
     from finchartaudit.config import get_config
     from openai import OpenAI
+
     get_config.cache_clear()
     config = get_config()
     print(f"Self-consistency: {n_votes} votes, threshold >= {threshold}")
 
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     samples = select_samples()
     ocr_cache = load_ocr_cache()
     deplot_cache = load_deplot_cache(samples)
 
     run_experiment(
-        call_fn=make_call_fn(client, config, ocr_cache, deplot_cache, n_votes, threshold),
+        call_fn=make_call_fn(
+            client, config, ocr_cache, deplot_cache, n_votes, threshold
+        ),
         out_dir=OUT_DIR,
         condition_name="v8_selfconsist",
         workers=args.workers,

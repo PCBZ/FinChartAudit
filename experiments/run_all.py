@@ -4,6 +4,7 @@
 2. False Positive Test (3 clean companies) — ~3-5 min
 3. Tool-use Ablation (100 Misviz real charts) — ~60-90 min
 """
+
 import json
 import os
 import sys
@@ -13,14 +14,14 @@ from pathlib import Path
 os.environ["PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK"] = "True"
 sys.path.insert(0, str(Path(__file__).parent))
 
-from finchartaudit.config import get_config
-from finchartaudit.vlm.claude_client import OpenRouterVLMClient
-from finchartaudit.memory.filing_memory import FilingMemory
-from finchartaudit.tools.traditional_ocr import TraditionalOCRTool
+from data_tools.misviz.evaluator import MisvizEvaluator
+from data_tools.misviz.loader import MisvizLoader
 from finchartaudit.agents.orchestrator import Orchestrator
 from finchartaudit.agents.t2_visual import T2VisualAgent
-from data_tools.misviz.loader import MisvizLoader
-from data_tools.misviz.evaluator import MisvizEvaluator
+from finchartaudit.config import get_config
+from finchartaudit.memory.filing_memory import FilingMemory
+from finchartaudit.tools.traditional_ocr import TraditionalOCRTool
+from finchartaudit.vlm.claude_client import OpenRouterVLMClient
 
 # Clear config cache to pick up new .env
 get_config.cache_clear()
@@ -51,8 +52,11 @@ def run_t3_on_companies(companies: list[str], experiment_name: str):
             print(f"  [SKIP] {company}: no filing directory")
             continue
 
-        filings = [f for f in filing_dir.iterdir()
-                   if f.suffix in (".htm", ".html", ".pdf") and "_meta" not in f.name]
+        filings = [
+            f
+            for f in filing_dir.iterdir()
+            if f.suffix in (".htm", ".html", ".pdf") and "_meta" not in f.name
+        ]
         if not filings:
             print(f"  [SKIP] {company}: no filing files")
             continue
@@ -71,7 +75,11 @@ def run_t3_on_companies(companies: list[str], experiment_name: str):
                 findings = orchestrator.audit_filing(
                     file_path=str(filing_path),
                     ticker=company,
-                    filing_type=filing_path.stem.split("_")[-1] if "_" in filing_path.stem else "",
+                    filing_type=(
+                        filing_path.stem.split("_")[-1]
+                        if "_" in filing_path.stem
+                        else ""
+                    ),
                 )
                 elapsed = time.time() - start
 
@@ -91,9 +99,12 @@ def run_t3_on_companies(companies: list[str], experiment_name: str):
             except Exception as e:
                 print(f"  ERROR: {e}")
                 import traceback
+
                 traceback.print_exc()
                 results[f"{company}/{filing_path.name}"] = {
-                    "ticker": company, "file": filing_path.name, "error": str(e),
+                    "ticker": company,
+                    "file": filing_path.name,
+                    "error": str(e),
                 }
 
             time.sleep(1)
@@ -114,8 +125,10 @@ def run_t3_on_companies(companies: list[str], experiment_name: str):
     for key, data in results.items():
         if "error" not in data:
             total_findings += data["findings_count"]
-            print(f"{data['ticker']:<8} {data['file']:<35} {data['findings_count']:>8} "
-                  f"{data.get('pairing_count', 'N/A'):>9} {data['elapsed_s']:>5.1f}s")
+            print(
+                f"{data['ticker']:<8} {data['file']:<35} {data['findings_count']:>8} "
+                f"{data.get('pairing_count', 'N/A'):>9} {data['elapsed_s']:>5.1f}s"
+            )
         else:
             print(f"{data['ticker']:<8} {data['file']:<35} {'ERROR':>8}")
     print(f"\nTotal findings: {total_findings}")
@@ -144,6 +157,7 @@ def run_tooluse_ablation(n: int = 100):
 
     # Stratified sample similar to B's approach: sample across misleader types
     from collections import defaultdict
+
     type_buckets = defaultdict(list)
     clean_indices = []
 
@@ -177,7 +191,11 @@ def run_tooluse_ablation(n: int = 100):
             continue
 
         count += 1
-        print(f"[{count}/{len(selected)}] id={instance.instance_id} gt={instance.misleader}", end="", flush=True)
+        print(
+            f"[{count}/{len(selected)}] id={instance.instance_id} gt={instance.misleader}",
+            end="",
+            flush=True,
+        )
 
         memory = FilingMemory()
         agent = T2VisualAgent(vlm=vlm, memory=memory)
@@ -185,42 +203,58 @@ def run_tooluse_ablation(n: int = 100):
 
         try:
             start = time.time()
-            findings = agent.execute({
-                "image_path": instance.image_path,
-                "page": 1,
-                "chart_id": f"ablation_{instance.instance_id}",
-            })
+            findings = agent.execute(
+                {
+                    "image_path": instance.image_path,
+                    "page": 1,
+                    "chart_id": f"ablation_{instance.instance_id}",
+                }
+            )
             elapsed = time.time() - start
 
-            predicted = list({f.subcategory for f in findings if f.category == "misleader"})
+            predicted = list(
+                {f.subcategory for f in findings if f.category == "misleader"}
+            )
             gt = instance.misleader
 
             evaluator.add_prediction(
                 instance_id=instance.instance_id,
                 ground_truth=gt,
                 predicted=predicted,
-                confidences={f.subcategory: f.confidence for f in findings if f.category == "misleader"},
+                confidences={
+                    f.subcategory: f.confidence
+                    for f in findings
+                    if f.category == "misleader"
+                },
                 condition="tooluse",
                 model="claude_haiku",
             )
 
-            results.append({
-                "instance_id": instance.instance_id,
-                "ground_truth": gt,
-                "predicted": predicted,
-                "findings_count": len(findings),
-                "elapsed_s": round(elapsed, 1),
-                "tool_calls": sum(1 for f in findings for _ in f.tool_calls) if findings else 0,
-            })
+            results.append(
+                {
+                    "instance_id": instance.instance_id,
+                    "ground_truth": gt,
+                    "predicted": predicted,
+                    "findings_count": len(findings),
+                    "elapsed_s": round(elapsed, 1),
+                    "tool_calls": (
+                        sum(1 for f in findings for _ in f.tool_calls)
+                        if findings
+                        else 0
+                    ),
+                }
+            )
             print(f" -> {predicted} ({elapsed:.1f}s)")
 
         except Exception as e:
             errors += 1
             print(f" -> ERROR: {e}")
-            results.append({
-                "instance_id": instance.instance_id,
-                "error": str(e),
-            })
+            results.append(
+                {
+                    "instance_id": instance.instance_id,
+                    "error": str(e),
+                }
+            )
 
         time.sleep(0.3)
 
@@ -238,10 +272,12 @@ def run_tooluse_ablation(n: int = 100):
 
 def _save_ablation_results(out_dir, results, evaluator, count, errors):
     (out_dir / "raw_results.json").write_text(
-        json.dumps(results, indent=2, default=str), encoding="utf-8")
+        json.dumps(results, indent=2, default=str), encoding="utf-8"
+    )
     metrics = evaluator.compute_metrics()
     (out_dir / "metrics.json").write_text(
-        json.dumps(metrics, indent=2), encoding="utf-8")
+        json.dumps(metrics, indent=2), encoding="utf-8"
+    )
     print(f"  [saved] {count} results, {errors} errors")
 
 

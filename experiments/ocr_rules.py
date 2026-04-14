@@ -11,6 +11,7 @@ Usage:
     python run_llm_ocr_rules.py                  # Full run (8 threads)
     python run_llm_ocr_rules.py --workers 4      # Fewer threads
 """
+
 import argparse
 import base64
 import json
@@ -28,10 +29,10 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from finchartaudit.agents.t2_pipeline import PIPELINE_PROMPT, PIPELINE_SYSTEM_PROMPT
 from finchartaudit.config import get_config
+from finchartaudit.prompts.t2_visual import COMPLETENESS_CHECKS, MISLEADER_DEFINITIONS
 from finchartaudit.tools.rule_check import RuleEngine
-from finchartaudit.prompts.t2_visual import MISLEADER_DEFINITIONS, COMPLETENESS_CHECKS
-from finchartaudit.agents.t2_pipeline import PIPELINE_SYSTEM_PROMPT, PIPELINE_PROMPT
 
 OUT_DIR = Path("data/eval_results/llm_ocr_rules")
 
@@ -67,10 +68,13 @@ Rules:
 
 # ── Sample selection (same as other scripts) ─────────────────────────────────
 
+
 def select_samples_aligned_with_b() -> list[dict]:
     from data_tools.misviz.loader import MisvizLoader
 
-    b_results_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_results_path = Path(
+        "C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json"
+    )
     b_data = json.loads(b_results_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 
@@ -79,31 +83,40 @@ def select_samples_aligned_with_b() -> list[dict]:
 
     content_to_local = defaultdict(list)
     for i, d in enumerate(real_data):
-        key = (frozenset(d.get("misleader", [])), tuple(sorted(d.get("chart_type", []))))
+        key = (
+            frozenset(d.get("misleader", [])),
+            tuple(sorted(d.get("chart_type", []))),
+        )
         content_to_local[key].append(i)
 
     samples = []
     used = set()
     for b_item in b_items:
-        key = (frozenset(b_item["gt_misleaders"]), tuple(sorted(b_item.get("chart_type", []))))
+        key = (
+            frozenset(b_item["gt_misleaders"]),
+            tuple(sorted(b_item.get("chart_type", []))),
+        )
         candidates = [idx for idx in content_to_local.get(key, []) if idx not in used]
         if candidates:
             idx = candidates[0]
             used.add(idx)
             instance = loader.get_real_instance(idx)
             if Path(instance.image_path).exists():
-                samples.append({
-                    "idx": idx,
-                    "instance_id": str(b_item["id"]),
-                    "image_path": instance.image_path,
-                    "ground_truth": instance.misleader,
-                    "b_id": b_item["id"],
-                })
+                samples.append(
+                    {
+                        "idx": idx,
+                        "instance_id": str(b_item["id"]),
+                        "image_path": instance.image_path,
+                        "ground_truth": instance.misleader,
+                        "b_id": b_item["id"],
+                    }
+                )
     print(f"Matched {len(samples)}/271 of B's samples")
     return samples
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
+
 
 def img_to_b64(image_path: str) -> str:
     img = Image.open(image_path)
@@ -120,10 +133,16 @@ def vlm_call(client, model: str, image_b64: str, system: str, prompt: str) -> st
         model=model,
         messages=[
             {"role": "system", "content": system},
-            {"role": "user", "content": [
-                {"type": "text", "text": prompt},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-            ]},
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"},
+                    },
+                ],
+            },
         ],
         max_tokens=2048,
         temperature=0.0,
@@ -154,7 +173,7 @@ def extract_json(text: str) -> dict | None:
                 depth -= 1
                 if depth == 0:
                     try:
-                        return json.loads(text[brace_start:i + 1])
+                        return json.loads(text[brace_start : i + 1])
                     except json.JSONDecodeError:
                         break
     return None
@@ -169,8 +188,8 @@ def parse_numbers(values: list) -> list[float]:
                 numbers.append(float(v))
             continue
         # Remove currency, percent, commas, units
-        cleaned = re.sub(r'[,$%°]', '', v.strip())
-        cleaned = re.sub(r'[KkMmBb]$', '', cleaned)  # Remove K/M/B suffix
+        cleaned = re.sub(r"[,$%°]", "", v.strip())
+        cleaned = re.sub(r"[KkMmBb]$", "", cleaned)  # Remove K/M/B suffix
         try:
             numbers.append(float(cleaned))
         except ValueError:
@@ -179,6 +198,7 @@ def parse_numbers(values: list) -> list[float]:
 
 
 # ── Rule checks ──────────────────────────────────────────────────────────────
+
 
 def run_rule_checks(engine: RuleEngine, ocr_data: dict) -> list[str]:
     results = []
@@ -191,7 +211,9 @@ def run_rule_checks(engine: RuleEngine, ocr_data: dict) -> list[str]:
 
     if y_values:
         try:
-            r = engine.run_check("truncated_axis", {"axis_values": y_values, "chart_type": chart_type})
+            r = engine.run_check(
+                "truncated_axis", {"axis_values": y_values, "chart_type": chart_type}
+            )
             if r["is_truncated"]:
                 results.append(f"truncated_axis: {r['explanation']}")
         except Exception:
@@ -212,7 +234,10 @@ def run_rule_checks(engine: RuleEngine, ocr_data: dict) -> list[str]:
             pass
 
         try:
-            r = engine.run_check("inappropriate_axis_range", {"axis_values": y_values, "chart_type": chart_type})
+            r = engine.run_check(
+                "inappropriate_axis_range",
+                {"axis_values": y_values, "chart_type": chart_type},
+            )
             if r["is_inappropriate"]:
                 results.append(f"inappropriate_axis_range: {r['explanation']}")
         except Exception:
@@ -220,8 +245,10 @@ def run_rule_checks(engine: RuleEngine, ocr_data: dict) -> list[str]:
 
     if y_values and right_values:
         try:
-            r = engine.run_check("dual_axis", {
-                "left_axis_values": y_values, "right_axis_values": right_values})
+            r = engine.run_check(
+                "dual_axis",
+                {"left_axis_values": y_values, "right_axis_values": right_values},
+            )
             if r["has_dual_axis"]:
                 results.append(f"dual_axis: {r['explanation']}")
         except Exception:
@@ -240,6 +267,7 @@ def run_rule_checks(engine: RuleEngine, ocr_data: dict) -> list[str]:
 
 # ── Build OCR text summary for VLM Call 2 ────────────────────────────────────
 
+
 def build_ocr_summary(ocr_data: dict) -> str:
     """Format OCR results like traditional OCR output."""
     lines = []
@@ -248,19 +276,27 @@ def build_ocr_summary(ocr_data: dict) -> str:
     if ocr_data.get("y_axis_label"):
         lines.append(f"Y-axis label: {ocr_data['y_axis_label']}")
     if ocr_data.get("y_axis_values"):
-        lines.append(f"Y-axis values: {', '.join(str(v) for v in ocr_data['y_axis_values'])}")
+        lines.append(
+            f"Y-axis values: {', '.join(str(v) for v in ocr_data['y_axis_values'])}"
+        )
     if ocr_data.get("x_axis_label"):
         lines.append(f"X-axis label: {ocr_data['x_axis_label']}")
     if ocr_data.get("x_axis_values"):
-        lines.append(f"X-axis values: {', '.join(str(v) for v in ocr_data['x_axis_values'])}")
+        lines.append(
+            f"X-axis values: {', '.join(str(v) for v in ocr_data['x_axis_values'])}"
+        )
     if ocr_data.get("right_y_axis_label"):
         lines.append(f"Right Y-axis: {ocr_data['right_y_axis_label']}")
     if ocr_data.get("right_y_axis_values"):
-        lines.append(f"Right Y-axis values: {', '.join(str(v) for v in ocr_data['right_y_axis_values'])}")
+        lines.append(
+            f"Right Y-axis values: {', '.join(str(v) for v in ocr_data['right_y_axis_values'])}"
+        )
     if ocr_data.get("legend_items"):
         lines.append(f"Legend: {', '.join(ocr_data['legend_items'])}")
     if ocr_data.get("data_labels"):
-        lines.append(f"Data labels: {', '.join(str(v) for v in ocr_data['data_labels'])}")
+        lines.append(
+            f"Data labels: {', '.join(str(v) for v in ocr_data['data_labels'])}"
+        )
     if ocr_data.get("source_text"):
         lines.append(f"Source: {ocr_data['source_text']}")
     if ocr_data.get("other_text"):
@@ -269,6 +305,7 @@ def build_ocr_summary(ocr_data: dict) -> str:
 
 
 # ── Process one chart ────────────────────────────────────────────────────────
+
 
 def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
     iid = sample["instance_id"]
@@ -286,7 +323,9 @@ def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
     # Build OCR text summary
     ocr_summary = build_ocr_summary(ocr_data)
     y_values = parse_numbers(ocr_data.get("y_axis_values", []))
-    ocr_axis_str = ", ".join(str(v) for v in y_values) if y_values else "No axis values extracted."
+    ocr_axis_str = (
+        ", ".join(str(v) for v in y_values) if y_values else "No axis values extracted."
+    )
 
     # Call 2: Final judgment with OCR + rule evidence
     misleader_list = "\n".join(f"- {k}: {v}" for k, v in MISLEADER_DEFINITIONS.items())
@@ -297,7 +336,9 @@ def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
         page=1,
         ocr_text=ocr_summary,
         ocr_axis=ocr_axis_str,
-        rule_results="\n".join(rule_results) if rule_results else "No rule checks applicable.",
+        rule_results=(
+            "\n".join(rule_results) if rule_results else "No rule checks applicable."
+        ),
         misleader_list=misleader_list,
         completeness_list=completeness_list,
     )
@@ -330,6 +371,7 @@ def process_one(client, model: str, engine: RuleEngine, sample: dict) -> dict:
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="LLM-OCR + Rules Pipeline experiment")
     parser.add_argument("--workers", type=int, default=8)
@@ -342,7 +384,10 @@ def main():
     print(f"Model: {config.vlm_model}")
 
     from openai import OpenAI
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     engine = RuleEngine()
 
     samples = select_samples_aligned_with_b()
@@ -382,11 +427,15 @@ def main():
             results.append(result)
             if "error" in result:
                 errors += 1
-                print(f"[{completed}/{len(samples)}] id={result['instance_id']} ERROR: {result['error'][:60]}")
+                print(
+                    f"[{completed}/{len(samples)}] id={result['instance_id']} ERROR: {result['error'][:60]}"
+                )
             else:
-                print(f"[{completed}/{len(samples)}] id={result['instance_id']} "
-                      f"gt={result['ground_truth']} -> {result['predicted']} "
-                      f"({result['elapsed_s']}s, rules={len(result.get('rule_results', []))})")
+                print(
+                    f"[{completed}/{len(samples)}] id={result['instance_id']} "
+                    f"gt={result['ground_truth']} -> {result['predicted']} "
+                    f"({result['elapsed_s']}s, rules={len(result.get('rule_results', []))})"
+                )
             if completed % 20 == 0:
                 _save(results)
 
@@ -406,6 +455,7 @@ def main():
 
     # Compute metrics
     from data_tools.misviz.evaluator import MisvizEvaluator
+
     evaluator = MisvizEvaluator()
     for r in results:
         if "error" not in r:
@@ -419,7 +469,9 @@ def main():
 
     evaluator.print_summary()
     metrics = evaluator.compute_metrics()
-    (OUT_DIR / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics.json").write_text(
+        json.dumps(metrics, indent=2), encoding="utf-8"
+    )
 
     print(f"\nDone: {completed} charts, {errors} errors, {total_time:.0f}s total")
     print(f"Avg: {total_time / max(completed, 1):.1f}s/chart (wall clock)")
@@ -428,7 +480,8 @@ def main():
 
 def _save(results):
     (OUT_DIR / "raw_results.json").write_text(
-        json.dumps(results, indent=2, default=str), encoding="utf-8")
+        json.dumps(results, indent=2, default=str), encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

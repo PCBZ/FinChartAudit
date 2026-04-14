@@ -7,40 +7,56 @@
 #   python src/run_pipeline.py
 #   python src/run_pipeline.py --workers 8
 
+import argparse
 import json
 import os
-import argparse
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
+
 from dotenv import load_dotenv
 from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score,
-    f1_score, confusion_matrix,
+    accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
 )
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 api_key = os.environ["OPENROUTER_API_KEY"]
 
-from src.eval_runner import evaluate, evaluate_sec
 from src.config import (
-    DEFAULT_MODELS, DEFAULT_CONDITIONS,
+    DEFAULT_CONDITIONS,
+    DEFAULT_MODELS,
+    DEFAULT_SEC_ARCHIVES_URL,
+    DEFAULT_SEC_SUBMISSIONS_URL,
     DEFAULT_USER_AGENT,
-    DEFAULT_SEC_SUBMISSIONS_URL, DEFAULT_SEC_ARCHIVES_URL,
 )
-from src.data.extract_charts import extract_all as extract_charts
-from src.data.extract_tables import extract_all as extract_tables
-from src.data.extract_nongaap import extract_all as extract_nongaap
-from src.data.download_sec_data import download_sec_filings
 from src.data.download_letter_text import LetterDownloader
-
+from src.data.download_sec_data import download_sec_filings
+from src.data.extract_charts import extract_all as extract_charts
+from src.data.extract_nongaap import extract_all as extract_nongaap
+from src.data.extract_tables import extract_all as extract_tables
+from src.eval_runner import evaluate, evaluate_sec
 
 # ══════════════════════════════════════════════════════════════════════════════
 # STEP 0 — Data preparation
 # ══════════════════════════════════════════════════════════════════════════════
 
 TICKERS = [
-    "TSLA", "LYFT", "ABNB", "RIVN", "VERI", "CHPT",
-    "UPS", "KMI", "OGN", "BCO", "STZ", "IRBT", "LITE",
+    "TSLA",
+    "LYFT",
+    "ABNB",
+    "RIVN",
+    "VERI",
+    "CHPT",
+    "UPS",
+    "KMI",
+    "OGN",
+    "BCO",
+    "STZ",
+    "IRBT",
+    "LITE",
 ]
 
 
@@ -61,9 +77,9 @@ def _missing_letter_tickers() -> list:
 
 
 def prepare_data():
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("  STEP 0 — Data Preparation")
-    print("="*60)
+    print("=" * 60)
 
     missing = _missing_tickers("data/sec")
     if missing:
@@ -83,7 +99,7 @@ def prepare_data():
             sec_base_url=DEFAULT_SEC_ARCHIVES_URL,
             user_agent=DEFAULT_USER_AGENT,
         )
-        downloader.download_all_letters(sec_dir='data/sec', letters_dir='data/letters')
+        downloader.download_all_letters(sec_dir="data/sec", letters_dir="data/letters")
     else:
         print("\n[Letters] All tickers found, skipping download")
 
@@ -113,6 +129,7 @@ def prepare_data():
 # ══════════════════════════════════════════════════════════════════════════════
 # STEP 1 — Run all experiments
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def _is_valid_result(path: Path, error_threshold: float = 0.1) -> bool:
     """Check if a result file exists and has acceptable error rate."""
@@ -166,6 +183,7 @@ def run_all_experiments(workers: int, sample: int = None):
 # STEP 2 — Aggregate & report
 # ══════════════════════════════════════════════════════════════════════════════
 
+
 def load_json(path) -> dict:
     p = Path(path)
     if not p.exists():
@@ -191,15 +209,19 @@ def aggregate_misviz(result: dict, label: str) -> dict:
 
     by_type = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0, "tn": 0})
     for r in rows:
-        gt_types   = set(r.get("gt_misleaders", []))
+        gt_types = set(r.get("gt_misleaders", []))
         pred_types = set(r.get("pred_misleader_types", []))
         for t in gt_types | pred_types:
-            gt   = t in gt_types
+            gt = t in gt_types
             pred = t in pred_types
-            if pred and gt:           by_type[t]["tp"] += 1
-            elif pred and not gt:     by_type[t]["fp"] += 1
-            elif not pred and gt:     by_type[t]["fn"] += 1
-            else:                     by_type[t]["tn"] += 1
+            if pred and gt:
+                by_type[t]["tp"] += 1
+            elif pred and not gt:
+                by_type[t]["fp"] += 1
+            elif not pred and gt:
+                by_type[t]["fn"] += 1
+            else:
+                by_type[t]["tn"] += 1
 
     type_f1 = {}
     for t, c in by_type.items():
@@ -208,23 +230,24 @@ def aggregate_misviz(result: dict, label: str) -> dict:
         type_f1[t] = round(f1_score(yt, yp, zero_division=0), 3)
 
     return {
-        "label":     label,
-        "total":     len(rows),
-        "accuracy":  round(accuracy_score(y_true, y_pred), 3),
+        "label": label,
+        "total": len(rows),
+        "accuracy": round(accuracy_score(y_true, y_pred), 3),
         "precision": round(precision_score(y_true, y_pred, zero_division=0), 3),
-        "recall":    round(recall_score(y_true, y_pred, zero_division=0), 3),
-        "f1":        round(f1_score(y_true, y_pred, zero_division=0), 3),
-        "tp": int(tp), "tn": int(tn), "fp": int(fp), "fn": int(fn),
-        "per_misleader_type_f1": dict(sorted(type_f1.items(), key=lambda x: x[1], reverse=True)),
+        "recall": round(recall_score(y_true, y_pred, zero_division=0), 3),
+        "f1": round(f1_score(y_true, y_pred, zero_division=0), 3),
+        "tp": int(tp),
+        "tn": int(tn),
+        "fp": int(fp),
+        "fn": int(fn),
+        "per_misleader_type_f1": dict(
+            sorted(type_f1.items(), key=lambda x: x[1], reverse=True)
+        ),
     }
 
 
 def aggregate_sec(result: dict, label: str) -> dict:
-    all_preds = [
-        item
-        for items in result.get("results", {}).values()
-        for item in items
-    ]
+    all_preds = [item for items in result.get("results", {}).values() for item in items]
     if not all_preds:
         return {}
 
@@ -237,25 +260,28 @@ def aggregate_sec(result: dict, label: str) -> dict:
     for ticker, items in result.get("results", {}).items():
         if not items:
             continue
-        flagged  = sum(1 for p in items if is_positive(p))
+        flagged = sum(1 for p in items if is_positive(p))
         has_gt_t = items[0].get("has_gt_violation", False)
         per_ticker[ticker] = {
-            "total":            len(items),
-            "flagged":          flagged,
-            "flag_rate":        round(flagged / len(items), 3) if items else 0,
+            "total": len(items),
+            "flagged": flagged,
+            "flag_rate": round(flagged / len(items), 3) if items else 0,
             "has_gt_violation": has_gt_t,
         }
 
     return {
-        "label":     label,
-        "model":     result.get("model", ""),
+        "label": label,
+        "model": result.get("model", ""),
         "condition": result.get("condition", ""),
-        "total":     len(all_preds),
-        "accuracy":  round(accuracy_score(y_true, y_pred), 3),
+        "total": len(all_preds),
+        "accuracy": round(accuracy_score(y_true, y_pred), 3),
         "precision": round(precision_score(y_true, y_pred, zero_division=0), 3),
-        "recall":    round(recall_score(y_true, y_pred, zero_division=0), 3),
-        "f1":        round(f1_score(y_true, y_pred, zero_division=0), 3),
-        "tp": int(tp), "tn": int(tn), "fp": int(fp), "fn": int(fn),
+        "recall": round(recall_score(y_true, y_pred, zero_division=0), 3),
+        "f1": round(f1_score(y_true, y_pred, zero_division=0), 3),
+        "tp": int(tp),
+        "tn": int(tn),
+        "fp": int(fp),
+        "fn": int(fn),
         "per_ticker": per_ticker,
     }
 
@@ -269,8 +295,10 @@ def print_table(results: list[dict], title: str):
     for r in results:
         if not r:
             continue
-        print(f"{r['label']:<40} {r['accuracy']:>6.3f} {r['precision']:>6.3f} "
-              f"{r['recall']:>6.3f} {r['f1']:>6.3f}")
+        print(
+            f"{r['label']:<40} {r['accuracy']:>6.3f} {r['precision']:>6.3f} "
+            f"{r['recall']:>6.3f} {r['f1']:>6.3f}"
+        )
 
 
 def print_misleader_breakdown(results: list[dict]):
@@ -281,7 +309,10 @@ def print_misleader_breakdown(results: list[dict]):
     for r in results:
         all_types.update(r.get("per_misleader_type_f1", {}).keys())
     col_w = 12
-    print(f"{'Misleader Type':<30}" + "".join(f"{r['label'][:col_w]:>{col_w}}" for r in results))
+    print(
+        f"{'Misleader Type':<30}"
+        + "".join(f"{r['label'][:col_w]:>{col_w}}" for r in results)
+    )
     print("-" * (30 + col_w * len(results)))
     for t in sorted(all_types):
         row = f"{t:<30}"
@@ -299,7 +330,10 @@ def print_sec_per_ticker(results: list[dict]):
     for r in results:
         all_tickers.update(r.get("per_ticker", {}).keys())
     col_w = 16
-    print(f"{'Ticker':<8} {'GT':>4}" + "".join(f"{r['label'][:col_w]:>{col_w}}" for r in results))
+    print(
+        f"{'Ticker':<8} {'GT':>4}"
+        + "".join(f"{r['label'][:col_w]:>{col_w}}" for r in results)
+    )
     print("-" * (12 + col_w * len(results)))
     for ticker in sorted(all_tickers):
         gt_mark = " "
@@ -343,7 +377,7 @@ def run_aggregation():
             sec_results.append(aggregate_sec(data, label))
 
     misviz_results = [r for r in misviz_results if r]
-    sec_results    = [r for r in sec_results if r]
+    sec_results = [r for r in sec_results if r]
 
     if misviz_results:
         print_table(misviz_results, "RQ1/RQ2 — Misviz Benchmark")
@@ -366,14 +400,24 @@ def run_aggregation():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="FinChartAudit Pipeline")
-    parser.add_argument("--workers", type=int, default=16,
-                        help="Number of concurrent API threads (default: 16)")
-    parser.add_argument("--sample", type=int, default=None,
-                        help="Quick test: n_samples for Misviz, max_per_ticker for SEC")
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=16,
+        help="Number of concurrent API threads (default: 16)",
+    )
+    parser.add_argument(
+        "--sample",
+        type=int,
+        default=None,
+        help="Quick test: n_samples for Misviz, max_per_ticker for SEC",
+    )
     args = parser.parse_args()
 
-    print(f"🚀 Starting FinChartAudit pipeline with {args.workers} workers"
-          + (f" | sample={args.sample}" if args.sample else ""))
+    print(
+        f"🚀 Starting FinChartAudit pipeline with {args.workers} workers"
+        + (f" | sample={args.sample}" if args.sample else "")
+    )
     prepare_data()
     run_all_experiments(args.workers, args.sample)
     run_aggregation()

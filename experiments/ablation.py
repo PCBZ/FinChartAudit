@@ -6,6 +6,7 @@ Usage:
     python run_pipeline_ablation.py          # 50 charts
     python run_pipeline_ablation.py --n 20   # quick test
 """
+
 import argparse
 import json
 import os
@@ -25,6 +26,7 @@ WORKER_SCRIPT = Path("_pipeline_worker.py")
 def select_samples(n: int) -> list[dict]:
     """Stratified sample from Misviz real dataset."""
     from data_tools.misviz.loader import MisvizLoader
+
     loader = MisvizLoader()
     real_data = loader.load_real()
 
@@ -47,12 +49,14 @@ def select_samples(n: int) -> list[dict]:
     samples = []
     for idx in selected:
         instance = loader.get_real_instance(idx)
-        samples.append({
-            "idx": idx,
-            "instance_id": str(idx),
-            "image_path": instance.image_path,
-            "ground_truth": instance.misleader,
-        })
+        samples.append(
+            {
+                "idx": idx,
+                "instance_id": str(idx),
+                "image_path": instance.image_path,
+                "ground_truth": instance.misleader,
+            }
+        )
     return samples
 
 
@@ -60,7 +64,9 @@ def run_single_chart(sample: dict) -> dict:
     """Run pipeline agent on one chart in a subprocess."""
     result = subprocess.run(
         [PYTHON, "-X", "utf8", str(WORKER_SCRIPT), sample["image_path"]],
-        capture_output=True, text=True, timeout=120,
+        capture_output=True,
+        text=True,
+        timeout=120,
         env={**os.environ, "PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK": "True"},
     )
     if result.returncode != 0:
@@ -125,7 +131,11 @@ def main():
 
         count += 1
         gt = sample["ground_truth"]
-        print(f"[{count}/{len(samples)}] id={sample['instance_id']} gt={gt}", end="", flush=True)
+        print(
+            f"[{count}/{len(samples)}] id={sample['instance_id']} gt={gt}",
+            end="",
+            flush=True,
+        )
 
         try:
             result = run_single_chart(sample)
@@ -153,16 +163,23 @@ def main():
 
     # Compute metrics
     from data_tools.misviz.evaluator import MisvizEvaluator
+
     ev = MisvizEvaluator()
     for r in results:
         if "error" not in r:
             ev.add_prediction(
-                r["instance_id"], r["ground_truth"], r["predicted"],
-                condition="pipeline", model="claude_haiku")
+                r["instance_id"],
+                r["ground_truth"],
+                r["predicted"],
+                condition="pipeline",
+                model="claude_haiku",
+            )
 
     ev.print_summary()
     metrics = ev.compute_metrics()
-    (OUT_DIR / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics.json").write_text(
+        json.dumps(metrics, indent=2), encoding="utf-8"
+    )
 
     print(f"\nDone: {count} charts, {errors} errors")
     print(f"Results: {OUT_DIR}")
@@ -174,12 +191,14 @@ def main():
 
 def _save(results):
     (OUT_DIR / "raw_results.json").write_text(
-        json.dumps(results, indent=2, default=str), encoding="utf-8")
+        json.dumps(results, indent=2, default=str), encoding="utf-8"
+    )
 
 
 def write_worker_script():
     """Write a self-contained worker that processes one chart."""
-    WORKER_SCRIPT.write_text('''
+    WORKER_SCRIPT.write_text(
+        '''
 """Worker: process one chart with T2 Pipeline agent. Outputs JSON to stdout."""
 import json
 import os
@@ -237,7 +256,9 @@ output = {
 }
 
 print(json.dumps(output))
-''', encoding="utf-8")
+''',
+        encoding="utf-8",
+    )
 
 
 if __name__ == "__main__":

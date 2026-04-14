@@ -4,9 +4,10 @@ Download SEC filings and CORRESP documents based on SEC信息汇总.xlsx.
 Downloads directly from the URLs provided in the spreadsheet.
 Saves to data/filings/<TICKER>/ with organized subdirectories.
 """
+
 import json
-import time
 import sys
+import time
 from pathlib import Path
 
 import httpx
@@ -28,32 +29,48 @@ HEADERS = {
 COMPANIES = [
     # 备选组
     {
-        "ticker": "NVS", "cik": "0001114448", "name": "Novartis AG",
-        "sector": "Life Science", "group": "备选组", "year": "2022",
+        "ticker": "NVS",
+        "cik": "0001114448",
+        "name": "Novartis AG",
+        "sector": "Life Science",
+        "group": "备选组",
+        "year": "2022",
         "filing_type": "20-F",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1114448/000137036823000006/nvs-20221231.htm",
         "corresp_url": "https://www.sec.gov/Archives/edgar/data/1114448/000110465923057754/filename1.htm",
         "issue": "非GAAP表格底部小字脚注标注",
     },
     {
-        "ticker": "UDMY", "cik": "0001607939", "name": "Udemy, Inc.",
-        "sector": "Technology", "group": "备选组", "year": "2023",
+        "ticker": "UDMY",
+        "cik": "0001607939",
+        "name": "Udemy, Inc.",
+        "sector": "Technology",
+        "group": "备选组",
+        "year": "2023",
         "filing_type": "8-K",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1607939/000160793923000025/udmy-20230214.htm",
         "corresp_url": "https://www.sec.gov/Archives/edgar/data/1607939/000160793923000077/filename1.htm",
         "issue": "完整非GAAP损益表，违反C&DI 102.10(c)",
     },
     {
-        "ticker": "SOPH", "cik": "0001840706", "name": "SOPHiA GENETICS SA",
-        "sector": "Life Science", "group": "备选组", "year": "2023",
+        "ticker": "SOPH",
+        "cik": "0001840706",
+        "name": "SOPHiA GENETICS SA",
+        "sector": "Life Science",
+        "group": "备选组",
+        "year": "2023",
         "filing_type": "6-K",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1840706/000184070623000014/sophiageneticssaex993q12023.htm",
         "corresp_url": "https://www.sec.gov/Archives/edgar/data/1840706/000095010323007394/filename1.htm",
         "issue": "完整非IFRS损益表",
     },
     {
-        "ticker": "HURN", "cik": "0001289848", "name": "Huron Consulting Group Inc.",
-        "sector": "Professional Service", "group": "备选组", "year": "2023",
+        "ticker": "HURN",
+        "cik": "0001289848",
+        "name": "Huron Consulting Group Inc.",
+        "sector": "Professional Service",
+        "group": "备选组",
+        "year": "2023",
         "filing_type": "ARS",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1289848/000128984824000092/hurn_2023xars.pdf",
         "corresp_url": "https://www.sec.gov/Archives/edgar/data/1289848/000128984824000205/filename1.htm",
@@ -61,8 +78,12 @@ COMPANIES = [
     },
     # 案例组
     {
-        "ticker": "ALV", "cik": "0001034670", "name": "Autoliv, Inc.",
-        "sector": "Manufacturing", "group": "案例组", "year": "2022",
+        "ticker": "ALV",
+        "cik": "0001034670",
+        "name": "Autoliv, Inc.",
+        "sector": "Manufacturing",
+        "group": "案例组",
+        "year": "2022",
         "filing_type": "8-K",
         "filing_date": "2022-01-28",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1034670/000156459022002816/alv-8k_20220128.htm",
@@ -72,8 +93,12 @@ COMPANIES = [
         "comment_location": "Comment 2",
     },
     {
-        "ticker": "MYE", "cik": "0000069488", "name": "Myers Industries, Inc.",
-        "sector": "Manufacturing", "group": "案例组", "year": "2022",
+        "ticker": "MYE",
+        "cik": "0000069488",
+        "name": "Myers Industries, Inc.",
+        "sector": "Manufacturing",
+        "group": "案例组",
+        "year": "2022",
         "filing_type": "8-K",
         "filing_date": "2023-03-01",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/69488/000095017023005324/mye-ex99_1.htm",
@@ -83,8 +108,12 @@ COMPANIES = [
         "comment_location": "Comment 1",
     },
     {
-        "ticker": "FXLV", "cik": "0001788717", "name": "F45 Training Holdings Inc.",
-        "sector": "Consumer Service", "group": "案例组", "year": "2021",
+        "ticker": "FXLV",
+        "cik": "0001788717",
+        "name": "F45 Training Holdings Inc.",
+        "sector": "Consumer Service",
+        "group": "案例组",
+        "year": "2021",
         "filing_type": "10-K",
         "filing_date": "2022-03-23",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1788717/000178871722000003/fxlv-20211231.htm",
@@ -94,8 +123,12 @@ COMPANIES = [
         "comment_location": "Comment 1",
     },
     {
-        "ticker": "UIS", "cik": "0000746838", "name": "Unisys Corporation",
-        "sector": "IT Service", "group": "案例组", "year": "2022",
+        "ticker": "UIS",
+        "cik": "0000746838",
+        "name": "Unisys Corporation",
+        "sector": "IT Service",
+        "group": "案例组",
+        "year": "2022",
         "filing_type": "DEF14A",
         "filing_date": "2023-03-24",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/746838/000074683823000045/filename1.htm",
@@ -105,8 +138,12 @@ COMPANIES = [
         "comment_location": "Comment 1",
     },
     {
-        "ticker": "OC", "cik": "0001370946", "name": "Owens Corning",
-        "sector": "Manufacturing", "group": "案例组", "year": "2024",
+        "ticker": "OC",
+        "cik": "0001370946",
+        "name": "Owens Corning",
+        "sector": "Manufacturing",
+        "group": "案例组",
+        "year": "2024",
         "filing_type": "8-K",
         "filing_date": "2024-02-14",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1370946/000137094624000044/a2023-12x31pressrelease.htm",
@@ -116,8 +153,12 @@ COMPANIES = [
         "comment_location": "Comment 1",
     },
     {
-        "ticker": "CNM", "cik": "0001856525", "name": "Core & Main, Inc.",
-        "sector": "Industrial Distribution", "group": "案例组", "year": "2023",
+        "ticker": "CNM",
+        "cik": "0001856525",
+        "name": "Core & Main, Inc.",
+        "sector": "Industrial Distribution",
+        "group": "案例组",
+        "year": "2023",
         "filing_type": "8-K",
         "filing_date": "2024-03-19",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1856525/000185652524000035/cnm-20240319.htm",
@@ -127,8 +168,12 @@ COMPANIES = [
         "comment_location": "Comment 2",
     },
     {
-        "ticker": "AAP", "cik": "0001158449", "name": "Advance Auto Parts, Inc.",
-        "sector": "Retail Auto Parts", "group": "案例组", "year": "2024",
+        "ticker": "AAP",
+        "cik": "0001158449",
+        "name": "Advance Auto Parts, Inc.",
+        "sector": "Retail Auto Parts",
+        "group": "案例组",
+        "year": "2024",
         "filing_type": "8-K",
         "filing_date": "2025-02-26",
         "filing_url": "https://www.sec.gov/Archives/edgar/data/1158449/000115844925000147/filename1.htm",
@@ -139,21 +184,39 @@ COMPANIES = [
     },
     # 干净组
     {
-        "ticker": "CTAS", "cik": "0000723254", "name": "Cintas Corporation",
-        "sector": "Professional Service", "group": "干净组", "year": "",
-        "filing_type": "", "filing_url": "", "corresp_url": "",
+        "ticker": "CTAS",
+        "cik": "0000723254",
+        "name": "Cintas Corporation",
+        "sector": "Professional Service",
+        "group": "干净组",
+        "year": "",
+        "filing_type": "",
+        "filing_url": "",
+        "corresp_url": "",
         "issue": "",
     },
     {
-        "ticker": "SHW", "cik": "0000089800", "name": "Sherwin-Williams Company",
-        "sector": "Consumer Service", "group": "干净组", "year": "",
-        "filing_type": "", "filing_url": "", "corresp_url": "",
+        "ticker": "SHW",
+        "cik": "0000089800",
+        "name": "Sherwin-Williams Company",
+        "sector": "Consumer Service",
+        "group": "干净组",
+        "year": "",
+        "filing_type": "",
+        "filing_url": "",
+        "corresp_url": "",
         "issue": "",
     },
     {
-        "ticker": "ROK", "cik": "0001024478", "name": "Rockwell Automation",
-        "sector": "Industrial Automation", "group": "干净组", "year": "",
-        "filing_type": "", "filing_url": "", "corresp_url": "",
+        "ticker": "ROK",
+        "cik": "0001024478",
+        "name": "Rockwell Automation",
+        "sector": "Industrial Automation",
+        "group": "干净组",
+        "year": "",
+        "filing_type": "",
+        "filing_url": "",
+        "corresp_url": "",
         "issue": "",
     },
 ]
@@ -174,7 +237,9 @@ def update_companies_json():
         }
 
     COMPANIES_FILE.parent.mkdir(parents=True, exist_ok=True)
-    COMPANIES_FILE.write_text(json.dumps(registry, indent=2, ensure_ascii=False), encoding="utf-8")
+    COMPANIES_FILE.write_text(
+        json.dumps(registry, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
     print(f"Updated companies.json with {len(registry)} companies")
     return registry
 
@@ -252,8 +317,12 @@ def download_all():
                         "issue": c.get("issue", ""),
                         "comment_location": c.get("comment_location", ""),
                     }
-                    meta_path = company_dir / "filing" / f"{year}_{filing_type}_meta.json"
-                    meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+                    meta_path = (
+                        company_dir / "filing" / f"{year}_{filing_type}_meta.json"
+                    )
+                    meta_path.write_text(
+                        json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
+                    )
                     stats["downloaded"] += 1
                 else:
                     stats["failed"] += 1
@@ -276,8 +345,14 @@ def download_all():
                         "url": url,
                         "date": corresp_date,
                     }
-                    meta_path = company_dir / "corresp" / f"CORRESP_{corresp_date or year}_meta.json"
-                    meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+                    meta_path = (
+                        company_dir
+                        / "corresp"
+                        / f"CORRESP_{corresp_date or year}_meta.json"
+                    )
+                    meta_path.write_text(
+                        json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
+                    )
                     stats["downloaded"] += 1
                 else:
                     stats["failed"] += 1
@@ -288,7 +363,9 @@ def download_all():
             if group == "干净组":
                 print(f"  Searching EDGAR for recent filings...")
                 cik_padded = c["cik"].lstrip("0").zfill(10)
-                submissions_url = f"https://data.sec.gov/submissions/CIK{cik_padded}.json"
+                submissions_url = (
+                    f"https://data.sec.gov/submissions/CIK{cik_padded}.json"
+                )
 
                 try:
                     resp = client.get(submissions_url)
@@ -320,8 +397,15 @@ def download_all():
                                         "accession": accessions[i],
                                         "url": doc_url,
                                     }
-                                    meta_path = company_dir / "filing" / f"{dates[i]}_{target_form}_meta.json"
-                                    meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+                                    meta_path = (
+                                        company_dir
+                                        / "filing"
+                                        / f"{dates[i]}_{target_form}_meta.json"
+                                    )
+                                    meta_path.write_text(
+                                        json.dumps(meta, indent=2, ensure_ascii=False),
+                                        encoding="utf-8",
+                                    )
                                     stats["downloaded"] += 1
                                 else:
                                     stats["failed"] += 1

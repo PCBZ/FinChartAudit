@@ -6,6 +6,7 @@
 4. Run T2 Pipeline on each chart
 5. Combine with T3 results for full audit report
 """
+
 import json
 import os
 import re
@@ -86,28 +87,34 @@ def extract_images_from_filing(ticker: str) -> list[dict]:
             local_path = charts_out / img_name
 
             if local_path.exists() and local_path.stat().st_size > MIN_IMAGE_SIZE:
-                images.append({
-                    "ticker": ticker,
-                    "file": htm_file.name,
-                    "image_name": img_name,
-                    "local_path": str(local_path),
-                })
+                images.append(
+                    {
+                        "ticker": ticker,
+                        "file": htm_file.name,
+                        "image_name": img_name,
+                        "local_path": str(local_path),
+                    }
+                )
                 continue
 
             # Download
             try:
-                with httpx.Client(headers=HEADERS, timeout=30, follow_redirects=True) as client:
+                with httpx.Client(
+                    headers=HEADERS, timeout=30, follow_redirects=True
+                ) as client:
                     resp = client.get(url)
                     if resp.status_code == 200:
                         local_path.write_bytes(resp.content)
                         size = len(resp.content)
                         if size > MIN_IMAGE_SIZE:
-                            images.append({
-                                "ticker": ticker,
-                                "file": htm_file.name,
-                                "image_name": img_name,
-                                "local_path": str(local_path),
-                            })
+                            images.append(
+                                {
+                                    "ticker": ticker,
+                                    "file": htm_file.name,
+                                    "image_name": img_name,
+                                    "local_path": str(local_path),
+                                }
+                            )
                             print(f"    [OK] {img_name} ({size/1024:.0f} KB)")
                         else:
                             print(f"    [SKIP] {img_name} too small ({size} bytes)")
@@ -127,11 +134,14 @@ def run_t2_on_chart(image_path: str) -> dict:
     if not worker.exists():
         # Write worker if not present
         from run_pipeline_ablation import write_worker_script
+
         write_worker_script()
 
     result = subprocess.run(
         [PYTHON, "-X", "utf8", str(worker), image_path],
-        capture_output=True, text=True, timeout=120,
+        capture_output=True,
+        text=True,
+        timeout=120,
         env={**os.environ, "PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK": "True"},
     )
 
@@ -149,7 +159,9 @@ def main():
 
     # Load existing T3 results
     t3_case = Path("data/eval_results/t3_case_study/results.json")
-    t3_results = json.loads(t3_case.read_text(encoding="utf-8")) if t3_case.exists() else {}
+    t3_results = (
+        json.loads(t3_case.read_text(encoding="utf-8")) if t3_case.exists() else {}
+    )
 
     all_results = {}
 
@@ -167,7 +179,14 @@ def main():
                 "ticker": ticker,
                 "charts_found": 0,
                 "t2_findings": [],
-                "t3_findings": t3_results.get(f"{ticker}/{list(FILINGS_DIR.glob(f'{ticker}/filing/*.htm'))[0].name}" if list(FILINGS_DIR.glob(f"{ticker}/filing/*.htm")) else "", {}),
+                "t3_findings": t3_results.get(
+                    (
+                        f"{ticker}/{list(FILINGS_DIR.glob(f'{ticker}/filing/*.htm'))[0].name}"
+                        if list(FILINGS_DIR.glob(f"{ticker}/filing/*.htm"))
+                        else ""
+                    ),
+                    {},
+                ),
             }
             continue
 
@@ -183,12 +202,14 @@ def main():
                 else:
                     predicted = result.get("predicted", [])
                     print(f" -> {predicted} ({result.get('elapsed_s', '?')}s)")
-                    t2_findings.append({
-                        **img,
-                        "predicted": predicted,
-                        "findings_count": result.get("findings_count", 0),
-                        "elapsed_s": result.get("elapsed_s", 0),
-                    })
+                    t2_findings.append(
+                        {
+                            **img,
+                            "predicted": predicted,
+                            "findings_count": result.get("findings_count", 0),
+                            "elapsed_s": result.get("elapsed_s", 0),
+                        }
+                    )
             except subprocess.TimeoutExpired:
                 print(f" -> TIMEOUT")
                 t2_findings.append({**img, "error": "timeout"})
@@ -230,8 +251,12 @@ def main():
     print(f"{'Ticker':<8} {'Charts':>7} {'T2 Issues':>10} {'T3 Findings':>12}")
     print("-" * 40)
     for ticker, data in all_results.items():
-        t2_issues = sum(1 for f in data["t2_findings"] if f.get("findings_count", 0) > 0)
-        print(f"{ticker:<8} {data['charts_found']:>7} {t2_issues:>10} {data['t3_findings_count']:>12}")
+        t2_issues = sum(
+            1 for f in data["t2_findings"] if f.get("findings_count", 0) > 0
+        )
+        print(
+            f"{ticker:<8} {data['charts_found']:>7} {t2_issues:>10} {data['t3_findings_count']:>12}"
+        )
 
     print(f"\nResults saved to: {output}")
 

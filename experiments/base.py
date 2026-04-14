@@ -1,4 +1,5 @@
 """Shared base utilities for all experiment scripts."""
+
 from __future__ import annotations
 
 import hashlib
@@ -11,7 +12,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Callable
 
-from src.utils import parse_json, img_to_b64 as _img_to_b64
+from src.utils import img_to_b64 as _img_to_b64
+from src.utils import parse_json
 
 # Re-export parse_json under the alias used by experiment scripts
 extract_json = parse_json
@@ -24,6 +26,7 @@ BASELINE_RESULTS = Path(
 
 # ── Image helper ──────────────────────────────────────────────────────────────
 
+
 def img_to_b64(image_path: str) -> str:
     """Load image and return base64-encoded JPEG string."""
     _, b64 = _img_to_b64(image_path)
@@ -31,6 +34,7 @@ def img_to_b64(image_path: str) -> str:
 
 
 # ── Sample selection ──────────────────────────────────────────────────────────
+
 
 def select_samples() -> list[dict]:
     """Load and align samples against the baseline results file.
@@ -56,26 +60,34 @@ def select_samples() -> list[dict]:
     # Build index: (misleader_set, chart_type_tuple) → [local_indices]
     content_to_local: dict = defaultdict(list)
     for i, d in enumerate(real_data):
-        key = (frozenset(d.get("misleader", [])), tuple(sorted(d.get("chart_type", []))))
+        key = (
+            frozenset(d.get("misleader", [])),
+            tuple(sorted(d.get("chart_type", []))),
+        )
         content_to_local[key].append(i)
 
     samples = []
     used: set[int] = set()
     for b_item in b_items:
-        key = (frozenset(b_item["gt_misleaders"]), tuple(sorted(b_item.get("chart_type", []))))
+        key = (
+            frozenset(b_item["gt_misleaders"]),
+            tuple(sorted(b_item.get("chart_type", []))),
+        )
         candidates = [idx for idx in content_to_local.get(key, []) if idx not in used]
         if candidates:
             idx = candidates[0]
             used.add(idx)
             instance = loader.get_real_instance(idx)
             if Path(instance.image_path).exists():
-                samples.append({
-                    "idx": idx,
-                    "instance_id": str(b_item["id"]),
-                    "image_path": instance.image_path,
-                    "ground_truth": instance.misleader,
-                    "b_id": b_item["id"],
-                })
+                samples.append(
+                    {
+                        "idx": idx,
+                        "instance_id": str(b_item["id"]),
+                        "image_path": instance.image_path,
+                        "ground_truth": instance.misleader,
+                        "b_id": b_item["id"],
+                    }
+                )
 
     print(f"Matched {len(samples)}/271 of B's samples")
     return samples
@@ -83,12 +95,15 @@ def select_samples() -> list[dict]:
 
 # ── Cache loaders ─────────────────────────────────────────────────────────────
 
+
 def load_ocr_cache(cache_dir: Path = OCR_CACHE_DIR) -> dict:
     """Load OCR results from disk cache. Returns empty dict if cache missing."""
     cache: dict = {}
     if not cache_dir.exists():
-        print(f"WARNING: No OCR cache at {cache_dir}. "
-              "Run full_pipeline.py --phase 1 first.")
+        print(
+            f"WARNING: No OCR cache at {cache_dir}. "
+            "Run full_pipeline.py --phase 1 first."
+        )
         return cache
     for f in sorted(cache_dir.glob("*.json")):
         try:
@@ -101,6 +116,7 @@ def load_ocr_cache(cache_dir: Path = OCR_CACHE_DIR) -> dict:
 def load_deplot_cache(samples: list[dict]) -> dict:
     """Load cached DePlot results for the given samples."""
     from finchartaudit.tools.deplot import DePlotTool
+
     deplot = DePlotTool(device="cpu")
     cache: dict = {}
     for s in samples:
@@ -111,6 +127,7 @@ def load_deplot_cache(samples: list[dict]) -> dict:
 
 
 # ── Veto helpers ──────────────────────────────────────────────────────────────
+
 
 def apply_clean_veto(
     predicted: list[str],
@@ -150,6 +167,7 @@ def apply_clean_veto(
 
 
 # ── Experiment runner ─────────────────────────────────────────────────────────
+
 
 def run_experiment(
     call_fn: Callable[[dict], dict],
@@ -234,6 +252,7 @@ def run_experiment(
 
     # Metrics via MisvizEvaluator
     from data_tools.misviz.evaluator import MisvizEvaluator
+
     evaluator = MisvizEvaluator()
     for r in results:
         if "error" not in r:
@@ -250,13 +269,12 @@ def run_experiment(
         json.dumps(metrics, indent=2), encoding="utf-8"
     )
 
-    print(
-        f"\nDone: {completed} charts, {errors} errors, {total_vetoes} vetoes applied"
-    )
+    print(f"\nDone: {completed} charts, {errors} errors, {total_vetoes} vetoes applied")
     print(f"Time: {total_time:.0f}s ({total_time / max(completed, 1):.1f}s/chart)")
 
 
 # ── Save helper ───────────────────────────────────────────────────────────────
+
 
 def _save(results: list[dict], out_dir: Path) -> None:
     (out_dir / "raw_results.json").write_text(
@@ -265,6 +283,7 @@ def _save(results: list[dict], out_dir: Path) -> None:
 
 
 # ── Legacy helpers (kept for compute_metrics callers) ─────────────────────────
+
 
 def content_hash(path: str | Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -280,7 +299,9 @@ def build_rule_verdicts(ocr_result: dict) -> dict:
     return verdicts
 
 
-def apply_rule_veto(predicted: list[str], verdicts: dict) -> tuple[list[str], list[str]]:
+def apply_rule_veto(
+    predicted: list[str], verdicts: dict
+) -> tuple[list[str], list[str]]:
     veto_log = []
     filtered = []
     for t in predicted:
@@ -296,18 +317,32 @@ def compute_metrics(results: list[dict]) -> dict:
     for r in results:
         gt = bool(r.get("label"))
         pred = len(r.get("predicted", [])) > 0
-        if gt and pred:       tp += 1
-        elif not gt and pred: fp += 1
-        elif gt and not pred: fn += 1
-        else:                 tn += 1
+        if gt and pred:
+            tp += 1
+        elif not gt and pred:
+            fp += 1
+        elif gt and not pred:
+            fn += 1
+        else:
+            tn += 1
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
-    recall    = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-    f1        = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
-    accuracy  = (tp + tn) / len(results) if results else 0.0
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if (precision + recall) > 0
+        else 0.0
+    )
+    accuracy = (tp + tn) / len(results) if results else 0.0
     return {
-        "precision": round(precision, 4), "recall": round(recall, 4),
-        "f1": round(f1, 4), "accuracy": round(accuracy, 4),
-        "tp": tp, "fp": fp, "fn": fn, "tn": tn, "n": len(results),
+        "precision": round(precision, 4),
+        "recall": round(recall, 4),
+        "f1": round(f1, 4),
+        "accuracy": round(accuracy, 4),
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
+        "tn": tn,
+        "n": len(results),
     }
 
 

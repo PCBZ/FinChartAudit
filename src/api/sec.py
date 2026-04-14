@@ -1,4 +1,5 @@
 """SEC EDGAR filing fetch utilities — extracted from server.py."""
+
 from __future__ import annotations
 
 import base64
@@ -13,7 +14,12 @@ from bs4 import BeautifulSoup
 from fastapi import HTTPException
 from PIL import Image
 
-from src.config import MAX_IMAGES, MAX_TABLES, SEC_RATE_LIMIT_SLEEP, SUPPORTED_FILING_TYPES
+from src.config import (
+    MAX_IMAGES,
+    MAX_TABLES,
+    SEC_RATE_LIMIT_SLEEP,
+    SUPPORTED_FILING_TYPES,
+)
 from src.utils import parse_style_dim
 
 log = logging.getLogger(__name__)
@@ -46,7 +52,8 @@ def _load_cik_cache():
         try:
             resp = http_requests.get(
                 "https://www.sec.gov/files/company_tickers.json",
-                headers=SEC_HEADERS, timeout=15,
+                headers=SEC_HEADERS,
+                timeout=15,
             )
             resp.raise_for_status()
             for entry in resp.json().values():
@@ -100,19 +107,28 @@ def _has_nongaap_content(text: str) -> bool:
     return any(kw in t for kw in ["non-gaap", "adjusted", "reconciliation"])
 
 
-def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
-                     years: list[int] | None = None) -> dict:
+def fetch_sec_filing(
+    ticker: str,
+    filing_type: str = "10-K",
+    count: int = 1,
+    years: list[int] | None = None,
+) -> dict:
     """Download SEC filing(s) and extract chart images + financial table text.
 
     When years is provided, filters filings to those whose filingDate falls in the given years.
     When count > 1 (and no years filter), downloads the N most recent filings.
     """
     if SECDownloader is None:
-        raise HTTPException(503, "SEC downloader module not available — ensure src.data.download_sec_data is importable (pip install -e '.[api]')")
+        raise HTTPException(
+            503,
+            "SEC downloader module not available — ensure src.data.download_sec_data is importable (pip install -e '.[api]')",
+        )
 
     filing_type = filing_type.upper()
     if filing_type not in SUPPORTED_FILING_TYPES:
-        raise HTTPException(400, f"Unsupported filing type. Valid: {SUPPORTED_FILING_TYPES}")
+        raise HTTPException(
+            400, f"Unsupported filing type. Valid: {SUPPORTED_FILING_TYPES}"
+        )
 
     ticker = ticker.upper()
     cik, company_name = resolve_cik(ticker)
@@ -129,7 +145,10 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         year_set = set(years)
         filings = [f for f in filings if int(f["filingDate"][:4]) in year_set]
         if not filings:
-            raise HTTPException(404, f"No {filing_type} filing found for {ticker} in years {sorted(years)}")
+            raise HTTPException(
+                404,
+                f"No {filing_type} filing found for {ticker} in years {sorted(years)}",
+            )
 
     cik_stripped = cik.lstrip("0")
     all_images: list[dict] = []
@@ -138,7 +157,7 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
     all_context_parts: list[str] = []
     filing_dates: list[str] = []
     filing_accessions: list[str] = []
-    seen_filenames: set[str] = set()   # deduplicate images across filings
+    seen_filenames: set[str] = set()  # deduplicate images across filings
 
     for filing in filings:
         acc = filing["accessionNumber"]
@@ -148,7 +167,9 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         filing_dates.append(date)
         filing_accessions.append(acc)
 
-        filing_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc_nodash}/{doc}"
+        filing_url = (
+            f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc_nodash}/{doc}"
+        )
         log.info(f"Downloading {ticker} {filing_type} ({date}) from {filing_url}")
 
         try:
@@ -168,7 +189,9 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
                 break
             style = img_tag.get("style", "")
             width = parse_style_dim(style, "width") or int(img_tag.get("width", 0) or 0)
-            height = parse_style_dim(style, "height") or int(img_tag.get("height", 0) or 0)
+            height = parse_style_dim(style, "height") or int(
+                img_tag.get("height", 0) or 0
+            )
             # Only skip truly tiny images (icons, spacers)
             if width > 0 and width < 100 and height > 0 and height < 100:
                 continue
@@ -182,6 +205,7 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
             if src_clean.startswith("http://") or src_clean.startswith("https://"):
                 # SSRF guard: only allow sec.gov and its subdomains
                 from urllib.parse import urlparse
+
                 parsed_host = (urlparse(src_clean).hostname or "").lower()
                 if parsed_host != "sec.gov" and not parsed_host.endswith(".sec.gov"):
                     continue
@@ -212,7 +236,9 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
                 b64 = base64.b64encode(buf.getvalue()).decode()
 
                 display_name = f"{date}_{filename}" if count > 1 else filename
-                all_images.append({"name": display_name, "base64": b64, "alt": alt, "type": "chart"})
+                all_images.append(
+                    {"name": display_name, "base64": b64, "alt": alt, "type": "chart"}
+                )
                 seen_filenames.add(dedup_key)
                 log.info(f"  Chart: {display_name} ({len(img_bytes) // 1024}KB)")
             except Exception as e:
@@ -232,23 +258,36 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
             text = table_tag.get_text(" ", strip=True)[:2000]
             # Clean up the HTML: remove inline styles/classes to keep it small
             for tag in table_tag.find_all(True):
-                tag.attrs = {k: v for k, v in tag.attrs.items() if k in ("colspan", "rowspan")}
+                tag.attrs = {
+                    k: v for k, v in tag.attrs.items() if k in ("colspan", "rowspan")
+                }
             table_html = str(table_tag)
             # Omit HTML preview for very large tables (avoid broken markup from mid-tag slicing)
             if len(table_html) > 8000:
                 table_html = None
             tbl_name = f"{date_tag}_table_{i:03d}" if count > 1 else f"table_{i:03d}"
-            all_tables.append({
-                "name": tbl_name, "text": text, "html": table_html,
-                "has_nongaap": _has_nongaap_content(text), "type": "table",
-            })
+            all_tables.append(
+                {
+                    "name": tbl_name,
+                    "text": text,
+                    "html": table_html,
+                    "has_nongaap": _has_nongaap_content(text),
+                    "type": "table",
+                }
+            )
 
         # ── Extract document context text ─────────────────────────────────
         soup_text = BeautifulSoup(html_content, "html.parser")
         for tag in soup_text.find_all(["table", "script", "style"]):
             tag.decompose()
         full_text = soup_text.get_text(" ", strip=True)
-        nongaap_kw = ["non-gaap", "adjusted", "reconciliation", "regulation g", "item 10(e)"]
+        nongaap_kw = [
+            "non-gaap",
+            "adjusted",
+            "reconciliation",
+            "regulation g",
+            "item 10(e)",
+        ]
         for para in full_text.split("."):
             if any(kw in para.lower() for kw in nongaap_kw):
                 all_context_parts.append(para.strip() + ".")
@@ -278,11 +317,15 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         sec_context += "Filing context: " + doc_context
 
     nongaap_count = sum(1 for t in all_tables if t["has_nongaap"])
-    skipped_tables = total_html_tables - len(all_tables)  # non-financial tables filtered by _is_candidate_table
+    skipped_tables = total_html_tables - len(
+        all_tables
+    )  # non-financial tables filtered by _is_candidate_table
 
-    log.info(f"  {len(all_images)} charts, {len(all_tables)} financial tables "
-             f"({nongaap_count} with Non-GAAP content, {skipped_tables} non-financial skipped), "
-             f"sec context: {len(sec_context)} chars")
+    log.info(
+        f"  {len(all_images)} charts, {len(all_tables)} financial tables "
+        f"({nongaap_count} with Non-GAAP content, {skipped_tables} non-financial skipped), "
+        f"sec context: {len(sec_context)} chars"
+    )
 
     return {
         "ticker": ticker,

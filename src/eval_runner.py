@@ -1,29 +1,31 @@
-
-
-
-
-
-
 # ── RQ1 / RQ2: Misviz ────────────────────────────────────────────────────────
 
-def _call_misviz_api(client, model: str, image_url: str,
-                     condition: str, bbox_text: str = "") -> str:
+
+def _call_misviz_api(
+    client, model: str, image_url: str, condition: str, bbox_text: str = ""
+) -> str:
     """Build prompt and call shared VLM client."""
     prompt = (
-        build_vision_only_prompt() if condition == "vision_only"
+        build_vision_only_prompt()
+        if condition == "vision_only"
         else build_vision_text_prompt(bbox_text)
     )
     return call_vlm(client, model, prompt, image_url)
 
 
-
-def _run_single_misviz(client: OpenAI, model: str, image_url: str,
-                       condition: str, bbox_text: str = "") -> dict:
+def _run_single_misviz(
+    client: OpenAI, model: str, image_url: str, condition: str, bbox_text: str = ""
+) -> dict:
     try:
         raw = _call_misviz_api(client, model, image_url, condition, bbox_text)
         return _parse_response(raw)
     except Exception as e:
-        return {"misleading": None, "misleader_types": [], "explanation": str(e), "api_error": True}
+        return {
+            "misleading": None,
+            "misleader_types": [],
+            "explanation": str(e),
+            "api_error": True,
+        }
 
 
 def _stratified_sample(dataset, n_per_type: int = 15, n_clean: int = 100) -> list:
@@ -44,22 +46,30 @@ def _stratified_sample(dataset, n_per_type: int = 15, n_clean: int = 100) -> lis
     return sorted(selected)
 
 
-def evaluate(api_key: str, model_key: str, condition: str,
-             n_samples: int = None, n_per_type: int = 15, n_clean: int = 100,
-             workers: int = 8, models: dict = None, conditions: tuple = None,
-             api_base_url: str = DEFAULT_API_BASE_URL) -> list[dict]:
+def evaluate(
+    api_key: str,
+    model_key: str,
+    condition: str,
+    n_samples: int = None,
+    n_per_type: int = 15,
+    n_clean: int = 100,
+    workers: int = 8,
+    models: dict = None,
+    conditions: tuple = None,
+    api_base_url: str = DEFAULT_API_BASE_URL,
+) -> list[dict]:
     """Run RQ1/RQ2 evaluation on Misviz dataset."""
     models = models or DEFAULT_MODELS
     conditions = conditions or DEFAULT_CONDITIONS
-    
-    assert model_key in models,    f"model_key must be one of {list(models)}"
+
+    assert model_key in models, f"model_key must be one of {list(models)}"
     assert condition in conditions, f"condition must be one of {conditions}"
 
-    model  = models[model_key]
+    model = models[model_key]
     client = _make_client(api_key, api_base_url)
 
     login(token=os.environ["HUGGING_FACE_HUB_TOKEN"])
-    ds      = load_dataset("UKPLab/misviz")
+    ds = load_dataset("UKPLab/misviz")
     dataset = ds["test"]
     print(f"Dataset size: {len(dataset)}")
 
@@ -70,15 +80,15 @@ def evaluate(api_key: str, model_key: str, condition: str,
         dataset = dataset.select(indices)
         print(f"Stratified sample: {len(dataset)} samples")
 
-    results        = []
+    results = []
     correct, total = 0, 0
-    lock           = threading.Lock()
+    lock = threading.Lock()
 
     print(f"Model: {model} | Condition: {condition} | Samples: {len(dataset)}")
 
     def process_item(args):
-        i, item   = args
-        bboxes    = item.get("bbox", [])
+        i, item = args
+        bboxes = item.get("bbox", [])
         bbox_text = build_bbox_text(bboxes)
 
         img = item["image"]
@@ -102,31 +112,33 @@ def evaluate(api_key: str, model_key: str, condition: str,
             bbox_text=bbox_text,
         )
 
-        gt_labels      = set(item.get("misleader", []))
-        pred_labels    = set(pred.get("misleader_types", []))
-        gt_binary      = len(gt_labels) > 0
-        pred_binary    = pred.get("misleading", False)
-        binary_correct = (gt_binary == pred_binary)
+        gt_labels = set(item.get("misleader", []))
+        pred_labels = set(pred.get("misleader_types", []))
+        gt_binary = len(gt_labels) > 0
+        pred_binary = pred.get("misleading", False)
+        binary_correct = gt_binary == pred_binary
 
         return {
-            "id":                   i,
-            "gt_misleaders":        list(gt_labels),
-            "chart_type":           item.get("chart_type", []),
-            "bbox":                 bboxes,
-            "pred_misleading":      pred_binary,
+            "id": i,
+            "gt_misleaders": list(gt_labels),
+            "chart_type": item.get("chart_type", []),
+            "bbox": bboxes,
+            "pred_misleading": pred_binary,
             "pred_misleader_types": list(pred_labels),
-            "explanation":          pred.get("explanation", ""),
-            "binary_correct":       binary_correct,
-            "type_match":           (gt_labels == pred_labels),
-            "parse_error":          pred.get("parse_error", False),
-            "api_error":            pred.get("api_error", False),
+            "explanation": pred.get("explanation", ""),
+            "binary_correct": binary_correct,
+            "type_match": (gt_labels == pred_labels),
+            "parse_error": pred.get("parse_error", False),
+            "api_error": pred.get("api_error", False),
         }
 
     pbar = tqdm(total=len(dataset), desc=f"{model_key}/{condition}", unit="sample")
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {executor.submit(process_item, (i, item)): i
-                   for i, item in enumerate(dataset)}
+        futures = {
+            executor.submit(process_item, (i, item)): i
+            for i, item in enumerate(dataset)
+        }
         for future in as_completed(futures):
             try:
                 result = future.result(timeout=60)
@@ -151,13 +163,17 @@ def evaluate(api_key: str, model_key: str, condition: str,
     out.mkdir(parents=True, exist_ok=True)
     fname = out / f"{model_key}_{condition}.json"
     with open(fname, "w") as f:
-        json.dump({
-            "model":           model,
-            "condition":       condition,
-            "n_samples":       total,
-            "binary_accuracy": correct / total if total else 0,
-            "results":         results,
-        }, f, indent=2)
+        json.dump(
+            {
+                "model": model,
+                "condition": condition,
+                "n_samples": total,
+                "binary_accuracy": correct / total if total else 0,
+                "results": results,
+            },
+            f,
+            indent=2,
+        )
 
     print(f"\nBinary accuracy: {correct/total:.3f} ({correct}/{total})")
     print(f"Saved → {fname}")
@@ -167,23 +183,49 @@ def evaluate(api_key: str, model_key: str, condition: str,
 # ── RQ3: SEC filings ──────────────────────────────────────────────────────────
 
 SKIP_KEYWORDS = [
-    'logo', 'headshot', 'lineup', 'photo', 'portrait',
-    'beer', 'wine', 'spirits', 'esg', 'map', 'facilities',
-    'pipeline', 'terminal', 'co2', 'products', 'outlet',
-    'newlands', 'bourdeau', 'hankinson', 'mcgrew',
-    'monteiro', 'sabia', 'glaetzer', 'carey', 'hanson',
-    'erickson', 'dykes', 'zeiler', 'walsh', 'khetani',
-    '_g1',
+    "logo",
+    "headshot",
+    "lineup",
+    "photo",
+    "portrait",
+    "beer",
+    "wine",
+    "spirits",
+    "esg",
+    "map",
+    "facilities",
+    "pipeline",
+    "terminal",
+    "co2",
+    "products",
+    "outlet",
+    "newlands",
+    "bourdeau",
+    "hankinson",
+    "mcgrew",
+    "monteiro",
+    "sabia",
+    "glaetzer",
+    "carey",
+    "hanson",
+    "erickson",
+    "dykes",
+    "zeiler",
+    "walsh",
+    "khetani",
+    "_g1",
 ]
 
-STOCK_RETURN_PATTERNS = ['_g2.']
+STOCK_RETURN_PATTERNS = ["_g2."]
 
 
-def _is_financial_visual(item: dict, skip_keywords: list = None, stock_patterns: list = None) -> bool:
+def _is_financial_visual(
+    item: dict, skip_keywords: list = None, stock_patterns: list = None
+) -> bool:
     skip_keywords = skip_keywords or SKIP_KEYWORDS
     stock_patterns = stock_patterns or STOCK_RETURN_PATTERNS
-    
-    alt   = item.get("alt", "").lower()
+
+    alt = item.get("alt", "").lower()
     fname = item.get("filename", "").lower()
     if any(kw in alt or kw in fname for kw in skip_keywords):
         return False
@@ -206,8 +248,9 @@ def _save_prescreen_cache(cache: dict):
         json.dump(cache, f, indent=2)
 
 
-def _is_financial_chart_by_vlm(client: OpenAI, model: str, img_path: Path,
-                                cache: dict) -> bool:
+def _is_financial_chart_by_vlm(
+    client: OpenAI, model: str, img_path: Path, cache: dict
+) -> bool:
     cache_key = str(img_path)
     if cache_key in cache:
         return cache[cache_key]
@@ -223,13 +266,21 @@ def _is_financial_chart_by_vlm(client: OpenAI, model: str, img_path: Path,
     try:
         response = client.chat.completions.create(
             model=model,
-            messages=[{"role": "user", "content": [
-                {"type": "text",      "text": prompt},
-                {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-            ]}],
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:{mime};base64,{b64}"},
+                        },
+                    ],
+                }
+            ],
             max_tokens=16,
         )
-        raw    = response.choices[0].message.content or ""
+        raw = response.choices[0].message.content or ""
         result = "YES" in raw.strip().upper()
         cache[cache_key] = result
         return result
@@ -254,14 +305,22 @@ def _build_sec_context(ticker: str, ground_truth: dict) -> str:
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
 def _call_sec_api(client: OpenAI, model: str, img_path: Path, sec_context: str) -> str:
     """Raw API call — raises on error so tenacity can retry."""
-    prompt    = build_rq3_prompt(sec_context)
+    prompt = build_rq3_prompt(sec_context)
     mime, b64 = _img_to_b64(img_path)
-    response  = client.chat.completions.create(
+    response = client.chat.completions.create(
         model=model,
-        messages=[{"role": "user", "content": [
-            {"type": "text",      "text": prompt},
-            {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-        ]}],
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime};base64,{b64}"},
+                    },
+                ],
+            }
+        ],
         max_tokens=512,
     )
     if not response.choices or response.choices[0].message.content is None:
@@ -269,7 +328,9 @@ def _call_sec_api(client: OpenAI, model: str, img_path: Path, sec_context: str) 
     return response.choices[0].message.content
 
 
-def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str) -> dict:
+def _run_single_sec(
+    client: OpenAI, model: str, img_path: Path, sec_context: str
+) -> dict:
     try:
         raw = _call_sec_api(client, model, img_path, sec_context)
         content = raw.strip()
@@ -280,26 +341,43 @@ def _run_single_sec(client: OpenAI, model: str, img_path: Path, sec_context: str
         try:
             return json.loads(content)
         except json.JSONDecodeError:
-            return {"misleading": None, "sec_violation": None, "explanation": content, "parse_error": True}
+            return {
+                "misleading": None,
+                "sec_violation": None,
+                "explanation": content,
+                "parse_error": True,
+            }
     except Exception as e:
-        return {"misleading": None, "sec_violation": None, "explanation": str(e), "api_error": True}
+        return {
+            "misleading": None,
+            "sec_violation": None,
+            "explanation": str(e),
+            "api_error": True,
+        }
 
 
-def evaluate_sec(api_key: str, model_key: str = "claude",
-                 condition: str = "vision_text", max_per_ticker: int = 10,
-                 workers: int = 8, models: dict = None, conditions: tuple = None,
-                 api_base_url: str = DEFAULT_API_BASE_URL,
-                 skip_keywords: list = None, stock_patterns: list = None):
+def evaluate_sec(
+    api_key: str,
+    model_key: str = "claude",
+    condition: str = "vision_text",
+    max_per_ticker: int = 10,
+    workers: int = 8,
+    models: dict = None,
+    conditions: tuple = None,
+    api_base_url: str = DEFAULT_API_BASE_URL,
+    skip_keywords: list = None,
+    stock_patterns: list = None,
+):
     """Run RQ3 evaluation on SEC 10-K visual presentations."""
     models = models or DEFAULT_MODELS
     conditions = conditions or DEFAULT_CONDITIONS
     skip_keywords = skip_keywords or SKIP_KEYWORDS
     stock_patterns = stock_patterns or STOCK_RETURN_PATTERNS
-    
-    assert model_key in models,    f"model_key must be one of {list(models)}"
+
+    assert model_key in models, f"model_key must be one of {list(models)}"
     assert condition in conditions, f"condition must be one of {conditions}"
 
-    model  = models[model_key]
+    model = models[model_key]
     client = _make_client(api_key, api_base_url)
 
     manifest = {}
@@ -314,13 +392,13 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
                 item["visual_type"] = visual_type
                 manifest[ticker].append(item)
 
-    ground_truth    = json.loads(Path("data/ground_truth.json").read_text())
+    ground_truth = json.loads(Path("data/ground_truth.json").read_text())
     prescreen_cache = _load_prescreen_cache()
 
-    results    = {}
-    total      = 0
-    flagged    = 0
-    lock       = threading.Lock()
+    results = {}
+    total = 0
+    flagged = 0
+    lock = threading.Lock()
     cache_lock = threading.Lock()
 
     all_items = [
@@ -332,6 +410,7 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
     ]
     if max_per_ticker:
         from itertools import groupby
+
         all_items = [
             (ticker, item)
             for ticker, grp in {
@@ -352,10 +431,18 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
             print(f"  ⏭ {ticker}: no GT violations, skipping")
             continue
 
-        sec_context     = _build_sec_context(ticker, ground_truth) if condition == "vision_text" else ""
+        sec_context = (
+            _build_sec_context(ticker, ground_truth)
+            if condition == "vision_text"
+            else ""
+        )
         results[ticker] = []
 
-        items_filtered = [item for item in items if _is_financial_visual(item, skip_keywords, stock_patterns)]
+        items_filtered = [
+            item
+            for item in items
+            if _is_financial_visual(item, skip_keywords, stock_patterns)
+        ]
         if max_per_ticker:
             items_filtered = items_filtered[:max_per_ticker]
         if not items_filtered:
@@ -365,7 +452,9 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
         n_charts = sum(1 for i in items_filtered if i.get("visual_type") == "charts")
         n_tables = sum(1 for i in items_filtered if i.get("visual_type") == "tables")
         print(f"\n{'='*50}")
-        print(f"{ticker} | charts={n_charts} tables={n_tables} | condition: {condition} | GT: {has_gt}")
+        print(
+            f"{ticker} | charts={n_charts} tables={n_tables} | condition: {condition} | GT: {has_gt}"
+        )
 
         def process_item(item):
             img_path = Path(item["path"])
@@ -375,7 +464,9 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
             with cache_lock:
                 cached = prescreen_cache.get(str(img_path))
             if cached is None:
-                result = _is_financial_chart_by_vlm(client, model, img_path, prescreen_cache)
+                result = _is_financial_chart_by_vlm(
+                    client, model, img_path, prescreen_cache
+                )
                 with cache_lock:
                     prescreen_cache[str(img_path)] = result
             else:
@@ -385,19 +476,19 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
                 pbar.update(1)
                 return None
 
-            pred       = _run_single_sec(client, model, img_path, sec_context)
+            pred = _run_single_sec(client, model, img_path, sec_context)
             is_flagged = bool(pred.get("misleading") or pred.get("sec_violation"))
 
             return {
-                "file":             item.get("filename") or item.get("alt", ""),
-                "date":             item.get("date", ""),
-                "pred_misleading":  pred.get("misleading"),
-                "pred_violation":   pred.get("sec_violation"),
-                "explanation":      pred.get("explanation", ""),
+                "file": item.get("filename") or item.get("alt", ""),
+                "date": item.get("date", ""),
+                "pred_misleading": pred.get("misleading"),
+                "pred_violation": pred.get("sec_violation"),
+                "explanation": pred.get("explanation", ""),
                 "has_gt_violation": has_gt,
-                "parse_error":      pred.get("parse_error", False),
-                "api_error":        pred.get("api_error", False),
-                "is_flagged":       is_flagged,
+                "parse_error": pred.get("parse_error", False),
+                "api_error": pred.get("api_error", False),
+                "is_flagged": is_flagged,
             }
 
         with ThreadPoolExecutor(max_workers=workers) as executor:
@@ -417,9 +508,13 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
                         flagged += 1
                     total += 1
                     pbar.set_postfix({"flagged": flagged, "total": total})
-                    results[ticker].append({k: v for k, v in res.items() if k != "is_flagged"})
-                    print(f"  {'🚩' if res['is_flagged'] else '✓'} {res['file']} "
-                          f"→ {res['pred_violation'] or 'None'}")
+                    results[ticker].append(
+                        {k: v for k, v in res.items() if k != "is_flagged"}
+                    )
+                    print(
+                        f"  {'🚩' if res['is_flagged'] else '✓'} {res['file']} "
+                        f"→ {res['pred_violation'] or 'None'}"
+                    )
 
     pbar.close()
     _save_prescreen_cache(prescreen_cache)
@@ -428,15 +523,23 @@ def evaluate_sec(api_key: str, model_key: str = "claude",
     out_dir.mkdir(exist_ok=True)
     fname = out_dir / f"sec_{model_key}_{condition}.json"
     with open(fname, "w") as f:
-        json.dump({
-            "model":     model,
-            "condition": condition,
-            "total":     total,
-            "flagged":   flagged,
-            "flag_rate": flagged / total if total else 0,
-            "results":   results,
-        }, f, indent=2)
+        json.dump(
+            {
+                "model": model,
+                "condition": condition,
+                "total": total,
+                "flagged": flagged,
+                "flag_rate": flagged / total if total else 0,
+                "results": results,
+            },
+            f,
+            indent=2,
+        )
 
-    print(f"\n📊 Flagged: {flagged}/{total} ({flagged/total:.1%})" if total else "\n📊 No items evaluated")
+    print(
+        f"\n📊 Flagged: {flagged}/{total} ({flagged/total:.1%})"
+        if total
+        else "\n📊 No items evaluated"
+    )
     print(f"💾 Saved → {fname}")
     return results

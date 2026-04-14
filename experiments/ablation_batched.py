@@ -2,6 +2,7 @@
 
 Reuses OCR instance, creates fresh VLM client per batch to avoid memory buildup.
 """
+
 import gc
 import json
 import os
@@ -13,13 +14,13 @@ from pathlib import Path
 os.environ["PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK"] = "True"
 sys.path.insert(0, str(Path(__file__).parent))
 
+from data_tools.misviz.evaluator import MisvizEvaluator
+from data_tools.misviz.loader import MisvizLoader
+from finchartaudit.agents.t2_visual import T2VisualAgent
 from finchartaudit.config import get_config
-from finchartaudit.vlm.claude_client import OpenRouterVLMClient
 from finchartaudit.memory.filing_memory import FilingMemory
 from finchartaudit.tools.traditional_ocr import TraditionalOCRTool
-from finchartaudit.agents.t2_visual import T2VisualAgent
-from data_tools.misviz.loader import MisvizLoader
-from data_tools.misviz.evaluator import MisvizEvaluator
+from finchartaudit.vlm.claude_client import OpenRouterVLMClient
 
 get_config.cache_clear()
 config = get_config()
@@ -87,7 +88,7 @@ errors = sum(1 for r in existing if "error" in r)
 
 # Process in batches
 for batch_start in range(0, len(remaining), BATCH_SIZE):
-    batch = remaining[batch_start:batch_start + BATCH_SIZE]
+    batch = remaining[batch_start : batch_start + BATCH_SIZE]
     print(f"\n--- Batch {batch_start // BATCH_SIZE + 1} ({len(batch)} charts) ---")
 
     # Fresh VLM per batch to avoid conversation memory buildup
@@ -99,7 +100,11 @@ for batch_start in range(0, len(remaining), BATCH_SIZE):
             continue
 
         count += 1
-        print(f"[{count}/{N}] id={instance.instance_id} gt={instance.misleader}", end="", flush=True)
+        print(
+            f"[{count}/{N}] id={instance.instance_id} gt={instance.misleader}",
+            end="",
+            flush=True,
+        )
 
         memory = FilingMemory()
         agent = T2VisualAgent(vlm=vlm, memory=memory)
@@ -107,32 +112,42 @@ for batch_start in range(0, len(remaining), BATCH_SIZE):
 
         try:
             start = time.time()
-            findings = agent.execute({
-                "image_path": instance.image_path,
-                "page": 1,
-                "chart_id": f"ablation_{instance.instance_id}",
-            })
+            findings = agent.execute(
+                {
+                    "image_path": instance.image_path,
+                    "page": 1,
+                    "chart_id": f"ablation_{instance.instance_id}",
+                }
+            )
             elapsed = time.time() - start
 
-            predicted = list({f.subcategory for f in findings if f.category == "misleader"})
+            predicted = list(
+                {f.subcategory for f in findings if f.category == "misleader"}
+            )
             gt = instance.misleader
 
             evaluator.add_prediction(
                 instance_id=instance.instance_id,
                 ground_truth=gt,
                 predicted=predicted,
-                confidences={f.subcategory: f.confidence for f in findings if f.category == "misleader"},
+                confidences={
+                    f.subcategory: f.confidence
+                    for f in findings
+                    if f.category == "misleader"
+                },
                 condition="tooluse",
                 model="claude_haiku",
             )
 
-            results.append({
-                "instance_id": instance.instance_id,
-                "ground_truth": gt,
-                "predicted": predicted,
-                "findings_count": len(findings),
-                "elapsed_s": round(elapsed, 1),
-            })
+            results.append(
+                {
+                    "instance_id": instance.instance_id,
+                    "ground_truth": gt,
+                    "predicted": predicted,
+                    "findings_count": len(findings),
+                    "elapsed_s": round(elapsed, 1),
+                }
+            )
             print(f" -> {predicted} ({elapsed:.1f}s)")
 
         except Exception as e:
@@ -145,9 +160,13 @@ for batch_start in range(0, len(remaining), BATCH_SIZE):
         time.sleep(0.3)
 
     # Save after each batch
-    results_file.write_text(json.dumps(results, indent=2, default=str), encoding="utf-8")
+    results_file.write_text(
+        json.dumps(results, indent=2, default=str), encoding="utf-8"
+    )
     metrics = evaluator.compute_metrics()
-    (OUT_DIR / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics.json").write_text(
+        json.dumps(metrics, indent=2), encoding="utf-8"
+    )
     print(f"  [saved] {count} done, {errors} errors")
 
     # Force GC between batches

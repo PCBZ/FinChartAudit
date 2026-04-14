@@ -6,6 +6,7 @@ unlike Haiku which showed no benefit.
 Usage:
     python run_sonnet_comparison.py
 """
+
 import argparse
 import base64
 import json
@@ -23,9 +24,9 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from finchartaudit.agents.t2_pipeline import PIPELINE_PROMPT, PIPELINE_SYSTEM_PROMPT
+from finchartaudit.prompts.t2_visual import COMPLETENESS_CHECKS, MISLEADER_DEFINITIONS
 from finchartaudit.tools.rule_check import RuleEngine
-from finchartaudit.prompts.t2_visual import MISLEADER_DEFINITIONS, COMPLETENESS_CHECKS
-from finchartaudit.agents.t2_pipeline import PIPELINE_SYSTEM_PROMPT, PIPELINE_PROMPT
 
 OUT_DIR = Path("data/eval_results/sonnet_comparison")
 SONNET_MODEL = "anthropic/claude-sonnet-4"
@@ -88,7 +89,9 @@ def select_50_stratified():
     """Select 50 samples stratified from B's 271."""
     from data_tools.misviz.loader import MisvizLoader
 
-    b_path = Path("C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json")
+    b_path = Path(
+        "C:/Users/chntw/Documents/7180/PCBZ_FinChartAudit/results/claude_vision_only.json"
+    )
     b_data = json.loads(b_path.read_text(encoding="utf-8"))
     b_items = b_data["results"]
 
@@ -97,26 +100,34 @@ def select_50_stratified():
 
     content_to_local = defaultdict(list)
     for i, d in enumerate(real_data):
-        key = (frozenset(d.get("misleader", [])), tuple(sorted(d.get("chart_type", []))))
+        key = (
+            frozenset(d.get("misleader", [])),
+            tuple(sorted(d.get("chart_type", []))),
+        )
         content_to_local[key].append(i)
 
     # Match all 271, then subsample 50
     all_samples = []
     used = set()
     for b_item in b_items:
-        key = (frozenset(b_item["gt_misleaders"]), tuple(sorted(b_item.get("chart_type", []))))
+        key = (
+            frozenset(b_item["gt_misleaders"]),
+            tuple(sorted(b_item.get("chart_type", []))),
+        )
         candidates = [idx for idx in content_to_local.get(key, []) if idx not in used]
         if candidates:
             idx = candidates[0]
             used.add(idx)
             instance = loader.get_real_instance(idx)
             if Path(instance.image_path).exists():
-                all_samples.append({
-                    "idx": idx,
-                    "instance_id": str(b_item["id"]),
-                    "image_path": instance.image_path,
-                    "ground_truth": instance.misleader,
-                })
+                all_samples.append(
+                    {
+                        "idx": idx,
+                        "instance_id": str(b_item["id"]),
+                        "image_path": instance.image_path,
+                        "ground_truth": instance.misleader,
+                    }
+                )
 
     # Stratified: 3 per type + 14 clean = ~50
     type_buckets = defaultdict(list)
@@ -132,7 +143,10 @@ def select_50_stratified():
     selected = []
     for t, items in type_buckets.items():
         for item in items:
-            if item["instance_id"] not in selected_ids and len([s for s in selected if t in s["ground_truth"]]) < 3:
+            if (
+                item["instance_id"] not in selected_ids
+                and len([s for s in selected if t in s["ground_truth"]]) < 3
+            ):
                 selected.append(item)
                 selected_ids.add(item["instance_id"])
 
@@ -162,10 +176,16 @@ def vlm_call(client, model, image_b64, system, prompt):
         model=model,
         messages=[
             {"role": "system", "content": system},
-            {"role": "user", "content": [
-                {"type": "text", "text": prompt},
-                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-            ]},
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"},
+                    },
+                ],
+            },
         ],
         max_tokens=2048,
         temperature=0.0,
@@ -190,12 +210,13 @@ def extract_json(text):
     if brace_start >= 0:
         depth = 0
         for i in range(brace_start, len(text)):
-            if text[i] == "{": depth += 1
+            if text[i] == "{":
+                depth += 1
             elif text[i] == "}":
                 depth -= 1
                 if depth == 0:
                     try:
-                        return json.loads(text[brace_start:i + 1])
+                        return json.loads(text[brace_start : i + 1])
                     except json.JSONDecodeError:
                         break
     return None
@@ -209,8 +230,8 @@ def parse_numbers(values):
             continue
         if not isinstance(v, str):
             continue
-        cleaned = re.sub(r'[,$%]', '', v.strip())
-        cleaned = re.sub(r'[KkMmBb]$', '', cleaned)
+        cleaned = re.sub(r"[,$%]", "", v.strip())
+        cleaned = re.sub(r"[KkMmBb]$", "", cleaned)
         try:
             numbers.append(float(cleaned))
         except ValueError:
@@ -227,71 +248,109 @@ def run_rule_checks(engine, ocr_data):
 
     if y_values:
         try:
-            r = engine.run_check("truncated_axis", {"axis_values": y_values, "chart_type": chart_type})
+            r = engine.run_check(
+                "truncated_axis", {"axis_values": y_values, "chart_type": chart_type}
+            )
             if r["is_truncated"]:
                 results.append(f"truncated_axis: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
         try:
             r = engine.run_check("broken_scale", {"axis_values": y_values})
             if r["is_broken"]:
                 results.append(f"broken_scale: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
         try:
             r = engine.run_check("inverted_axis", {"axis_values": y_values})
             if r["is_inverted"]:
                 results.append(f"inverted_axis: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
         try:
-            r = engine.run_check("inappropriate_axis_range", {"axis_values": y_values, "chart_type": chart_type})
+            r = engine.run_check(
+                "inappropriate_axis_range",
+                {"axis_values": y_values, "chart_type": chart_type},
+            )
             if r["is_inappropriate"]:
                 results.append(f"inappropriate_axis_range: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
 
     if y_values and right_values:
         try:
-            r = engine.run_check("dual_axis", {"left_axis_values": y_values, "right_axis_values": right_values})
+            r = engine.run_check(
+                "dual_axis",
+                {"left_axis_values": y_values, "right_axis_values": right_values},
+            )
             if r["has_dual_axis"]:
                 results.append(f"dual_axis: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
 
     if len(x_values) >= 3:
         try:
             r = engine.run_check("inconsistent_binning", {"bin_edges": x_values})
             if r["is_inconsistent"]:
                 results.append(f"inconsistent_binning: {r['explanation']}")
-        except Exception: pass
+        except Exception:
+            pass
 
     return results
 
 
 def build_ocr_summary(ocr_data):
     lines = []
-    if ocr_data.get("title"): lines.append(f"Title: {ocr_data['title']}")
-    if ocr_data.get("y_axis_label"): lines.append(f"Y-axis label: {ocr_data['y_axis_label']}")
-    if ocr_data.get("y_axis_values"): lines.append(f"Y-axis values: {', '.join(str(v) for v in ocr_data['y_axis_values'])}")
-    if ocr_data.get("x_axis_label"): lines.append(f"X-axis label: {ocr_data['x_axis_label']}")
-    if ocr_data.get("x_axis_values"): lines.append(f"X-axis values: {', '.join(str(v) for v in ocr_data['x_axis_values'])}")
-    if ocr_data.get("right_y_axis_label"): lines.append(f"Right Y-axis: {ocr_data['right_y_axis_label']}")
-    if ocr_data.get("right_y_axis_values"): lines.append(f"Right Y-axis values: {', '.join(str(v) for v in ocr_data['right_y_axis_values'])}")
-    if ocr_data.get("legend_items"): lines.append(f"Legend: {', '.join(ocr_data['legend_items'])}")
-    if ocr_data.get("data_labels"): lines.append(f"Data labels: {', '.join(str(v) for v in ocr_data['data_labels'])}")
-    if ocr_data.get("source_text"): lines.append(f"Source: {ocr_data['source_text']}")
+    if ocr_data.get("title"):
+        lines.append(f"Title: {ocr_data['title']}")
+    if ocr_data.get("y_axis_label"):
+        lines.append(f"Y-axis label: {ocr_data['y_axis_label']}")
+    if ocr_data.get("y_axis_values"):
+        lines.append(
+            f"Y-axis values: {', '.join(str(v) for v in ocr_data['y_axis_values'])}"
+        )
+    if ocr_data.get("x_axis_label"):
+        lines.append(f"X-axis label: {ocr_data['x_axis_label']}")
+    if ocr_data.get("x_axis_values"):
+        lines.append(
+            f"X-axis values: {', '.join(str(v) for v in ocr_data['x_axis_values'])}"
+        )
+    if ocr_data.get("right_y_axis_label"):
+        lines.append(f"Right Y-axis: {ocr_data['right_y_axis_label']}")
+    if ocr_data.get("right_y_axis_values"):
+        lines.append(
+            f"Right Y-axis values: {', '.join(str(v) for v in ocr_data['right_y_axis_values'])}"
+        )
+    if ocr_data.get("legend_items"):
+        lines.append(f"Legend: {', '.join(ocr_data['legend_items'])}")
+    if ocr_data.get("data_labels"):
+        lines.append(
+            f"Data labels: {', '.join(str(v) for v in ocr_data['data_labels'])}"
+        )
+    if ocr_data.get("source_text"):
+        lines.append(f"Source: {ocr_data['source_text']}")
     return "\n".join(lines) if lines else "No text detected."
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--workers", type=int, default=4)  # Sonnet rate limits are tighter
+    parser.add_argument(
+        "--workers", type=int, default=4
+    )  # Sonnet rate limits are tighter
     args = parser.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     from finchartaudit.config import get_config
+
     get_config.cache_clear()
     config = get_config()
 
     from openai import OpenAI
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     engine = RuleEngine()
 
     samples = select_50_stratified()
@@ -313,11 +372,19 @@ def main():
             t1 = time.time() - start
             parsed = extract_json(raw) or {}
             pred_vlm = parsed.get("misleader_types", [])
-            r1 = {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                   "predicted": pred_vlm, "elapsed_s": round(t1, 1)}
+            r1 = {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": pred_vlm,
+                "elapsed_s": round(t1, 1),
+            }
         except Exception as e:
-            r1 = {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                   "predicted": [], "error": str(e)}
+            r1 = {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
 
         # Condition 2: Sonnet LLM-OCR + Rules
         try:
@@ -327,27 +394,55 @@ def main():
             rule_results = run_rule_checks(engine, ocr_data)
             ocr_summary = build_ocr_summary(ocr_data)
             y_values = parse_numbers(ocr_data.get("y_axis_values", []))
-            ocr_axis_str = ", ".join(str(v) for v in y_values) if y_values else "No axis values."
-
-            misleader_list = "\n".join(f"- {k}: {v}" for k, v in MISLEADER_DEFINITIONS.items())
-            completeness_list = "\n".join(f"- {k}: {v}" for k, v in COMPLETENESS_CHECKS.items())
-            judge_prompt = PIPELINE_PROMPT.format(
-                chart_id=f"eval_{iid}", page=1,
-                ocr_text=ocr_summary, ocr_axis=ocr_axis_str,
-                rule_results="\n".join(rule_results) if rule_results else "No rule checks applicable.",
-                misleader_list=misleader_list, completeness_list=completeness_list,
+            ocr_axis_str = (
+                ", ".join(str(v) for v in y_values) if y_values else "No axis values."
             )
-            raw_judge = vlm_call(client, SONNET_MODEL, image_b64, PIPELINE_SYSTEM_PROMPT, judge_prompt)
+
+            misleader_list = "\n".join(
+                f"- {k}: {v}" for k, v in MISLEADER_DEFINITIONS.items()
+            )
+            completeness_list = "\n".join(
+                f"- {k}: {v}" for k, v in COMPLETENESS_CHECKS.items()
+            )
+            judge_prompt = PIPELINE_PROMPT.format(
+                chart_id=f"eval_{iid}",
+                page=1,
+                ocr_text=ocr_summary,
+                ocr_axis=ocr_axis_str,
+                rule_results=(
+                    "\n".join(rule_results)
+                    if rule_results
+                    else "No rule checks applicable."
+                ),
+                misleader_list=misleader_list,
+                completeness_list=completeness_list,
+            )
+            raw_judge = vlm_call(
+                client, SONNET_MODEL, image_b64, PIPELINE_SYSTEM_PROMPT, judge_prompt
+            )
             t2 = time.time() - start
             judge_data = extract_json(raw_judge) or {}
-            pred_ocr = [name for name, a in judge_data.get("misleaders", {}).items()
-                        if isinstance(a, dict) and a.get("present") and float(a.get("confidence", 0)) >= 0.3]
-            r2 = {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                   "predicted": list(set(pred_ocr)), "elapsed_s": round(t2, 1),
-                   "rule_results": rule_results}
+            pred_ocr = [
+                name
+                for name, a in judge_data.get("misleaders", {}).items()
+                if isinstance(a, dict)
+                and a.get("present")
+                and float(a.get("confidence", 0)) >= 0.3
+            ]
+            r2 = {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": list(set(pred_ocr)),
+                "elapsed_s": round(t2, 1),
+                "rule_results": rule_results,
+            }
         except Exception as e:
-            r2 = {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                   "predicted": [], "error": str(e)}
+            r2 = {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
 
         with lock:
             completed += 1
@@ -358,9 +453,13 @@ def main():
             p2 = r2.get("predicted", [])
             print(f"[{completed}/{len(samples)}] id={iid} gt={gt}")
             print(f"  VLM-only: {p1} ({r1.get('elapsed_s','ERR')}s)")
-            print(f"  LLM-OCR+Rules: {p2} ({r2.get('elapsed_s','ERR')}s) rules={len(r2.get('rule_results',[]))}")
+            print(
+                f"  LLM-OCR+Rules: {p2} ({r2.get('elapsed_s','ERR')}s) rules={len(r2.get('rule_results',[]))}"
+            )
 
-    print(f"Running Sonnet comparison: {len(samples)} charts x 2 conditions, {args.workers} threads")
+    print(
+        f"Running Sonnet comparison: {len(samples)} charts x 2 conditions, {args.workers} threads"
+    )
     print(f"Model: {SONNET_MODEL}")
     t0 = time.time()
 
@@ -375,8 +474,12 @@ def main():
     total_time = time.time() - t0
 
     # Save results
-    (OUT_DIR / "vlm_only.json").write_text(json.dumps(results_vlm_only, indent=2, default=str), encoding="utf-8")
-    (OUT_DIR / "llm_ocr_rules.json").write_text(json.dumps(results_llm_ocr_rules, indent=2, default=str), encoding="utf-8")
+    (OUT_DIR / "vlm_only.json").write_text(
+        json.dumps(results_vlm_only, indent=2, default=str), encoding="utf-8"
+    )
+    (OUT_DIR / "llm_ocr_rules.json").write_text(
+        json.dumps(results_llm_ocr_rules, indent=2, default=str), encoding="utf-8"
+    )
 
     # Compute metrics for both
     from data_tools.misviz.evaluator import MisvizEvaluator
@@ -387,11 +490,18 @@ def main():
     ev1 = MisvizEvaluator()
     for r in results_vlm_only:
         if "error" not in r:
-            ev1.add_prediction(r["instance_id"], r["ground_truth"], r["predicted"],
-                              condition="sonnet_vlm_only", model="sonnet")
+            ev1.add_prediction(
+                r["instance_id"],
+                r["ground_truth"],
+                r["predicted"],
+                condition="sonnet_vlm_only",
+                model="sonnet",
+            )
     ev1.print_summary()
     m1 = ev1.compute_metrics()
-    (OUT_DIR / "metrics_vlm_only.json").write_text(json.dumps(m1, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics_vlm_only.json").write_text(
+        json.dumps(m1, indent=2), encoding="utf-8"
+    )
 
     print(f"\n{'='*60}")
     print(f"SONNET LLM-OCR+RULES")
@@ -399,11 +509,18 @@ def main():
     ev2 = MisvizEvaluator()
     for r in results_llm_ocr_rules:
         if "error" not in r:
-            ev2.add_prediction(r["instance_id"], r["ground_truth"], r["predicted"],
-                              condition="sonnet_llm_ocr_rules", model="sonnet")
+            ev2.add_prediction(
+                r["instance_id"],
+                r["ground_truth"],
+                r["predicted"],
+                condition="sonnet_llm_ocr_rules",
+                model="sonnet",
+            )
     ev2.print_summary()
     m2 = ev2.compute_metrics()
-    (OUT_DIR / "metrics_llm_ocr_rules.json").write_text(json.dumps(m2, indent=2), encoding="utf-8")
+    (OUT_DIR / "metrics_llm_ocr_rules.json").write_text(
+        json.dumps(m2, indent=2), encoding="utf-8"
+    )
 
     print(f"\nTotal time: {total_time:.0f}s")
     print(f"Results: {OUT_DIR}")

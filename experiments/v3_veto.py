@@ -9,6 +9,7 @@ Usage:
     python experiments/v3_veto.py
     python experiments/v3_veto.py --workers 4
 """
+
 import argparse
 import sys
 import time
@@ -17,7 +18,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from experiments.base import (
-    run_experiment, load_ocr_cache, apply_clean_veto, img_to_b64, extract_json,
+    apply_clean_veto,
+    extract_json,
+    img_to_b64,
+    load_ocr_cache,
+    run_experiment,
 )
 
 OUT_DIR = Path("data/eval_results/vlm_only_veto")
@@ -60,6 +65,7 @@ Respond with ONLY valid JSON:
 
 # ── Per-sample worker ─────────────────────────────────────────────────────────
 
+
 def make_call_fn(client, config, ocr_cache):
     def call_fn(sample):
         iid = sample["instance_id"]
@@ -70,10 +76,18 @@ def make_call_fn(client, config, ocr_cache):
                 model=config.vlm_model,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": [
-                        {"type": "text", "text": USER_PROMPT},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-                    ]},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": USER_PROMPT},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{image_b64}"
+                                },
+                            },
+                        ],
+                    },
                 ],
                 max_tokens=1024,
                 temperature=0.0,
@@ -92,12 +106,18 @@ def make_call_fn(client, config, ocr_cache):
                 "veto_log": veto_log,
             }
         except Exception as e:
-            return {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                    "predicted": [], "error": str(e)}
+            return {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
+
     return call_fn
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
+
 
 def main():
     parser = argparse.ArgumentParser(description="V3: VLM-only + CLEAN veto")
@@ -106,9 +126,12 @@ def main():
 
     from finchartaudit.config import get_config
     from openai import OpenAI
+
     get_config.cache_clear()
     config = get_config()
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     ocr_cache = load_ocr_cache()
 
     run_experiment(

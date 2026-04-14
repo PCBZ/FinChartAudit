@@ -7,6 +7,7 @@ Usage:
     python src/classifier/train.py                # Train with defaults
     python src/classifier/train.py --epochs 5     # More epochs
 """
+
 import argparse
 import json
 import random
@@ -15,11 +16,16 @@ from pathlib import Path
 
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
 from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
 
-from src.classifier.model import build_vit_model, MISLEADER_TYPES, TYPE_TO_IDX, NUM_CLASSES
+from src.classifier.model import (
+    MISLEADER_TYPES,
+    NUM_CLASSES,
+    TYPE_TO_IDX,
+    build_vit_model,
+)
 
 SYNTH_JSON = Path("data/misviz_synth/misviz_synth.json")
 SYNTH_IMG_DIR = Path("data/misviz_synth/png")
@@ -71,31 +77,47 @@ def train(args):
     print(f"Train: {len(train_data)}, Val: {len(val_data)}")
 
     # Transforms
-    train_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.RandomHorizontalFlip(0.3),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-    ])
-    val_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-    ])
+    train_transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),
+            transforms.RandomHorizontalFlip(0.3),
+            transforms.ColorJitter(brightness=0.2, contrast=0.2),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+        ]
+    )
+    val_transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+        ]
+    )
 
     train_ds = ChartDataset(train_data, SYNTH_IMG_DIR, train_transform)
     val_ds = ChartDataset(val_data, SYNTH_IMG_DIR, val_transform)
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
-                              num_workers=args.num_workers, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False,
-                            num_workers=args.num_workers, pin_memory=True)
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=args.batch_size,
+        shuffle=True,
+        num_workers=args.num_workers,
+        pin_memory=True,
+    )
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=args.batch_size,
+        shuffle=False,
+        num_workers=args.num_workers,
+        pin_memory=True,
+    )
 
     # Model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = build_model().to(device)
-    print(f"Device: {device}, Params: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M")
+    print(
+        f"Device: {device}, Params: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M"
+    )
 
     # Freeze ViT backbone for first epoch, then unfreeze
     for param in model.parameters():
@@ -121,7 +143,9 @@ def train(args):
         if epoch == 1:
             for param in model.parameters():
                 param.requires_grad = True
-            optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=0.01)
+            optimizer = torch.optim.AdamW(
+                model.parameters(), lr=1e-4, weight_decay=0.01
+            )
             print("Backbone unfrozen")
 
         # Train
@@ -138,7 +162,9 @@ def train(args):
             train_loss += loss.item()
 
             if (batch_idx + 1) % 100 == 0:
-                print(f"  Epoch {epoch+1} [{batch_idx+1}/{len(train_loader)}] loss={loss.item():.4f}")
+                print(
+                    f"  Epoch {epoch+1} [{batch_idx+1}/{len(train_loader)}] loss={loss.item():.4f}"
+                )
 
         # Validate
         model.eval()
@@ -166,18 +192,23 @@ def train(args):
         f1 = 2 * prec * rec / (prec + rec) if (prec + rec) else 0
 
         elapsed = time.time() - t0
-        print(f"Epoch {epoch+1}/{args.epochs}: train_loss={train_loss/len(train_loader):.4f} "
-              f"val_loss={val_loss/len(val_loader):.4f} "
-              f"val_F1={f1:.3f} P={prec:.3f} R={rec:.3f} [{elapsed:.0f}s]")
+        print(
+            f"Epoch {epoch+1}/{args.epochs}: train_loss={train_loss/len(train_loader):.4f} "
+            f"val_loss={val_loss/len(val_loader):.4f} "
+            f"val_F1={f1:.3f} P={prec:.3f} R={rec:.3f} [{elapsed:.0f}s]"
+        )
 
         if f1 > best_val_f1:
             best_val_f1 = f1
-            torch.save({
-                "model_state_dict": model.state_dict(),
-                "type_to_idx": TYPE_TO_IDX,
-                "val_f1": f1,
-                "epoch": epoch,
-            }, MODEL_PATH)
+            torch.save(
+                {
+                    "model_state_dict": model.state_dict(),
+                    "type_to_idx": TYPE_TO_IDX,
+                    "val_f1": f1,
+                    "epoch": epoch,
+                },
+                MODEL_PATH,
+            )
             print(f"  Saved best model (F1={f1:.3f})")
 
     print(f"\nTraining done. Best val F1={best_val_f1:.3f}")

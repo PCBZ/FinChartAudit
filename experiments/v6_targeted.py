@@ -8,6 +8,7 @@ Usage:
     python experiments/v6_targeted.py
     python experiments/v6_targeted.py --workers 4
 """
+
 import argparse
 import sys
 import time
@@ -15,11 +16,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.prompts import TAXONOMY_BLOCK, FEW_SHOT_EXAMPLES, OUTPUT_FORMAT
 from experiments.base import (
-    run_experiment, select_samples, load_ocr_cache, load_deplot_cache,
-    apply_clean_veto, img_to_b64, extract_json,
+    apply_clean_veto,
+    extract_json,
+    img_to_b64,
+    load_deplot_cache,
+    load_ocr_cache,
+    run_experiment,
+    select_samples,
 )
+from src.prompts import FEW_SHOT_EXAMPLES, OUTPUT_FORMAT, TAXONOMY_BLOCK
 
 OUT_DIR = Path("data/eval_results/v6_targeted")
 
@@ -54,13 +60,14 @@ Respond with ONLY valid JSON:
 
 BLIND_SPOT_MAP = {
     "tick_intervals": "inconsistent tick intervals",
-    "binning":        "inconsistent binning size",
-    "inverted_axis":  "inverted axis",
-    "axis_range":     "inappropriate axis range",
+    "binning": "inconsistent binning size",
+    "inverted_axis": "inverted axis",
+    "axis_range": "inappropriate axis range",
 }
 
 
 # ── V6-specific post-processing ───────────────────────────────────────────────
+
 
 def apply_deplot_axis_range(
     predicted: list[str], deplot_data: dict
@@ -69,17 +76,20 @@ def apply_deplot_axis_range(
     if not deplot_data or "error" in deplot_data:
         return predicted, []
     from finchartaudit.tools.table_rules import check_inappropriate_axis_range
+
     rows = deplot_data.get("rows", [])
     if not rows:
         return predicted, []
     check = check_inappropriate_axis_range(rows)
     if check.get("flagged") and "inappropriate axis range" not in predicted:
-        return predicted + ["inappropriate axis range"], \
-               [f"ADD axis_range: {check.get('reason', '')}"]
+        return predicted + ["inappropriate axis range"], [
+            f"ADD axis_range: {check.get('reason', '')}"
+        ]
     return predicted, []
 
 
 # ── Per-sample worker ─────────────────────────────────────────────────────────
+
 
 def make_call_fn(client, config, ocr_cache, deplot_cache):
     def call_fn(sample):
@@ -91,10 +101,20 @@ def make_call_fn(client, config, ocr_cache, deplot_cache):
             # Call 1: general detection
             resp1 = client.chat.completions.create(
                 model=config.vlm_model,
-                messages=[{"role": "user", "content": [
-                    {"type": "text", "text": CALL1_PROMPT},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-                ]}],
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": CALL1_PROMPT},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{image_b64}"
+                                },
+                            },
+                        ],
+                    }
+                ],
                 max_tokens=512,
             )
             data1 = extract_json(resp1.choices[0].message.content or "")
@@ -109,10 +129,20 @@ def make_call_fn(client, config, ocr_cache, deplot_cache):
             if missing:
                 resp2 = client.chat.completions.create(
                     model=config.vlm_model,
-                    messages=[{"role": "user", "content": [
-                        {"type": "text", "text": CALL2_PROMPT},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
-                    ]}],
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": CALL2_PROMPT},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{image_b64}"
+                                    },
+                                },
+                            ],
+                        }
+                    ],
                     max_tokens=512,
                 )
                 data2 = extract_json(resp2.choices[0].message.content or "")
@@ -121,28 +151,43 @@ def make_call_fn(client, config, ocr_cache, deplot_cache):
                         if label in predicted:
                             continue
                         ans = data2.get(key, {})
-                        if isinstance(ans, dict) and ans.get("answer", "").upper().startswith("YES"):
+                        if isinstance(ans, dict) and ans.get(
+                            "answer", ""
+                        ).upper().startswith("YES"):
                             predicted.append(label)
-                            pp_log.append(f"CALL2_ADD {key}: {ans.get('reason','')[:60]}")
+                            pp_log.append(
+                                f"CALL2_ADD {key}: {ans.get('reason','')[:60]}"
+                            )
 
             # Post-processing: OCR CLEAN veto + DePlot axis_range
             predicted, veto_log = apply_clean_veto(predicted, ocr_cache.get(iid, {}))
             pp_log.extend(veto_log)
-            predicted, deplot_log = apply_deplot_axis_range(predicted, deplot_cache.get(iid, {}))
+            predicted, deplot_log = apply_deplot_axis_range(
+                predicted, deplot_cache.get(iid, {})
+            )
             pp_log.extend(deplot_log)
 
             return {
-                "instance_id": iid, "ground_truth": sample["ground_truth"],
-                "predicted": predicted, "elapsed_s": round(time.time() - start, 1),
-                "veto_log": pp_log, "had_call2": had_call2,
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": predicted,
+                "elapsed_s": round(time.time() - start, 1),
+                "veto_log": pp_log,
+                "had_call2": had_call2,
             }
         except Exception as e:
-            return {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                    "predicted": [], "error": str(e)}
+            return {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
+
     return call_fn
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
+
 
 def main():
     parser = argparse.ArgumentParser(description="V6: targeted blind-spot re-ask")
@@ -151,9 +196,12 @@ def main():
 
     from finchartaudit.config import get_config
     from openai import OpenAI
+
     get_config.cache_clear()
     config = get_config()
-    client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+    client = OpenAI(
+        api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+    )
     samples = select_samples()
     ocr_cache = load_ocr_cache()
     deplot_cache = load_deplot_cache(samples)

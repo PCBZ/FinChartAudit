@@ -9,6 +9,7 @@ Usage:
     python experiments/full_pipeline.py --phase 2  # VLM only (requires Phase 1 done)
     python experiments/full_pipeline.py --workers 4
 """
+
 import argparse
 import json
 import os
@@ -21,8 +22,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 os.environ.setdefault("PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK", "True")
 
 from experiments.base import (
-    run_experiment, select_samples, load_ocr_cache,
-    apply_clean_veto, img_to_b64, extract_json, _save,
+    _save,
+    apply_clean_veto,
+    extract_json,
+    img_to_b64,
+    load_ocr_cache,
+    run_experiment,
+    select_samples,
 )
 
 PYTHON = sys.executable
@@ -164,16 +170,24 @@ def run_phase1(samples: list[dict]) -> None:
 
     total_batches = (len(remaining) + BATCH_SIZE - 1) // BATCH_SIZE
     for batch_start in range(0, len(remaining), BATCH_SIZE):
-        batch = remaining[batch_start:batch_start + BATCH_SIZE]
+        batch = remaining[batch_start : batch_start + BATCH_SIZE]
         batch_num = batch_start // BATCH_SIZE + 1
-        print(f"  Batch {batch_num}/{total_batches} ({len(batch)} images)...", end="", flush=True)
-        batch_input = [{"id": s["instance_id"], "image_path": s["image_path"]} for s in batch]
+        print(
+            f"  Batch {batch_num}/{total_batches} ({len(batch)} images)...",
+            end="",
+            flush=True,
+        )
+        batch_input = [
+            {"id": s["instance_id"], "image_path": s["image_path"]} for s in batch
+        ]
         t = time.time()
         try:
             result = subprocess.run(
                 [PYTHON, "-X", "utf8", str(OCR_WORKER_SCRIPT)],
                 input=json.dumps(batch_input),
-                capture_output=True, text=True, timeout=900,
+                capture_output=True,
+                text=True,
+                timeout=900,
                 env={**os.environ, "PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK": "True"},
             )
             if result.returncode != 0:
@@ -195,9 +209,12 @@ def run_phase1(samples: list[dict]) -> None:
 
 # ── Phase 2 helpers ───────────────────────────────────────────────────────────
 
+
 def build_rule_verdicts(
-    axis_values: list, right_axis_values: list,
-    x_axis_values: list, raw_rule_results: list[str],
+    axis_values: list,
+    right_axis_values: list,
+    x_axis_values: list,
+    raw_rule_results: list[str],
 ) -> str:
     """Build tiered rule verdicts string for the VLM prompt.
 
@@ -205,24 +222,39 @@ def build_rule_verdicts(
     UNRELIABLE rules → [INFO] (VLM decides on its own).
     """
     if not axis_values:
-        return ("No numeric Y-axis values extracted by OCR. "
-                "Rule checks could not run.\nUse your visual analysis only.")
+        return (
+            "No numeric Y-axis values extracted by OCR. "
+            "Rule checks could not run.\nUse your visual analysis only."
+        )
 
     lines = []
-    trunc_flagged = any("instead of 0" in r.lower() or "exaggerated" in r.lower()
-                        for r in raw_rule_results if r.startswith("truncated_axis:"))
+    trunc_flagged = any(
+        "instead of 0" in r.lower() or "exaggerated" in r.lower()
+        for r in raw_rule_results
+        if r.startswith("truncated_axis:")
+    )
     if trunc_flagged:
-        lines.append(f"[FLAGGED] truncated_axis: Y-axis starts at {min(axis_values)}, not 0.")
+        lines.append(
+            f"[FLAGGED] truncated_axis: Y-axis starts at {min(axis_values)}, not 0."
+        )
     elif min(axis_values) <= 0:
-        lines.append(f"[CLEAN] truncated_axis: Y-axis includes 0 (min={min(axis_values)}). NOT truncated.")
+        lines.append(
+            f"[CLEAN] truncated_axis: Y-axis includes 0 (min={min(axis_values)}). NOT truncated."
+        )
     else:
-        lines.append(f"[CLEAN] truncated_axis: Y-axis min={min(axis_values)}. Rule did not flag.")
+        lines.append(
+            f"[CLEAN] truncated_axis: Y-axis min={min(axis_values)}. Rule did not flag."
+        )
 
     dual_flagged = any(r.startswith("dual_axis:") for r in raw_rule_results)
     if dual_flagged:
-        lines.append("[FLAGGED] dual_axis: Left and right Y-axes detected with different scales.")
+        lines.append(
+            "[FLAGGED] dual_axis: Left and right Y-axes detected with different scales."
+        )
     elif right_axis_values:
-        lines.append(f"[INFO] dual_axis: Right Y-axis values found: {right_axis_values[:6]}. Verify visually.")
+        lines.append(
+            f"[INFO] dual_axis: Right Y-axis values found: {right_axis_values[:6]}. Verify visually."
+        )
     else:
         lines.append("[CLEAN] dual_axis: No right Y-axis detected by OCR.")
 
@@ -232,7 +264,9 @@ def build_rule_verdicts(
         f"{'MAY indicate inverted axis.' if inv_flagged else 'Use image to verify axis direction.'}"
     )
 
-    iar_flagged = any(r.startswith("inappropriate_axis_range:") for r in raw_rule_results)
+    iar_flagged = any(
+        r.startswith("inappropriate_axis_range:") for r in raw_rule_results
+    )
     val_range = max(axis_values) - min(axis_values)
     lines.append(
         f"[INFO] inappropriate_axis_range: Range {min(axis_values)}-{max(axis_values)} "
@@ -240,8 +274,10 @@ def build_rule_verdicts(
         f"{'Flagged as narrow — is this a bar/area chart?' if iar_flagged else 'Judge from image.'}"
     )
 
-    broken_flagged = any("inconsistent" in r.lower() and r.startswith("broken_scale:")
-                         for r in raw_rule_results)
+    broken_flagged = any(
+        "inconsistent" in r.lower() and r.startswith("broken_scale:")
+        for r in raw_rule_results
+    )
     lines.append(
         f"[INFO] inconsistent_tick_intervals: Values {axis_values[:8]}. "
         f"{'Rule detected uneven spacing. Verify visually.' if broken_flagged else 'Check image for even tick spacing.'}"
@@ -258,18 +294,22 @@ def _parse_predicted(text: str) -> list[str]:
     data = extract_json(text)
     if not data:
         return []
-    return list({
-        name for name, assessment in data.get("misleaders", {}).items()
-        if isinstance(assessment, dict)
-        and assessment.get("present")
-        and float(assessment.get("confidence", 0)) >= 0.3
-    })
+    return list(
+        {
+            name
+            for name, assessment in data.get("misleaders", {}).items()
+            if isinstance(assessment, dict)
+            and assessment.get("present")
+            and float(assessment.get("confidence", 0)) >= 0.3
+        }
+    )
 
 
 # ── Phase 2: VLM worker ───────────────────────────────────────────────────────
 
+
 def make_phase2_call_fn(client, config, ocr_cache):
-    from finchartaudit.agents.t2_pipeline import PIPELINE_SYSTEM_PROMPT, PIPELINE_PROMPT
+    from finchartaudit.agents.t2_pipeline import PIPELINE_PROMPT, PIPELINE_SYSTEM_PROMPT
     from finchartaudit.prompts.t2_visual import COMPLETENESS_CHECKS
 
     completeness_list = "\n".join(f"- {k}: {v}" for k, v in COMPLETENESS_CHECKS.items())
@@ -280,23 +320,33 @@ def make_phase2_call_fn(client, config, ocr_cache):
 
         if "error" in ocr_data or not ocr_data:
             ocr_axis, ocr_x_str, rule_verdicts = (
-                "OCR failed.", "OCR failed.", "No rule checks (OCR failed).")
+                "OCR failed.",
+                "OCR failed.",
+                "No rule checks (OCR failed).",
+            )
             axis_values = right_axis_values = rule_results = []
         else:
-            axis_values       = ocr_data.get("axis_values", [])
+            axis_values = ocr_data.get("axis_values", [])
             right_axis_values = ocr_data.get("right_axis_values", [])
-            x_axis_values     = ocr_data.get("x_axis_values", [])
-            rule_results      = ocr_data.get("rule_results", [])
-            ocr_axis          = ocr_data.get("ocr_axis", "No axis values.")
-            ocr_x_str         = (", ".join(str(v) for v in x_axis_values[:15])
-                                 if x_axis_values else "Not extracted")
-            rule_verdicts     = build_rule_verdicts(
-                axis_values, right_axis_values, x_axis_values, rule_results)
+            x_axis_values = ocr_data.get("x_axis_values", [])
+            rule_results = ocr_data.get("rule_results", [])
+            ocr_axis = ocr_data.get("ocr_axis", "No axis values.")
+            ocr_x_str = (
+                ", ".join(str(v) for v in x_axis_values[:15])
+                if x_axis_values
+                else "Not extracted"
+            )
+            rule_verdicts = build_rule_verdicts(
+                axis_values, right_axis_values, x_axis_values, rule_results
+            )
 
         prompt = PIPELINE_PROMPT.format(
-            chart_id=f"eval_{iid}", page=1,
-            ocr_axis=ocr_axis, ocr_x_axis=ocr_x_str,
-            rule_verdicts=rule_verdicts, completeness_list=completeness_list,
+            chart_id=f"eval_{iid}",
+            page=1,
+            ocr_axis=ocr_axis,
+            ocr_x_axis=ocr_x_str,
+            rule_verdicts=rule_verdicts,
+            completeness_list=completeness_list,
         )
 
         try:
@@ -305,34 +355,55 @@ def make_phase2_call_fn(client, config, ocr_cache):
                 model=config.vlm_model,
                 messages=[
                     {"role": "system", "content": PIPELINE_SYSTEM_PROMPT},
-                    {"role": "user", "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {
-                            "url": f"data:image/jpeg;base64,{img_to_b64(sample['image_path'])}"}},
-                    ]},
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{img_to_b64(sample['image_path'])}"
+                                },
+                            },
+                        ],
+                    },
                 ],
-                max_tokens=2048, temperature=0.0,
+                max_tokens=2048,
+                temperature=0.0,
             )
             predicted = _parse_predicted(response.choices[0].message.content or "")
             # OCR CLEAN veto (truncated_axis + dual_axis)
             predicted, veto_log = apply_clean_veto(predicted, ocr_data)
             return {
-                "instance_id": iid, "ground_truth": sample["ground_truth"],
-                "predicted": predicted, "elapsed_s": round(time.time() - start, 1),
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": predicted,
+                "elapsed_s": round(time.time() - start, 1),
                 "veto_log": veto_log,
             }
         except Exception as e:
-            return {"instance_id": iid, "ground_truth": sample["ground_truth"],
-                    "predicted": [], "error": str(e)}
+            return {
+                "instance_id": iid,
+                "ground_truth": sample["ground_truth"],
+                "predicted": [],
+                "error": str(e),
+            }
+
     return call_fn
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Full Pipeline: batch OCR + VLM")
-    parser.add_argument("--phase", type=int, default=0,
-                        choices=[0, 1, 2], help="0=both, 1=OCR only, 2=VLM only")
+    parser.add_argument(
+        "--phase",
+        type=int,
+        default=0,
+        choices=[0, 1, 2],
+        help="0=both, 1=OCR only, 2=VLM only",
+    )
     parser.add_argument("--workers", type=int, default=8)
     args = parser.parse_args()
 
@@ -352,9 +423,12 @@ def main():
         print(f"\n{'='*60}\nPHASE 2: Multi-threaded VLM\n{'='*60}")
         from finchartaudit.config import get_config
         from openai import OpenAI
+
         get_config.cache_clear()
         config = get_config()
-        client = OpenAI(api_key=config.openrouter_api_key, base_url=config.openrouter_base_url)
+        client = OpenAI(
+            api_key=config.openrouter_api_key, base_url=config.openrouter_base_url
+        )
         ocr_cache = load_ocr_cache(OCR_CACHE_DIR)
         print(f"OCR cache: {len(ocr_cache)} entries")
         missing = [s for s in samples if s["instance_id"] not in ocr_cache]
