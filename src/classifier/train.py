@@ -4,9 +4,8 @@ Output: a 12-class multi-label classifier that scores each misleader type [0,1].
 Used as verification layer for VLM predictions.
 
 Usage:
-    python train_classifier.py                # Train with defaults
-    python train_classifier.py --epochs 5     # More epochs
-    python train_classifier.py --eval-only    # Evaluate saved model on real-world
+    python src/classifier/train.py                # Train with defaults
+    python src/classifier/train.py --epochs 5     # More epochs
 """
 import argparse
 import json
@@ -19,29 +18,13 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from PIL import Image
-import timm
+
+from src.classifier.model import build_vit_model, MISLEADER_TYPES, TYPE_TO_IDX, NUM_CLASSES
 
 SYNTH_JSON = Path("data/misviz_synth/misviz_synth.json")
 SYNTH_IMG_DIR = Path("data/misviz_synth/png")
 MODEL_DIR = Path("data/models")
 MODEL_PATH = MODEL_DIR / "chart_misleader_vit.pt"
-
-MISLEADER_TYPES = [
-    "misrepresentation",
-    "3d",
-    "truncated axis",
-    "inappropriate use of pie chart",
-    "inconsistent tick intervals",
-    "dual axis",
-    "inconsistent binning size",
-    "discretized continuous variable",
-    "inappropriate use of line chart",
-    "inappropriate item order",
-    "inverted axis",
-    "inappropriate axis range",
-]
-TYPE_TO_IDX = {t: i for i, t in enumerate(MISLEADER_TYPES)}
-NUM_CLASSES = len(MISLEADER_TYPES)
 
 
 class ChartDataset(Dataset):
@@ -56,7 +39,8 @@ class ChartDataset(Dataset):
     def __getitem__(self, idx):
         item = self.items[idx]
         img_path = self.img_dir / Path(item["image_path"]).name
-        img = Image.open(img_path).convert("RGB")
+        with Image.open(img_path) as pil_img:
+            img = pil_img.convert("RGB")
         if self.transform:
             img = self.transform(img)
 
@@ -68,14 +52,8 @@ class ChartDataset(Dataset):
 
 
 def build_model(num_classes: int = NUM_CLASSES) -> nn.Module:
-    model = timm.create_model("vit_base_patch16_224", pretrained=True, num_classes=0)
-    model.head = nn.Sequential(
-        nn.Linear(model.num_features, 256),
-        nn.ReLU(),
-        nn.Dropout(0.3),
-        nn.Linear(256, num_classes),
-    )
-    return model
+    """Wrapper for shared model with pretrained=True for training."""
+    return build_vit_model(num_classes=num_classes, pretrained=True)
 
 
 def train(args):
@@ -137,7 +115,7 @@ def train(args):
     pos_weight = (neg_counts / pos_counts.clamp(min=1)).to(device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
-    best_val_f1 = 0
+    best_val_f1 = -1.0
     for epoch in range(args.epochs):
         # Unfreeze backbone after epoch 0
         if epoch == 1:
@@ -179,7 +157,7 @@ def train(args):
         all_preds = torch.cat(all_preds)
         all_labels = torch.cat(all_labels)
 
-        # Per-type metrics at threshold 0.5
+        # Micro-averaged metrics at threshold 0.5
         tp = ((all_preds > 0.5) & (all_labels == 1)).sum().item()
         fp = ((all_preds > 0.5) & (all_labels == 0)).sum().item()
         fn = ((all_preds <= 0.5) & (all_labels == 1)).sum().item()
@@ -206,7 +184,7 @@ def train(args):
     print(f"Model saved to {MODEL_PATH}")
 
     # Per-type breakdown on best model
-    checkpoint = torch.load(MODEL_PATH, weights_only=False)
+    checkpoint = torch.load(MODEL_PATH, map_location=device, weights_only=True)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
 

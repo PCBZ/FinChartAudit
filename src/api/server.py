@@ -1,12 +1,14 @@
 """FinChartAudit API Server — SEC-specific pipeline.
 
 Best pipeline: VLM Call 1 → Rule Dedup → Misrep Re-ask → ViT Classifier Veto.
-Separate from experiment scripts (run_pipeline_v*.py) — this is the production API.
+Separate from experiment scripts (experiments/v*.py) — this is the production API.
 
 Usage:
     pip install -r requirements-api.txt
-    python api_server.py
+    python src/api/server.py
 """
+
+from __future__ import annotations
 
 import base64
 import json
@@ -18,10 +20,9 @@ from contextlib import asynccontextmanager
 from io import BytesIO
 from pathlib import Path
 
+import os
 import requests as http_requests
 import torch
-import torch.nn as nn
-import timm
 from PIL import Image
 from torchvision import transforms
 from dotenv import load_dotenv
@@ -30,34 +31,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from bs4 import BeautifulSoup
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 
-PROJECT_ROOT = Path(__file__).resolve().parent
-sys.path.insert(0, str(PROJECT_ROOT))
-sys.path.insert(0, str(PROJECT_ROOT / "finchartaudit"))
+REPO_ROOT = Path(__file__).resolve().parents[2]
+# Add repo root to sys.path so `from src.data...` imports work when running as script
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-load_dotenv(PROJECT_ROOT / ".env")
+load_dotenv(REPO_ROOT / ".env")
 
-import os
-
-OPENROUTER_API_KEY = os.getenv("FCA_OPENROUTER_API_KEY", "")
+OPENROUTER_API_KEY = os.getenv("FCA_OPENROUTER_API_KEY") or os.getenv("OPENROUTER_API_KEY", "")
 VLM_MODEL = os.getenv("FCA_VLM_MODEL", "anthropic/claude-haiku-4.5")
-VIT_MODEL_PATH = PROJECT_ROOT / "data" / "models" / "chart_misleader_vit.pt"
+CORS_ORIGINS = os.getenv("FCA_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+VIT_MODEL_PATH = REPO_ROOT / "data" / "models" / "chart_misleader_vit.pt"
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("finchartaudit-api")
 
-# ── Constants ─────────────────────────────────────────────────────────────────
+# ── Import shared modules (avoid redefining what src/ already has) ────────────
 
-MISLEADER_TYPES = [
-    "misrepresentation", "3d", "truncated axis",
-    "inappropriate use of pie chart", "inconsistent tick intervals",
-    "dual axis", "inconsistent binning size", "discretized continuous variable",
-    "inappropriate use of line chart", "inappropriate item order",
-    "inverted axis", "inappropriate axis range",
-]
-TYPE_TO_IDX = {t: i for i, t in enumerate(MISLEADER_TYPES)}
+from src.prompts import MISLEADER_TYPES, TAXONOMY_BLOCK as FULL_TAXONOMY_BLOCK
+from src.classifier.model import build_vit_model, TYPE_TO_IDX
 
 # SEC-relevant types (6 of 12)
 SEC_CHART_TYPES = {
@@ -81,51 +77,26 @@ MISREP_DEDUP_TYPES = {"3d", "truncated axis"}
 # Severity rules
 HIGH_SEVERITY_VISUAL = {"truncated axis", "misrepresentation", "3d"}
 
-# ── Prompts ───────────────────────────────────────────────────────────────────
+# ── Prompts (SEC-specific; shared taxonomy imported from src/prompts.py) ──────
 
-TAXONOMY_BLOCK = """- misrepresentation: bar/area sizes do not match labeled values
-- 3d: 3D effects distort visual comparison
-- truncated axis: y-axis doesn't start at zero, exaggerating differences
-- inappropriate use of pie chart: used for data unsuitable for part-to-whole comparison
-- inconsistent tick intervals: axis ticks are unevenly spaced
-- dual axis: two y-axes with different scales mislead comparisons"""
+from src.prompts import FEW_SHOT_EXAMPLES
 
-SEC_CHART_TAXONOMY = """- truncated axis: y-axis doesn't start at zero, exaggerating differences
-- misrepresentation: bar/area sizes do not match labeled values
-- 3d: 3D effects distort visual comparison
-- inappropriate use of pie chart: used for data unsuitable for part-to-whole comparison
-- dual axis: two y-axes with different scales mislead comparisons
-- inconsistent tick intervals: axis ticks are unevenly spaced"""
-
-FEW_SHOT_EXAMPLES = """EXAMPLE 1
-Chart: A bar chart comparing quarterly revenue. The y-axis starts at $800M instead of $0.
-Output:
-{"misleading": true, "misleader_types": ["truncated axis"], "explanation": "The y-axis begins at $800M rather than zero, visually exaggerating differences between bars."}
-
-EXAMPLE 2
-Chart: A pie chart showing year-over-year revenue growth rates ranging from -2% to +15%.
-Output:
-{"misleading": true, "misleader_types": ["inappropriate use of pie chart"], "explanation": "Growth rates are not parts of a whole and should not be shown as a pie chart."}
-
-EXAMPLE 3
-Chart: A line chart showing monthly visits over 12 months, y-axis starts at 0, evenly spaced ticks.
-Output:
-{"misleading": false, "misleader_types": [], "explanation": "Appropriate axis scaling, consistent ticks, and suitable chart type. No misleading elements detected."}
-
-EXAMPLE 4
-Chart: A 3D bar chart showing quarterly profits. The 3D perspective makes front bars appear larger.
-Output:
-{"misleading": true, "misleader_types": ["3d"], "explanation": "3D perspective distorts visual comparison of bar sizes."}
-
-EXAMPLE 5
-Chart: A line chart showing stock price from $45 to $52 over 6 months. The y-axis starts at $44.
-Output:
-{"misleading": false, "misleader_types": [], "explanation": "Line charts commonly use non-zero y-axis baselines to show trends clearly."}
-
-EXAMPLE 6
-Chart: A bar chart showing satisfaction scores from 4.1 to 4.5 on a scale of 1-5. Y-axis starts at 4.0.
-Output:
-{"misleading": true, "misleader_types": ["truncated axis"], "explanation": "The bar chart y-axis starts at 4.0 instead of 0, making small differences appear much larger."}"""
+# SEC-relevant subset of the full 12-type taxonomy (6 types)
+SEC_CHART_TYPES_LIST = [
+    "truncated axis", "misrepresentation", "3d",
+    "inappropriate use of pie chart", "dual axis",
+    "inconsistent tick intervals",
+]
+SEC_CHART_TAXONOMY = "\n".join(
+    f"- {t}: " + {
+        "truncated axis": "y-axis doesn't start at zero, exaggerating differences",
+        "misrepresentation": "bar/area sizes do not match labeled values",
+        "3d": "3D effects distort visual comparison",
+        "inappropriate use of pie chart": "used for data unsuitable for part-to-whole comparison",
+        "dual axis": "two y-axes with different scales mislead comparisons",
+        "inconsistent tick intervals": "axis ticks are unevenly spaced",
+    }[t] for t in SEC_CHART_TYPES_LIST
+)
 
 
 def build_chart_prompt() -> str:
@@ -186,8 +157,8 @@ Classify this image into ONE of these categories:
 - "table" — a financial table with rows and columns of numbers
 - "other" — anything else (logo, photo, headshot, signature, decorative image, map, diagram, organizational chart, etc.)
 
-Respond with valid JSON only:
-{"type": "chart" or "table" or "other"}"""
+Respond with valid JSON only. Allowed type values: "chart", "table", "other".
+Example: {"type": "chart"}"""
 
 
 def build_table_classify_prompt() -> str:
@@ -200,8 +171,8 @@ Classify this content into ONE category:
 
 Key distinction: a financial table has ROWS of NUMERIC DATA (dollar amounts, percentages, share counts). If the text is mostly prose/paragraphs with a few numbers mentioned in sentences, it is "other".
 
-Respond with valid JSON only:
-{"type": "financial_table" or "other", "reason": "<one sentence why>"}"""
+Respond with valid JSON only. Allowed type values: "financial_table", "other".
+Example: {"type": "financial_table", "reason": "Contains income statement line items with dollar amounts"}"""
 
 
 MISREP_VERIFY_PROMPT = """You said this chart has "misrepresentation" — meaning bar/area sizes do NOT match their labeled values.
@@ -212,8 +183,8 @@ Please verify: which SPECIFIC bar or element has a visual size that does NOT mat
 
 If you cannot identify a specific mismatch, say "no specific mismatch found".
 
-Respond with valid JSON only:
-{"verified": true or false, "detail": "<specific bar and mismatch, or why not verified>"}"""
+Respond with valid JSON only. Use a boolean for "verified" (true if mismatch confirmed, false otherwise).
+Example: {"verified": true, "detail": "Bar labeled $12M is twice as tall as $10M bar"}"""
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -253,11 +224,10 @@ def extract_json(text: str) -> dict | None:
     return None
 
 
-def img_to_data_url(image_bytes: bytes) -> str:
-    """Convert image bytes to JPEG data URL for VLM."""
-    img = Image.open(BytesIO(image_bytes)).convert("RGB")
+def img_to_data_url(pil_image: Image.Image) -> str:
+    """Convert PIL Image to JPEG data URL for VLM."""
     buf = BytesIO()
-    img.save(buf, format="JPEG", quality=85)
+    pil_image.save(buf, format="JPEG", quality=85)
     b64 = base64.b64encode(buf.getvalue()).decode()
     return f"data:image/jpeg;base64,{b64}"
 
@@ -281,8 +251,9 @@ def compute_severity(
 # ── VLM Client ────────────────────────────────────────────────────────────────
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
 def vlm_call(client, data_url: str, prompt: str, max_tokens: int = 512) -> dict | None:
-    """Single VLM call with image. Returns parsed JSON or None."""
+    """Single VLM call with image. Returns parsed JSON or None. Retries on failure."""
     resp = client.chat.completions.create(
         model=VLM_MODEL,
         messages=[
@@ -295,17 +266,20 @@ def vlm_call(client, data_url: str, prompt: str, max_tokens: int = 512) -> dict 
             }
         ],
         max_tokens=max_tokens,
+        temperature=0,
     )
     raw = resp.choices[0].message.content or ""
     return extract_json(raw.strip())
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
 def vlm_call_text(client, prompt: str, max_tokens: int = 512) -> dict | None:
-    """VLM call with text only (no image). For HTML table analysis."""
+    """VLM call with text only (no image). Retries on failure."""
     resp = client.chat.completions.create(
         model=VLM_MODEL,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=max_tokens,
+        temperature=0,
     )
     raw = resp.choices[0].message.content or ""
     return extract_json(raw.strip())
@@ -314,17 +288,7 @@ def vlm_call_text(client, prompt: str, max_tokens: int = 512) -> dict | None:
 # ── ViT Classifier ────────────────────────────────────────────────────────────
 
 
-def build_vit_model(num_classes: int = 12) -> nn.Module:
-    """Build ViT-B model matching train_classifier.py architecture."""
-    model = timm.create_model("vit_base_patch16_224", pretrained=False, num_classes=0)
-    model.head = nn.Sequential(
-        nn.Linear(model.num_features, 256),
-        nn.ReLU(),
-        nn.Dropout(0.3),
-        nn.Linear(256, num_classes),
-    )
-    return model
-
+# build_vit_model imported from src.classifier.model
 
 VIT_TRANSFORM = transforms.Compose(
     [
@@ -376,8 +340,36 @@ SEC_HEADERS = {
     "Accept-Encoding": "gzip, deflate",
 }
 
-# Cache for ticker → (CIK, company_name) lookups
+# Cache for ticker → (CIK, company_name) lookups — populated on first miss
 _cik_cache: dict[str, tuple[str, str]] = {}
+_cik_cache_loaded = False
+_cik_cache_lock = __import__("threading").Lock()
+
+
+def _load_cik_cache():
+    """Download full SEC ticker→CIK map once and cache in memory."""
+    global _cik_cache_loaded
+    if _cik_cache_loaded:
+        return
+    with _cik_cache_lock:
+        if _cik_cache_loaded:  # double-check after acquiring lock
+            return
+        try:
+            resp = http_requests.get(
+                "https://www.sec.gov/files/company_tickers.json",
+                headers=SEC_HEADERS, timeout=15,
+            )
+            resp.raise_for_status()
+            for entry in resp.json().values():
+                t = entry.get("ticker", "").upper()
+                if t:
+                    cik = str(entry["cik_str"]).zfill(10)
+                    name = entry.get("title", t)
+                    _cik_cache[t] = (cik, name)
+            _cik_cache_loaded = True
+            log.info(f"Loaded {len(_cik_cache)} tickers from SEC EDGAR")
+        except Exception as e:
+            log.warning(f"Failed to load SEC ticker map (will retry next request): {e}")
 
 
 def resolve_cik(ticker: str) -> tuple[str, str]:
@@ -388,27 +380,10 @@ def resolve_cik(ticker: str) -> tuple[str, str]:
     if SECDownloader and ticker in SECDownloader.COMPANIES:
         return SECDownloader.COMPANIES[ticker], ticker
 
-    # Check cache
+    # Check cache (load full map on first call)
+    _load_cik_cache()
     if ticker in _cik_cache:
         return _cik_cache[ticker]
-
-    # Query SEC EDGAR company tickers JSON
-    try:
-        resp = http_requests.get(
-            "https://www.sec.gov/files/company_tickers.json",
-            headers=SEC_HEADERS, timeout=15,
-        )
-        resp.raise_for_status()
-        data = resp.json()
-        for entry in data.values():
-            if entry.get("ticker", "").upper() == ticker:
-                cik = str(entry["cik_str"]).zfill(10)
-                name = entry.get("title", ticker)
-                _cik_cache[ticker] = (cik, name)
-                log.info(f"Resolved {ticker} → CIK {cik} ({name})")
-                return cik, name
-    except Exception as e:
-        log.warning(f"SEC ticker lookup failed: {e}")
 
     raise HTTPException(404, f"Ticker '{ticker}' not found in SEC EDGAR")
 
@@ -444,7 +419,7 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
     When count > 1 (and no years filter), downloads the N most recent filings.
     """
     if SECDownloader is None:
-        raise HTTPException(503, "SEC downloader module not available — check finchartaudit/src installation")
+        raise HTTPException(503, "SEC downloader module not available — ensure src.data.download_sec_data is importable (pip install -e '.[api]')")
 
     filing_type = filing_type.upper()
     if filing_type not in SUPPORTED_FILING_TYPES:
@@ -467,6 +442,8 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         if not filings:
             raise HTTPException(404, f"No {filing_type} filing found for {ticker} in years {sorted(years)}")
 
+    MAX_IMAGES = 50
+    MAX_TABLES = 100
     cik_stripped = cik.lstrip("0")
     all_images: list[dict] = []
     all_tables: list[dict] = []
@@ -500,6 +477,8 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         # ── Extract images (basic size filter only — VLM classify does final filtering) ──
         imgs = soup.find_all("img")
         for img_tag in imgs:
+            if len(all_images) >= MAX_IMAGES:
+                break
             style = img_tag.get("style", "")
             width = _parse_dim(style, "width") or int(img_tag.get("width", 0) or 0)
             height = _parse_dim(style, "height") or int(img_tag.get("height", 0) or 0)
@@ -508,12 +487,26 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
                 continue
 
             src = img_tag.get("src", "")
-            filename = Path(src).name
             alt = img_tag.get("alt", "")
-            if not filename or filename in seen_filenames:
+            if not src or src.startswith("data:"):
                 continue
-
-            img_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc_nodash}/{filename}"
+            # Normalize URL: handle absolute, root-relative, and relative paths
+            src_clean = src.split("?")[0]
+            if src_clean.startswith("http://") or src_clean.startswith("https://"):
+                # SSRF guard: only allow sec.gov and its subdomains
+                from urllib.parse import urlparse
+                parsed_host = (urlparse(src_clean).hostname or "").lower()
+                if parsed_host != "sec.gov" and not parsed_host.endswith(".sec.gov"):
+                    continue
+                img_url = src_clean
+            elif src_clean.startswith("/"):
+                img_url = f"https://www.sec.gov{src_clean}"
+            else:
+                img_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc_nodash}/{src_clean}"
+            filename = Path(src_clean).name
+            dedup_key = f"{acc_nodash}/{src_clean}"
+            if not filename or dedup_key in seen_filenames:
+                continue
             try:
                 time.sleep(0.15)
                 img_resp = http_requests.get(img_url, headers=SEC_HEADERS, timeout=15)
@@ -531,9 +524,9 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
                 pil.save(buf, format="JPEG", quality=85)
                 b64 = base64.b64encode(buf.getvalue()).decode()
 
-                display_name = f"{date_tag}_{filename}" if count > 1 else filename
+                display_name = f"{date}_{filename}" if count > 1 else filename
                 all_images.append({"name": display_name, "base64": b64, "alt": alt, "type": "chart"})
-                seen_filenames.add(filename)
+                seen_filenames.add(dedup_key)
                 log.info(f"  Chart: {display_name} ({len(img_bytes) // 1024}KB)")
             except Exception as e:
                 log.warning(f"  Failed to download {filename}: {e}")
@@ -545,6 +538,8 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         # Only keep tables that are NOT nested inside another table
         top_tables = [t for t in html_tables if not t.find_parent("table")]
         for i, table_tag in enumerate(top_tables):
+            if len(all_tables) >= MAX_TABLES:
+                break
             if not _is_candidate_table(table_tag):
                 continue
             text = table_tag.get_text(" ", strip=True)[:2000]
@@ -552,9 +547,9 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
             for tag in table_tag.find_all(True):
                 tag.attrs = {k: v for k, v in tag.attrs.items() if k in ("colspan", "rowspan")}
             table_html = str(table_tag)
-            # Cap HTML at 8000 chars to avoid bloating the response
+            # Omit HTML preview for very large tables (avoid broken markup from mid-tag slicing)
             if len(table_html) > 8000:
-                table_html = table_html[:8000] + "<!-- truncated --></table>"
+                table_html = None
             tbl_name = f"{date_tag}_table_{i:03d}" if count > 1 else f"table_{i:03d}"
             all_tables.append({
                 "name": tbl_name, "text": text, "html": table_html,
@@ -596,7 +591,7 @@ def fetch_sec_filing(ticker: str, filing_type: str = "10-K", count: int = 1,
         sec_context += "Filing context: " + doc_context
 
     nongaap_count = sum(1 for t in all_tables if t["has_nongaap"])
-    skipped_tables = total_html_tables - len(all_tables)  # non-financial tables filtered by _is_financial_table
+    skipped_tables = total_html_tables - len(all_tables)  # non-financial tables filtered by _is_candidate_table
 
     log.info(f"  {len(all_images)} charts, {len(all_tables)} financial tables "
              f"({nongaap_count} with Non-GAAP content, {skipped_tables} non-financial skipped), "
@@ -647,8 +642,18 @@ async def lifespan(app: FastAPI):
     else:
         log.warning(f"ViT model not found at {VIT_MODEL_PATH} — veto disabled.")
 
+    # Initialize shared OpenAI client (reused across requests)
+    from openai import OpenAI
+    vlm_client = None
+    if OPENROUTER_API_KEY:
+        vlm_client = OpenAI(api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1")
+        log.info(f"OpenAI client initialized (model: {VLM_MODEL})")
+    else:
+        log.warning("No API key — VLM endpoints will return 500")
+
     app.state.vit_model = vit_model
     app.state.device = device
+    app.state.vlm_client = vlm_client
 
     yield
 
@@ -657,9 +662,9 @@ app = FastAPI(title="FinChartAudit API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=["Content-Type"],
 )
 
 
@@ -669,7 +674,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     log.error(f"Unhandled exception on {request.url.path}: {exc}", exc_info=True)
     return JSONResponse(
         status_code=500,
-        content={"detail": f"Internal server error: {type(exc).__name__}: {str(exc)[:200]}"},
+        content={"detail": "Internal server error"},
     )
 
 
@@ -678,7 +683,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 class AnalyzeRequest(BaseModel):
     image_base64: str = Field(..., alias="imageBase64", max_length=20_000_000)  # ~15MB image limit
-    sec_context: str | None = Field(None, alias="secContext")
+    sec_context: str | None = Field(None, alias="secContext", max_length=20_000)
 
     model_config = {"populate_by_name": True}
 
@@ -696,9 +701,9 @@ class AnalyzeResponse(BaseModel):
 
 
 class AnalyzeTableRequest(BaseModel):
-    table_text: str = Field(..., alias="tableText")
-    sec_context: str | None = Field(None, alias="secContext")
-    table_name: str | None = Field(None, alias="tableName")
+    table_text: str = Field(..., alias="tableText", max_length=100_000)
+    sec_context: str | None = Field(None, alias="secContext", max_length=20_000)
+    table_name: str | None = Field(None, alias="tableName", max_length=200)
 
     model_config = {"populate_by_name": True}
 
@@ -727,19 +732,23 @@ async def health():
 
 
 @app.post("/api/analyze", response_model=AnalyzeResponse)
-def analyze(req: AnalyzeRequest):
-    if not OPENROUTER_API_KEY:
+def analyze(req: AnalyzeRequest, request: Request):
+    client = request.app.state.vlm_client
+    if not client:
         raise HTTPException(500, "Server missing FCA_OPENROUTER_API_KEY")
 
-    from openai import OpenAI
-
-    client = OpenAI(api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1")
-
-    # Decode image
+    # Decode image (with decompression bomb guard)
     try:
-        image_bytes = base64.b64decode(req.image_base64)
-        pil_image = Image.open(BytesIO(image_bytes)).convert("RGB")
-        data_url = img_to_data_url(image_bytes)
+        image_bytes = base64.b64decode(req.image_base64, validate=True)
+        pil_image = Image.open(BytesIO(image_bytes))
+        # Guard against decompression bombs
+        w, h = pil_image.size
+        if w * h > 25_000_000:  # ~25 megapixels
+            raise HTTPException(400, f"Image too large: {w}x{h} ({w*h/1e6:.0f}MP, max 25MP)")
+        pil_image = pil_image.convert("RGB")
+        data_url = img_to_data_url(pil_image)
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(400, f"Invalid image: {e}")
 
@@ -864,7 +873,7 @@ def analyze(req: AnalyzeRequest):
                 image_type="chart",
                 pipeline_log=pipeline_log,
             )
-    except HTTPException:
+    except HTTPException as exc:
         raise
     except Exception as e:
         log.error(f"analyze failed: {e}", exc_info=True)
@@ -872,17 +881,14 @@ def analyze(req: AnalyzeRequest):
 
 
 @app.post("/api/analyze-table", response_model=AnalyzeResponse)
-def analyze_table(req: AnalyzeTableRequest):
+def analyze_table(req: AnalyzeTableRequest, request: Request):
     """Analyze a financial table from its text content (no image needed)."""
-    if not OPENROUTER_API_KEY:
+    client = request.app.state.vlm_client
+    if not client:
         raise HTTPException(500, "Server missing FCA_OPENROUTER_API_KEY")
 
-    from openai import OpenAI
-
-    client = OpenAI(api_key=OPENROUTER_API_KEY, base_url="https://openrouter.ai/api/v1")
-
     try:
-        pipeline_log = [f"TABLE_TEXT: {req.table_name or 'unnamed'}"]
+        pipeline_log = [f"TABLE_TEXT: {(req.table_name or 'unnamed')[:100]}"]
         n_calls = 0
 
         # ── Step 1: Classify — is this a financial data table or other text?
@@ -935,7 +941,7 @@ def analyze_table(req: AnalyzeTableRequest):
             image_type="table",
             pipeline_log=pipeline_log,
         )
-    except HTTPException:
+    except HTTPException as exc:
         raise
     except Exception as e:
         log.error(f"analyze-table failed: {e}", exc_info=True)
@@ -944,9 +950,13 @@ def analyze_table(req: AnalyzeTableRequest):
 
 @app.post("/api/sec-fetch")
 def sec_fetch(req: SecFetchRequest):
+    # Validate ticker format
+    if not re.fullmatch(r"[A-Z0-9.\-]{1,10}", req.ticker.upper()):
+        raise HTTPException(400, "Invalid ticker format")
     types = req.filing_type if isinstance(req.filing_type, list) else [req.filing_type]
-    # If specific years given, fetch enough filings to cover them; otherwise use count
-    count = len(req.years) if req.years else max(1, min(req.count, 10))
+    # Clamp years to prevent excessive downloads (max 10 years)
+    years = req.years[:10] if req.years else None
+    count = len(years) if years else max(1, min(req.count, 10))
     all_images: list[dict] = []
     all_tables: list[dict] = []
     filing_info: list[dict] = []
@@ -957,7 +967,7 @@ def sec_fetch(req: SecFetchRequest):
 
     for ft in types:
         try:
-            result = fetch_sec_filing(req.ticker, ft, count=count, years=req.years)
+            result = fetch_sec_filing(req.ticker, ft, count=count, years=years)
             all_images.extend(result.get("images", []))
             all_tables.extend(result.get("tables", []))
             filing_info.append({"type": ft, "date": result["filing_date"], "accession": result["accession"]})
@@ -967,8 +977,11 @@ def sec_fetch(req: SecFetchRequest):
                 all_doc_context.append(result["doc_context"])
             total_comment_letters = max(total_comment_letters, result.get("comment_letters", 0))
             total_skipped += result.get("skipped_tables", 0)
-        except HTTPException:
-            filing_info.append({"type": ft, "date": None, "error": f"No {ft} found"})
+        except HTTPException as exc:
+            if exc.status_code == 404:
+                filing_info.append({"type": ft, "date": None, "error": f"No {ft} found"})
+            else:
+                raise
 
     return {
         "ticker": req.ticker.upper(),
@@ -987,4 +1000,4 @@ def sec_fetch(req: SecFetchRequest):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("api_server:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("src.api.server:app", host="127.0.0.1", port=8000)
