@@ -3,6 +3,7 @@
 Extracted from eval_runner.py so both the baseline pipeline and
 experiment scripts share a single VLM client implementation.
 """
+
 from __future__ import annotations
 
 import base64
@@ -15,7 +16,8 @@ from openai import OpenAI
 from PIL import Image
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from config import DEFAULT_API_BASE_URL
+from src.config import DEFAULT_API_BASE_URL
+from src.utils import img_to_data_url  # re-exported for callers' convenience
 
 log = logging.getLogger(__name__)
 
@@ -51,18 +53,30 @@ def parse_vlm_response(content: str) -> dict:
     try:
         return json.loads(content)
     except json.JSONDecodeError:
-        return {"misleading": None, "misleader_types": [], "explanation": content, "parse_error": True}
+        return {
+            "misleading": None,
+            "misleader_types": [],
+            "explanation": content,
+            "parse_error": True,
+        }
 
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
-def call_vlm(client: OpenAI, model: str, prompt: str, image_url: str, max_tokens: int = 512) -> str:
+def call_vlm(
+    client: OpenAI, model: str, prompt: str, image_url: str, max_tokens: int = 512
+) -> str:
     """Send a vision prompt to the VLM. Retries with exponential backoff."""
     response = client.chat.completions.create(
         model=model,
-        messages=[{"role": "user", "content": [
-            {"type": "text", "text": prompt},
-            {"type": "image_url", "image_url": {"url": image_url}},
-        ]}],
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": image_url}},
+                ],
+            }
+        ],
         max_tokens=max_tokens,
     )
     if not response.choices or response.choices[0].message.content is None:
@@ -70,11 +84,18 @@ def call_vlm(client: OpenAI, model: str, prompt: str, image_url: str, max_tokens
     return response.choices[0].message.content
 
 
-def call_and_parse(client: OpenAI, model: str, prompt: str, image_url: str, max_tokens: int = 512) -> dict:
+def call_and_parse(
+    client: OpenAI, model: str, prompt: str, image_url: str, max_tokens: int = 512
+) -> dict:
     """Call VLM and parse JSON response. Returns dict with api_error on failure."""
     try:
         raw = call_vlm(client, model, prompt, image_url, max_tokens)
         return parse_vlm_response(raw)
     except Exception as e:
         log.warning("VLM call failed: %s", e)
-        return {"misleading": None, "misleader_types": [], "explanation": str(e), "api_error": True}
+        return {
+            "misleading": None,
+            "misleader_types": [],
+            "explanation": str(e),
+            "api_error": True,
+        }

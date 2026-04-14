@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 from eval_runner import evaluate_sec
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")

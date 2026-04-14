@@ -23,6 +23,24 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-dotenv",
+    "openai>=1.0",
+    "requests",
+    "beautifulsoup4",
+    "Pillow",
+    "torch>=2.0",
+    "torchvision",
+    "timm",
+]
+experiments = [
+    "torch>=2.0",
+    "torchvision",
+    "timm",
+    "pydantic-settings",
+]
 dev = [
     "pytest",
     "black",
@@ -33,3 +51,9 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+
+[tool.black]
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"

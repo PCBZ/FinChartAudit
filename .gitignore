@@ -214,3 +214,13 @@ data/charts/
 data/tables/
 data/prescreen_cache.json
 .claude/
+
+# Model weights and caches
+data/models/*.pt
+data/deplot_cache/
+data/ocr_cache/
+data/sec_charts/
+
+# Demo UI build artifacts
+ui/demo-ui/.next/
+ui/demo-ui/node_modules/
