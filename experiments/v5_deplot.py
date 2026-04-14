@@ -23,7 +23,9 @@ from pathlib import Path
 
 from PIL import Image
 
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from experiments.base import parse_json as extract_json
 
 OUT_DIR = Path("data/eval_results/v5_deplot")
 OCR_CACHE_DIR = Path("data/eval_results/pipeline_full/ocr_cache")
@@ -274,35 +276,6 @@ def apply_postprocessing(predicted: list[str], ocr_data: dict, deplot_data: dict
                 veto_log.append(f"ADD axis_range: ratio={range_check.get('range_ratio', '?')}")
 
     return result, veto_log
-
-
-def extract_json(text: str) -> dict | None:
-    try:
-        return json.loads(text)
-    except (json.JSONDecodeError, TypeError):
-        pass
-    for marker in ["```json", "```"]:
-        if marker in text:
-            start = text.index(marker) + len(marker)
-            end = text.index("```", start) if "```" in text[start:] else len(text)
-            try:
-                return json.loads(text[start:end].strip())
-            except (json.JSONDecodeError, ValueError):
-                pass
-    brace_start = text.find("{")
-    if brace_start >= 0:
-        depth = 0
-        for i in range(brace_start, len(text)):
-            if text[i] == "{":
-                depth += 1
-            elif text[i] == "}":
-                depth -= 1
-                if depth == 0:
-                    try:
-                        return json.loads(text[brace_start:i + 1])
-                    except json.JSONDecodeError:
-                        break
-    return None
 
 
 def img_to_b64(image_path: str) -> str:

@@ -15,7 +15,8 @@ from openai import OpenAI
 from PIL import Image
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from config import DEFAULT_API_BASE_URL
+from src.config import DEFAULT_API_BASE_URL
+from src.utils import img_to_data_url  # re-exported for callers' convenience
 
 log = logging.getLogger(__name__)
 

@@ -1,13 +1,27 @@
+# Core
 requests
-httpx
-tqdm
-datasets
-huggingface_hub
-beautifulsoup4
 openai
 python-dotenv
 Pillow
-playwright
-scikit-learn
+beautifulsoup4
 tenacity
+tqdm
+
+# Data & evaluation
+datasets
+huggingface_hub
+scikit-learn
 matplotlib
+playwright
+
+# API server
+fastapi>=0.115
+uvicorn[standard]>=0.30
+
+# Classifier & experiments
+torch>=2.0
+torchvision
+timm
+transformers
+rapidocr-onnxruntime
+paddleocr

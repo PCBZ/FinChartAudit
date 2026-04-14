@@ -1,8 +1,0 @@
-# Additional dependencies for T2 pipeline experiments.
-# Install with: pip install -r requirements-experiments.txt
-torch
-torchvision
-timm
-transformers
-rapidocr_onnxruntime
-pydantic-settings
